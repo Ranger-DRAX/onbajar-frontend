@@ -1,12 +1,162 @@
+import Link from "next/link";
+
 export default function Footer() {
   return (
-    <footer className="border-t">
-      <div className="mx-auto max-w-6xl px-4 py-10">
-        <p className="font-semibold">ONBAJAR</p>
-        <p className="text-sm text-gray-600 mt-2">
-          Footer will go here.
-        </p>
+    <footer className="bg-gradient-to-r from-black via-zinc-950 to-zinc-900 text-zinc-200">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-14 sm:py-16">
+        <div className="grid grid-cols-1 gap-12 lg:grid-cols-12 lg:gap-8">
+          {/* Left: Brand + contact */}
+          <div className="lg:col-span-5">
+            <div className="text-4xl sm:text-5xl font-extrabold tracking-tight text-white">
+              ONBAJAR
+            </div>
+
+            <p className="mt-4 max-w-md text-sm leading-5 text-zinc-300">
+              Onbajar delivers authentic club jerseys, sports kits, and regular
+              essential t-shirts, building Bangladesh's brand across the world.
+            </p>
+
+            <ul className="mt-7 space-y-3 text-sm text-zinc-300">
+              <li className="flex items-start gap-3">
+                <span className="mt-0.5 text-zinc-400">
+                  <svg
+                    width="18"
+                    height="18"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                    aria-hidden="true"
+                  >
+                    <path
+                      d="M12 22s7-5.686 7-12a7 7 0 10-14 0c0 6.314 7 12 7 12z"
+                      stroke="currentColor"
+                      strokeWidth="1.6"
+                      strokeLinejoin="round"
+                    />
+                    <path
+                      d="M12 13a3 3 0 100-6 3 3 0 000 6z"
+                      stroke="currentColor"
+                      strokeWidth="1.6"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                </span>
+                <span>
+                  Hazaribagh Bazar (Opposite of Al Arafah Islami Bank),
+                  Hazaribagh, Dhaka
+                </span>
+              </li>
+
+              <li className="flex items-center gap-3">
+                <span className="text-zinc-400">
+                  <svg
+                    width="18"
+                    height="18"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                    aria-hidden="true"
+                  >
+                    <path
+                      d="M22 16.92v3a2 2 0 01-2.18 2 19.8 19.8 0 01-8.63-3.07 19.5 19.5 0 01-6-6A19.8 19.8 0 012.08 4.18 2 2 0 014.06 2h3a2 2 0 012 1.72c.12.86.31 1.7.57 2.5a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.58-1.66a2 2 0 012.11-.45c.8.26 1.64.45 2.5.57A2 2 0 0122 16.92z"
+                      stroke="currentColor"
+                      strokeWidth="1.6"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                </span>
+                <a
+                  href="tel:+8801982733499"
+                  className="hover:text-white transition-colors"
+                >
+                  +8801982733499
+                </a>
+              </li>
+
+              <li className="flex items-center gap-3">
+                <span className="text-zinc-400">
+                  <svg
+                    width="18"
+                    height="18"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                    aria-hidden="true"
+                  >
+                    <path
+                      d="M22 12a10 10 0 10-11.5 9.9v-7H8v-3h2.5V9.5A3.5 3.5 0 0114.2 6h2.3v3h-2.3c-.6 0-.9.4-.9 1v2h3.1l-.5 3h-2.6v7A10 10 0 0022 12z"
+                      fill="currentColor"
+                    />
+                  </svg>
+                </span>
+                <a
+                  href="https://facebook.com/onbajar"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="hover:text-white transition-colors"
+                >
+                  facebook.com/onbajar
+                </a>
+              </li>
+            </ul>
+          </div>
+
+          {/* Middle: Customer Service */}
+          <div className="lg:col-span-3 lg:pt-2">
+            <div className="text-sm font-semibold text-white">
+              Customer Service
+            </div>
+            <ul className="mt-4 space-y-2 text-sm text-zinc-300">
+              <li>
+                <Link href="/faq" className="hover:text-white transition-colors">
+                  FAQs
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/returns"
+                  className="hover:text-white transition-colors"
+                >
+                  Returns
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/terms"
+                  className="hover:text-white transition-colors"
+                >
+                  Terms/ Policy
+                </Link>
+              </li>
+            </ul>
+          </div>
+
+          {/* Right: Newsletter */}
+          <div className="lg:col-span-4 lg:pt-2">
+            <div className="text-sm font-semibold text-white">Stay Connected</div>
+            <p className="mt-4 max-w-sm text-sm leading-5 text-zinc-300">
+              Be one of the first to receive new product launches, sale offers,
+              collabs &amp; more.
+            </p>
+
+            <form className="mt-5">
+              <label htmlFor="footer-email" className="sr-only">
+                Your Email
+              </label>
+              <input
+                id="footer-email"
+                type="email"
+                placeholder="Your Email"
+                className="w-full max-w-xs bg-transparent border border-zinc-500/70 px-4 py-2 text-sm text-white placeholder:text-zinc-400 focus:outline-none focus:border-white/80"
+              />
+            </form>
+          </div>
+        </div>
       </div>
     </footer>
   );
 }
+
+
+
+
