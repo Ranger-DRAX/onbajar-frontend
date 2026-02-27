@@ -9,7 +9,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-    <body className="bg-white text-black">
+    <body className="bg-white text-black" suppressHydrationWarning>
       <Navbar />
       {children}
       <Footer />

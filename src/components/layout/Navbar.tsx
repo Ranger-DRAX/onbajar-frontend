@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import CartCount from "./CartCount";
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -177,7 +178,8 @@ export default function Header() {
               <div className="h-5 w-px bg-gray-300"></div>
 
               {/* Cart Icon */}
-              <button
+              <Link
+                href="/checkout"
                 aria-label="Shopping cart"
                 className="text-gray-900 hover:text-gray-700 transition-colors relative"
               >
@@ -194,9 +196,8 @@ export default function Header() {
                     d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
                   />
                 </svg>
-                {/* Notification dot */}
-                <span className="absolute -top-1 -right-1 bg-black w-2 h-2 rounded-full"></span>
-              </button>
+                <CartCount />
+              </Link>
 
               {/* Mobile menu button */}
               <button

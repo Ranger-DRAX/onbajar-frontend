@@ -28,25 +28,23 @@ export type ProductApi = {
   name: string;
   slug: string;
   category: Category;
-
-  // Some items have pricing, one item has price (old data) — handle both
   pricing?: { sellingPrice: number; currency: string };
   price?: number;
-
   discount: Discount;
   images: string[];
-
   details: { description: string; bullets: string[] };
-
   hasSize: boolean;
   sizes: string[];
   sizeChart: SizeChart;
-
+  allowedAddons: null;
+  isBestProduct?: boolean;       // ✅ add
+  purchaseCount?: number;        // ✅ add
   isActive: boolean;
-
   createdAt: string;
   updatedAt: string;
+  __v: number;
 };
+
 
 export type ProductsResponse = {
   success: boolean;
@@ -75,5 +73,7 @@ export type Product = {
   hasSize: boolean;
   sizeChart: SizeChart;
   discount: Discount;
+  isBestProduct: boolean;        
+  purchaseCount: number;         
   isActive: boolean;
 };
