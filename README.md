@@ -35,9 +35,7 @@ The easiest way to deploy your Next.js app is to use the [Vercel Platform](https
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
 
-
-
-```
+````
 src/
   app/
     (shop)/
@@ -87,8 +85,10 @@ src/
     ```
 
 
-```
+````
+
 # Build Product Listing UI properly ( biggest reusable page)
+
 Route: /products → src/app/(shop)/products/page.tsx
 Create these components:
 
@@ -111,9 +111,11 @@ Sort UI (even if backend sort not ready yet)
 Filter UI (category, price range) — can be UI only first
 
 # This page sets your design system for product cards which you reuse on Home and “Related products”.
+
 ```
 
 ```
+
 # Product Details page (connect from listing)
 
 Route: /products/[id] → src/app/(shop)/products/[id]/page.tsx
@@ -128,18 +130,20 @@ components/products/QuantityControl.tsx (+ / -)
 
 components/ui/Accordion.tsx (description / shipping / returns sections)
 
-Important note:  API currently gives list endpoint. For details page  need one of:
+Important note: API currently gives list endpoint. For details page need one of:
 
 /api/products/:id or /api/products/slug/:slug
 
 Until backend provides it, temporarily:
 
-fetch the list and .find(p => p._id === params.id) (works for now)
+fetch the list and .find(p => p.\_id === params.id) (works for now)
 
 ```
 
 ```
+
 # Cart state (frontend responsibility)
+
 Once detail UI exists, enable “Add to cart”.
 
 Where:
@@ -165,8 +169,11 @@ Then update:
 Navbar shows cart count
 
 Checkout uses cart data
+
 ```
+
 ```
+
 # Checkout page UI
 
 Route: /checkout → src/app/(shop)/checkout/page.tsx
@@ -190,7 +197,9 @@ validation
 summary from cart
 
 ```
+
 ```
+
 # Home page (build last)
 
 Route: / → src/app/(shop)/page.tsx
@@ -204,4 +213,7 @@ ProductCard
 Hero component
 
 So Home becomes easy after listing UI is done.
+
+```
+
 ```

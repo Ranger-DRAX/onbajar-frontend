@@ -10,7 +10,7 @@ type Props = { product: Product };
 
 export default function AddToCartButton({ product }: Props) {
   const [selectedSize, setSelectedSize] = useState<string | null>(
-    product.hasSize ? null : "one-size"
+    product.hasSize ? null : "one-size",
   );
   const [qty, setQty] = useState(1);
   const addItem = useCartStore((s) => s.addItem);
@@ -47,7 +47,7 @@ export default function AddToCartButton({ product }: Props) {
       {/* Size selector */}
       {product.hasSize && product.sizes.length > 0 && (
         <div>
-          <div className="flex items-center justify-between mb-2">
+          <div className="mb-2 flex items-center justify-between">
             <p className="text-sm font-medium">Select Size</p>
             {!selectedSize && (
               <p className="text-xs text-red-500">Please select a size</p>
@@ -62,19 +62,19 @@ export default function AddToCartButton({ product }: Props) {
       )}
 
       {/* Qty + Add to Cart */}
-      <div className="flex gap-3 items-center">
+      <div className="flex items-center gap-3">
         <QuantityControl qty={qty} onChange={setQty} />
         <button
           onClick={handleAdd}
           disabled={product.hasSize && !selectedSize}
-          className="flex-1 h-9 bg-black text-white text-sm font-medium tracking-wide uppercase disabled:opacity-40 hover:bg-zinc-800 transition-colors"
+          className="h-9 flex-1 bg-black text-sm font-medium tracking-wide text-white uppercase transition-colors hover:bg-zinc-800 disabled:opacity-40"
         >
           Add to Cart
         </button>
       </div>
 
       {/* Order now */}
-      <button className="w-full h-9 border border-black text-sm font-medium uppercase tracking-wide hover:bg-black hover:text-white transition-colors">
+      <button className="h-9 w-full border border-black text-sm font-medium tracking-wide uppercase transition-colors hover:bg-black hover:text-white">
         Order Now
       </button>
     </div>

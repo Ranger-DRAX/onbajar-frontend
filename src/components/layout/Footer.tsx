@@ -1,16 +1,23 @@
 import Link from "next/link";
+import Image from "next/image";
+import FooterLogo from "@/assets/OnbajarLogo-2.svg";
 
 export default function Footer() {
   return (
     <footer className="bg-gradient-to-r from-black via-zinc-950 to-zinc-900 text-zinc-200">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-14 sm:py-16">
+      <div className="container mx-auto px-4 py-14 sm:px-6 sm:py-16 lg:px-8">
         <div className="grid grid-cols-1 gap-12 lg:grid-cols-12 lg:gap-8">
           {/* Left: Brand + contact */}
           <div className="lg:col-span-5">
-            <div className="text-4xl sm:text-5xl font-extrabold tracking-tight text-white">
-              ONBAJAR
-            </div>
-
+          <Link href="/" className="inline-flex items-center">
+            <Image
+              src={FooterLogo}
+              alt="Onbajar"
+              width={180}   // adjust as needed
+              height={48}   // adjust as needed
+              priority
+            />
+          </Link>
             <p className="mt-4 max-w-md text-sm leading-5 text-zinc-300">
               Onbajar delivers authentic club jerseys, sports kits, and regular
               essential t-shirts, building Bangladesh's brand across the world.
@@ -67,7 +74,7 @@ export default function Footer() {
                 </span>
                 <a
                   href="tel:+8801982733499"
-                  className="hover:text-white transition-colors"
+                  className="transition-colors hover:text-white"
                 >
                   +8801982733499
                 </a>
@@ -93,7 +100,7 @@ export default function Footer() {
                   href="https://facebook.com/onbajar"
                   target="_blank"
                   rel="noreferrer"
-                  className="hover:text-white transition-colors"
+                  className="transition-colors hover:text-white"
                 >
                   facebook.com/onbajar
                 </a>
@@ -108,14 +115,17 @@ export default function Footer() {
             </div>
             <ul className="mt-4 space-y-2 text-sm text-zinc-300">
               <li>
-                <Link href="/faq" className="hover:text-white transition-colors">
+                <Link
+                  href="/faq"
+                  className="transition-colors hover:text-white"
+                >
                   FAQs
                 </Link>
               </li>
               <li>
                 <Link
                   href="/returns"
-                  className="hover:text-white transition-colors"
+                  className="transition-colors hover:text-white"
                 >
                   Returns
                 </Link>
@@ -123,7 +133,7 @@ export default function Footer() {
               <li>
                 <Link
                   href="/terms"
-                  className="hover:text-white transition-colors"
+                  className="transition-colors hover:text-white"
                 >
                   Terms/ Policy
                 </Link>
@@ -133,7 +143,9 @@ export default function Footer() {
 
           {/* Right: Newsletter */}
           <div className="lg:col-span-4 lg:pt-2">
-            <div className="text-sm font-semibold text-white">Stay Connected</div>
+            <div className="text-sm font-semibold text-white">
+              Stay Connected
+            </div>
             <p className="mt-4 max-w-sm text-sm leading-5 text-zinc-300">
               Be one of the first to receive new product launches, sale offers,
               collabs &amp; more.
@@ -147,7 +159,7 @@ export default function Footer() {
                 id="footer-email"
                 type="email"
                 placeholder="Your Email"
-                className="w-full max-w-xs bg-transparent border border-zinc-500/70 px-4 py-2 text-sm text-white placeholder:text-zinc-400 focus:outline-none focus:border-white/80"
+                className="w-full max-w-xs border border-zinc-500/70 bg-transparent px-4 py-2 text-sm text-white placeholder:text-zinc-400 focus:border-white/80 focus:outline-none"
               />
             </form>
           </div>
@@ -156,7 +168,3 @@ export default function Footer() {
     </footer>
   );
 }
-
-
-
-

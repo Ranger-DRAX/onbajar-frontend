@@ -10,10 +10,8 @@ export default function ProductGrid({ children, cols = 4 }: Props) {
     cols === 2
       ? "grid-cols-2"
       : cols === 3
-      ? "grid-cols-2 md:grid-cols-3"
-      : "grid-cols-2 md:grid-cols-3 lg:grid-cols-4";
+        ? "grid-cols-2 md:grid-cols-3"
+        : "grid-cols-2 md:grid-cols-3 lg:grid-cols-4";
 
-  return (
-    <div className={`grid ${colClass} gap-x-3 gap-y-6`}>{children}</div>
-  );
+  return <div className={`grid ${colClass} gap-x-3 gap-y-6`}>{children}</div>;
 }

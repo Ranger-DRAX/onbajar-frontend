@@ -12,13 +12,11 @@ export const useCartStore = create<CartStore>()(
       addItem: (item) => {
         set((state) => {
           const k = key(item.id, item.size);
-          const existing = state.items.find(
-            (i) => key(i.id, i.size) === k
-          );
+          const existing = state.items.find((i) => key(i.id, i.size) === k);
           if (existing) {
             return {
               items: state.items.map((i) =>
-                key(i.id, i.size) === k ? { ...i, qty: i.qty + 1 } : i
+                key(i.id, i.size) === k ? { ...i, qty: i.qty + 1 } : i,
               ),
             };
           }
@@ -30,16 +28,14 @@ export const useCartStore = create<CartStore>()(
         if (qty < 1) return get().removeItem(id, size);
         set((state) => ({
           items: state.items.map((i) =>
-            key(i.id, i.size) === key(id, size) ? { ...i, qty } : i
+            key(i.id, i.size) === key(id, size) ? { ...i, qty } : i,
           ),
         }));
       },
 
       removeItem: (id, size) => {
         set((state) => ({
-          items: state.items.filter(
-            (i) => key(i.id, i.size) !== key(id, size)
-          ),
+          items: state.items.filter((i) => key(i.id, i.size) !== key(id, size)),
         }));
       },
 
@@ -50,6 +46,6 @@ export const useCartStore = create<CartStore>()(
       totalPrice: () =>
         get().items.reduce((sum, i) => sum + i.price * i.qty, 0),
     }),
-    { name: "onbajar-cart" }
-  )
+    { name: "onbajar-cart" },
+  ),
 );

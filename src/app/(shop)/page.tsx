@@ -6,9 +6,7 @@ import Link from "next/link";
 export default async function HomePage() {
   const res = await getProducts({ page: 1, limit: 12 });
 
-  const allProducts = res.data
-    .filter((p) => p.isActive)
-    .map(normalizeProduct);
+  const allProducts = res.data.filter((p) => p.isActive).map(normalizeProduct);
 
   const bestSellers = allProducts.filter((p) => p.isBestProduct).slice(0, 4);
   const newArrivals = allProducts.slice(0, 8);
@@ -18,9 +16,14 @@ export default async function HomePage() {
       {/* Best Sellers */}
       {bestSellers.length > 0 && (
         <section className="mx-auto max-w-6xl px-4 py-10">
-          <div className="flex items-center justify-between mb-6">
-            <h2 className="text-xl font-semibold uppercase tracking-wide">Best Sellers</h2>
-            <Link href="/products" className="text-xs underline underline-offset-4 text-gray-500 hover:text-black">
+          <div className="mb-6 flex items-center justify-between">
+            <h2 className="text-xl font-semibold tracking-wide uppercase">
+              Best Sellers
+            </h2>
+            <Link
+              href="/products"
+              className="text-xs text-gray-500 underline underline-offset-4 hover:text-black"
+            >
               View All
             </Link>
           </div>
@@ -42,10 +45,15 @@ export default async function HomePage() {
       )}
 
       {/* New Arrivals */}
-      <section className="mx-auto max-w-6xl px-4 py-10 border-t">
-        <div className="flex items-center justify-between mb-6">
-          <h2 className="text-xl font-semibold uppercase tracking-wide">New Arrivals</h2>
-          <Link href="/products" className="text-xs underline underline-offset-4 text-gray-500 hover:text-black">
+      <section className="mx-auto max-w-6xl border-t px-4 py-10">
+        <div className="mb-6 flex items-center justify-between">
+          <h2 className="text-xl font-semibold tracking-wide uppercase">
+            New Arrivals
+          </h2>
+          <Link
+            href="/products"
+            className="text-xs text-gray-500 underline underline-offset-4 hover:text-black"
+          >
             View All
           </Link>
         </div>

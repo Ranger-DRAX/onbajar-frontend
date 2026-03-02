@@ -12,7 +12,7 @@ export default function ImageGallery({ images, title }: Props) {
   return (
     <div className="flex flex-col gap-3">
       {/* Main image */}
-      <div className="relative w-full aspect-4/5 bg-[#f5f5f5] overflow-hidden">
+      <div className="relative aspect-4/5 w-full overflow-hidden bg-[#f5f5f5]">
         <Image
           src={list[active]}
           alt={title}
@@ -31,11 +31,19 @@ export default function ImageGallery({ images, title }: Props) {
               key={i}
               onClick={() => setActive(i)}
               className={[
-                "relative shrink-0 w-16 h-20 bg-[#f5f5f5] border-2 transition-colors overflow-hidden",
-                i === active ? "border-black" : "border-transparent hover:border-gray-300",
+                "relative h-20 w-16 shrink-0 overflow-hidden border-2 bg-[#f5f5f5] transition-colors",
+                i === active
+                  ? "border-black"
+                  : "border-transparent hover:border-gray-300",
               ].join(" ")}
             >
-              <Image src={src} alt={`${title} ${i + 1}`} fill className="object-contain p-1" sizes="64px" />
+              <Image
+                src={src}
+                alt={`${title} ${i + 1}`}
+                fill
+                className="object-contain p-1"
+                sizes="64px"
+              />
             </button>
           ))}
         </div>

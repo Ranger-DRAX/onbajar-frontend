@@ -5,23 +5,19 @@ export type Category = {
   isActive: boolean;
 };
 
-export type Discount =
-  | null
-  | {
-      type: "percentage" | "fixed";
-      value: number;
-      startDate: string;
-      endDate: string;
-    };
+export type Discount = null | {
+  type: "percentage" | "fixed";
+  value: number;
+  startDate: string;
+  endDate: string;
+};
 
 export type SizeChartRow = { label: string; values: number[] };
-export type SizeChart =
-  | null
-  | {
-      unit: string;
-      columns: string[];
-      rows: SizeChartRow[];
-    };
+export type SizeChart = null | {
+  unit: string;
+  columns: string[];
+  rows: SizeChartRow[];
+};
 
 export type ProductApi = {
   _id: string;
@@ -37,14 +33,13 @@ export type ProductApi = {
   sizes: string[];
   sizeChart: SizeChart;
   allowedAddons: null;
-  isBestProduct?: boolean;       // ✅ add
-  purchaseCount?: number;        // ✅ add
+  isBestProduct?: boolean; // ✅ add
+  purchaseCount?: number; // ✅ add
   isActive: boolean;
   createdAt: string;
   updatedAt: string;
   __v: number;
 };
-
 
 export type ProductsResponse = {
   success: boolean;
@@ -73,7 +68,7 @@ export type Product = {
   hasSize: boolean;
   sizeChart: SizeChart;
   discount: Discount;
-  isBestProduct: boolean;        
-  purchaseCount: number;         
+  isBestProduct: boolean;
+  purchaseCount: number;
   isActive: boolean;
 };

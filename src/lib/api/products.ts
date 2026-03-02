@@ -12,7 +12,7 @@ export function normalizeProduct(p: any): Product {
 
   const images = Array.isArray(p?.images)
     ? p.images.map((img: any) =>
-        typeof img === "string" ? img : img?.url ?? ""
+        typeof img === "string" ? img : (img?.url ?? ""),
       )
     : [];
 
@@ -69,7 +69,9 @@ export async function getProducts(params?: { page?: number; limit?: number }) {
 export async function getProductById(id: string) {
   // 1) Try direct endpoint
   try {
-    const direct = await fetch(`${BASE}/api/products/${id}`, { cache: "no-store" });
+    const direct = await fetch(`${BASE}/api/products/${id}`, {
+      cache: "no-store",
+    });
 
     if (direct.ok) {
       const json = await direct.json();
