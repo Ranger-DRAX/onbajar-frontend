@@ -9,15 +9,15 @@ export default function Footer() {
         <div className="grid grid-cols-1 gap-12 lg:grid-cols-12 lg:gap-8">
           {/* Left: Brand + contact */}
           <div className="lg:col-span-5">
-          <Link href="/" className="inline-flex items-center">
-            <Image
-              src={FooterLogo}
-              alt="Onbajar"
-              width={180}   // adjust as needed
-              height={48}   // adjust as needed
-              priority
-            />
-          </Link>
+            <Link href="/" className="inline-flex items-center">
+              <Image
+                src={FooterLogo}
+                alt="Onbajar"
+                width={180} // adjust as needed
+                height={48} // adjust as needed
+                priority
+              />
+            </Link>
             <p className="mt-4 max-w-md text-sm leading-5 text-zinc-300">
               Onbajar delivers authentic club jerseys, sports kits, and regular
               essential t-shirts, building Bangladesh's brand across the world.

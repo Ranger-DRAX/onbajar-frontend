@@ -24,7 +24,7 @@ export default function Header() {
 
       {/* Main Navigation Bar */}
       <nav className="border-b border-gray-200 bg-white">
-        <div className="container mx-auto px-10 ">
+        <div className="container mx-auto px-10">
           <div className="flex h-16 items-center justify-between">
             {/* Logo */}
             <Link href="/" className="flex items-center">
