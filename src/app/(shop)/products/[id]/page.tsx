@@ -31,7 +31,7 @@ export default async function ProductDetailsPage({ params }: Props) {
     : product.price;
 
   return (
-    <main className="mx-auto max-w-6xl px-4 py-8">
+    <main className="w-full px-6 py-8">
       {/* === TOP SECTION === */}
       <div className="grid gap-10 lg:grid-cols-2">
         {/* Left — Image gallery */}

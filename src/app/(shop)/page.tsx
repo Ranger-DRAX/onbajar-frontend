@@ -2,6 +2,10 @@ import ProductCard from "@/components/products/ProductCard";
 import ProductGrid from "@/components/products/ProductGrid";
 import { getProducts, normalizeProduct } from "@/lib/api/products";
 import Link from "next/link";
+import Image from "next/image";
+import HeroImage from "@/assets/image/HeroSectionImage.svg";
+import RightArrowIcon from "@/assets/image/RightArrowIcon.svg";
+import CallToAction from "@/components/layout/CallToAction";
 
 export default async function HomePage() {
   const res = await getProducts({ page: 1, limit: 12 });
@@ -13,12 +17,62 @@ export default async function HomePage() {
 
   return (
     <main>
+      {/* Hero Section */}
+      <div className="w-full">
+        <Image
+          src={HeroImage}
+          alt="Hero section image"
+          priority
+          className="h-auto w-full object-cover"
+        />
+      </div>
+      {/* New Arrivals */}
+      <section className="w-full border-t px-6 py-10">
+        <div className="mb-6 flex items-center justify-between">
+          <h2 className="flex items-center gap-2 text-6xl tracking-wide">
+            <Image
+              src={RightArrowIcon}
+              alt="Right arrow icon "
+              priority
+              className="h-20 w-20"
+            />
+            <span>New Arrivals</span>
+          </h2>
+
+          <Link
+            href="/products"
+            className="text-xs text-gray-500 underline underline-offset-4 hover:text-black"
+          >
+            View All
+          </Link>
+        </div>
+        <ProductGrid cols={4}>
+          {newArrivals.map((p) => (
+            <ProductCard
+              key={p.id}
+              href={`/products/${p.id}`}
+              title={p.title}
+              price={p.price}
+              currency={p.currency}
+              imageUrl={p.images?.[0] ?? "https://placehold.co/479x599"}
+              isBestProduct={p.isBestProduct}
+              discount={p.discount}
+            />
+          ))}
+        </ProductGrid>
+      </section>
       {/* Best Sellers */}
       {bestSellers.length > 0 && (
-        <section className="mx-auto max-w-6xl px-4 py-10">
+        <section className="w-full px-4 py-10">
           <div className="mb-6 flex items-center justify-between">
-            <h2 className="text-xl font-semibold tracking-wide uppercase">
-              Best Sellers
+            <h2 className="flex items-center gap-2 text-6xl tracking-wide">
+              <Image
+                src={RightArrowIcon}
+                alt="Right arrow icon "
+                priority
+                className="h-20 w-20"
+              />
+              <span>Best Sellers</span>
             </h2>
             <Link
               href="/products"
@@ -43,35 +97,7 @@ export default async function HomePage() {
           </ProductGrid>
         </section>
       )}
-
-      {/* New Arrivals */}
-      <section className="mx-auto max-w-6xl border-t px-4 py-10">
-        <div className="mb-6 flex items-center justify-between">
-          <h2 className="text-xl font-semibold tracking-wide uppercase">
-            New Arrivals
-          </h2>
-          <Link
-            href="/products"
-            className="text-xs text-gray-500 underline underline-offset-4 hover:text-black"
-          >
-            View All
-          </Link>
-        </div>
-        <ProductGrid cols={4}>
-          {newArrivals.map((p) => (
-            <ProductCard
-              key={p.id}
-              href={`/products/${p.id}`}
-              title={p.title}
-              price={p.price}
-              currency={p.currency}
-              imageUrl={p.images?.[0] ?? "https://placehold.co/479x599"}
-              isBestProduct={p.isBestProduct}
-              discount={p.discount}
-            />
-          ))}
-        </ProductGrid>
-      </section>
+      <CallToAction />
     </main>
   );
 }

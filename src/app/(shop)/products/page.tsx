@@ -1,5 +1,6 @@
 import ProductCard from "@/components/products/ProductCard";
 import ProductGrid from "@/components/products/ProductGrid";
+import CallToAction from "@/components/layout/CallToAction";
 import { getProducts, normalizeProduct } from "@/lib/api/products";
 
 export default async function ProductsPage() {
@@ -8,15 +9,15 @@ export default async function ProductsPage() {
   const products = res.data.filter((p) => p.isActive).map(normalizeProduct);
 
   return (
-    <main className="mx-auto max-w-6xl px-4 py-8">
+    <main className="w-full">
       {/* Top bar */}
-      <div className="mb-6 flex items-center justify-between">
+      <div className="mb-6 flex items-center justify-between  px-6 py-8">
         <p className="text-xs tracking-widest text-gray-500 uppercase">
           {res.meta.total} Products
         </p>
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-0.5 ">
           {/* Filter btn — UI only */}
-          <button className="flex h-8 items-center gap-1.5 border border-gray-300 px-3 text-xs tracking-wide uppercase transition-colors hover:border-black">
+          <button className="flex h-8 items-center gap-1  px-1 text-xs tracking-wide uppercase transition-colors hover:border-black">
             <svg
               className="h-3.5 w-3.5"
               fill="none"
@@ -34,7 +35,7 @@ export default async function ProductsPage() {
           </button>
 
           {/* Sort dropdown — UI only */}
-          <select className="h-8 cursor-pointer border border-gray-300 bg-white px-3 text-xs tracking-wide uppercase transition-colors hover:border-black">
+          <select className="h-8 cursor-pointer  bg-white px-2 text-xs tracking-wide uppercase transition-colors hover:border-black">
             <option>Price: Low–High</option>
             <option>Price: High–Low</option>
             <option>Newest</option>
@@ -57,6 +58,7 @@ export default async function ProductsPage() {
           />
         ))}
       </ProductGrid>
+      <CallToAction />
     </main>
   );
 }

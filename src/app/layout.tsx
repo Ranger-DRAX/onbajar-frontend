@@ -11,7 +11,9 @@ export default function RootLayout({
     <html lang="en">
       <body className="bg-white text-black" suppressHydrationWarning>
         <Navbar />
+        <main className="w-full">
         {children}
+        </main>
         <Footer />
       </body>
     </html>

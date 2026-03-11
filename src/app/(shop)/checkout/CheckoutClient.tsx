@@ -67,7 +67,7 @@ export default function CheckoutClient() {
   // ── Empty cart guard ────────────────────────────────────────────────────────
   if (items.length === 0) {
     return (
-      <main className="mx-auto max-w-6xl px-4 py-20 text-center">
+      <main className="w-full px-6 py-20 text-center">
         <p className="text-lg font-medium">Your cart is empty</p>
         <Link
           href="/products"
@@ -151,7 +151,7 @@ export default function CheckoutClient() {
 
   // ── Render ──────────────────────────────────────────────────────────────────
   return (
-    <main className="mx-auto max-w-6xl px-4 py-10">
+    <main className="w-full px-6 py-10">
       <h1 className="mb-8 text-2xl font-semibold">Checkout</h1>
 
       <form
