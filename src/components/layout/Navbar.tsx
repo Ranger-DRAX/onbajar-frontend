@@ -47,7 +47,7 @@ export default function Header() {
                 onMouseLeave={() => setShopDropdownOpen(false)}
               >
                 <Link
-                  href="/shop"
+                  href="/products"
                   className="flex items-center gap-1 text-sm font-normal text-gray-900 transition-colors hover:text-gray-700"
                 >
                   Shop
@@ -68,13 +68,13 @@ export default function Header() {
                 {shopDropdownOpen && (
                   <div className="absolute top-full left-0 mt-2 w-48 rounded-md border border-gray-200 bg-white py-2 shadow-lg">
                     <Link
-                      href="/shop/all"
+                      href="/products/all"
                       className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"
                     >
                       All Products
                     </Link>
                     <Link
-                      href="/shop/categories"
+                      href="/products/categories"
                       className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"
                     >
                       Categories
@@ -224,7 +224,7 @@ export default function Header() {
             <div className="border-t py-4 md:hidden">
               <div className="flex flex-col space-y-4">
                 <Link
-                  href="/shop"
+                  href="/products"
                   className="font-normal text-gray-900 transition-colors hover:text-gray-700"
                   onClick={() => setIsMenuOpen(false)}
                 >
