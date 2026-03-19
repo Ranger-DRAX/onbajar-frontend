@@ -27,7 +27,6 @@ export default function AddToCartButton({ product }: Props) {
       imageUrl: product.images?.[0] ?? "https://placehold.co/479x599",
       size: selectedSize,
     });
-    // add qty > 1 by calling addItem multiple extra times
     for (let i = 1; i < qty; i++) {
       addItem({
         id: product.id,
@@ -43,14 +42,17 @@ export default function AddToCartButton({ product }: Props) {
   };
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-6">
       {/* Size selector */}
       {product.hasSize && product.sizes.length > 0 && (
-        <div>
-          <div className="mb-2 flex items-center justify-between">
-            <p className="text-sm font-medium">Select Size</p>
+        <div className="space-y-3">
+          <div className="flex items-center gap-2">
+            <h3 className="text-lg font-normal text-black">Sizes</h3>
             {!selectedSize && (
-              <p className="text-xs text-red-500">Please select a size</p>
+              <span className="text-sm text-gray-400 font-light flex items-center gap-1">
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                True to size. We recommend ordering your usual size.
+              </span>
             )}
           </div>
           <SizeSelector
@@ -62,19 +64,19 @@ export default function AddToCartButton({ product }: Props) {
       )}
 
       {/* Qty + Add to Cart */}
-      <div className="flex items-center gap-3">
+      <div className="flex items-center gap-4">
         <QuantityControl qty={qty} onChange={setQty} />
         <button
           onClick={handleAdd}
           disabled={product.hasSize && !selectedSize}
-          className="h-9 flex-1 bg-black text-sm font-medium tracking-wide text-white uppercase transition-colors hover:bg-zinc-800 disabled:opacity-40"
+          className="h-11 flex-1 bg-black text-sm font-medium text-white transition-opacity hover:opacity-90 disabled:opacity-50"
         >
           Add to Cart
         </button>
       </div>
 
       {/* Order now */}
-      <button className="h-9 w-full border border-black text-sm font-medium tracking-wide uppercase transition-colors hover:bg-black hover:text-white">
+      <button className="h-11 w-full bg-black text-sm font-medium text-white transition-opacity hover:opacity-90">
         Order Now
       </button>
     </div>

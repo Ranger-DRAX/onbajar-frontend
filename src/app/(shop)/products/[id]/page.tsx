@@ -31,149 +31,104 @@ export default async function ProductDetailsPage({ params }: Props) {
     : product.price;
 
   return (
-    <main className="w-full px-6 py-8">
-      {/* === TOP SECTION === */}
-      <div className="grid gap-10 lg:grid-cols-2">
-        {/* Left — Image gallery */}
-        <ImageGallery images={product.images} title={product.title} />
-
-        {/* Right — Product info */}
-        <div className="flex flex-col gap-4">
+    <main className="w-full px-6 py-12">
+      {/* 3-Column Layout */}
+      <div className="grid gap-12 lg:grid-cols-[380px_1fr_420px]">
+        
+        {/* Left Column: Details & Description */}
+        <div className="order-2 space-y-8 lg:order-1">
           <div>
-            <p className="text-xs tracking-widest text-gray-400 uppercase">
-              {product.categoryName}
-            </p>
-            <h1 className="mt-1 text-2xl leading-snug font-semibold">
-              {product.title}
-            </h1>
-          </div>
-
-          {/* Price */}
-          <div className="flex items-baseline gap-3">
-            <span className="text-xl font-medium">
+            <h1 className="text-4xl font-normal text-black mb-2">{product.title}</h1>
+            <p className="text-xl text-black">
               {product.currency}. {discountedPrice.toLocaleString("en-BD")}
-            </span>
-            {product.discount && (
-              <>
-                <span className="text-sm text-gray-400 line-through">
-                  {product.currency}. {product.price.toLocaleString("en-BD")}
-                </span>
-                <span className="text-sm font-medium text-red-500">
-                  -{product.discount.value}% OFF
-                </span>
-              </>
-            )}
+              {product.currency === "BDT" ? "৳" : ""} 
+            </p>
+             {product.discount && (
+                  <p className="text-sm text-gray-400 line-through mt-1">
+                    {product.currency}. {product.price.toLocaleString("en-BD")}
+                  </p>
+              )}
           </div>
 
-          {/* Description */}
-          {product.description && (
-            <div>
-              <p className="mb-1 text-sm font-medium">Details</p>
-              <p className="text-sm leading-relaxed text-gray-600">
-                {product.description}
-              </p>
+          <div className="h-px bg-gray-200 w-full" />
+
+          <div>
+            <h3 className="text-lg font-medium mb-4">Details</h3>
+            <div className="space-y-4 text-base leading-relaxed text-gray-800">
+              {product.description && <p>{product.description}</p>}
+              
+              {product.bullets.length > 0 && (
+                <ul className="space-y-2 mt-4">
+                  {product.bullets.map((b) => (
+                    <li key={b} className="flex items-start gap-2">
+                       <span className="text-black">→</span> {b}
+                    </li>
+                  ))}
+                </ul>
+              )}
             </div>
-          )}
+          </div>
+         </div>
 
-          {/* Bullets */}
-          {product.bullets.length > 0 && (
-            <ul className="space-y-1">
-              {product.bullets.map((b) => (
-                <li
-                  key={b}
-                  className="flex items-start gap-2 text-sm text-gray-700"
-                >
-                  <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-black" />
-                  {b}
-                </li>
-              ))}
-            </ul>
-          )}
+        {/* Middle Column: Main Image */}
+        <div className="order-1 lg:order-2">
+             <ImageGallery images={product.images} title={product.title} />
+        </div>
 
-          {/* Size Chart table */}
-          {product.sizeChart && (
+        {/* Right Column: Size Chart & Actions */}
+        <div className="order-3 lg:order-3 space-y-8">
+           {/* Size Chart Table */}
+           {product.sizeChart && (
             <div>
-              <p className="mb-2 text-sm font-medium">
-                Size Chart ({product.sizeChart.unit})
-              </p>
-              <div className="overflow-x-auto">
-                <table className="w-full border border-gray-200 text-xs">
+              <h3 className="text-lg font-normal mb-4">Size Chart</h3>
+              <div className="border border-gray-200">
+                <table className="w-full text-sm text-center">
                   <thead>
-                    <tr className="bg-gray-50">
-                      <th className="border-r border-gray-200 px-3 py-2 text-left">
-                        Size
-                      </th>
-                      {product.sizeChart.columns.map((col) => (
-                        <th
-                          key={col}
-                          className="border-r border-gray-200 px-3 py-2 text-center last:border-0"
-                        >
-                          {col}
-                        </th>
-                      ))}
+                    <tr className="bg-gray-50 border-b border-gray-200">
+                       <th className="py-2 border-r border-gray-200 font-medium">Size</th> 
+                       {product.sizeChart.columns.map(c => (
+                         <th key={c} className="py-2 border-r border-gray-200 font-medium last:border-0">{c}</th>
+                       ))}
                     </tr>
                   </thead>
                   <tbody>
                     {product.sizeChart.rows.map((row) => (
-                      <tr key={row.label} className="border-t border-gray-200">
-                        <td className="border-r border-gray-200 px-3 py-2 font-medium">
-                          {row.label}
-                        </td>
-                        {row.values.map((v, i) => (
-                          <td
-                            key={i}
-                            className="border-r border-gray-200 px-3 py-2 text-center last:border-0"
-                          >
-                            {v}
-                          </td>
-                        ))}
+                      <tr key={row.label} className="border-b border-gray-200 last:border-0">
+                         <td className="py-2 border-r border-gray-200">{row.label}</td>
+                         {row.values.map((v, i) => (
+                           <td key={i} className="py-2 border-r border-gray-200 last:border-0">{v}</td>
+                         ))}
                       </tr>
                     ))}
                   </tbody>
                 </table>
+                <p className="text-xs text-gray-400 mt-2 p-1">Inches</p>
               </div>
             </div>
-          )}
+           )}
 
-          {/* Add to cart — client component */}
-          <AddToCartButton product={product} />
+           {/* Add To Cart Block */}
+           <AddToCartButton product={product} />
 
-          {/* Accordion stubs */}
-          <div className="space-y-3 border-t pt-4">
-            {[
-              "Quality Assurance",
-              "Shipping and Easy Returns or Exchange",
-              "Care Instructions",
-            ].map((item) => (
-              <details key={item} className="group">
-                <summary className="flex cursor-pointer items-center justify-between py-2 text-sm select-none">
-                  {item}
-                  <svg
-                    className="h-4 w-4 transition-transform group-open:rotate-180"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M19 9l-7 7-7-7"
-                    />
-                  </svg>
-                </summary>
-                <p className="pt-1 pb-2 pl-1 text-xs text-gray-500">
-                  Content coming soon.
-                </p>
-              </details>
-            ))}
-          </div>
+           {/* Info Sections */}
+           <div className="space-y-6 pt-6 border-t border-gray-200">
+              {[
+                "Quality Assurance",
+                "Shipping and Easy Returns or Exchange",
+                "Care Instructions"
+              ].map(title => (
+                <div key={title} className="border-b border-gray-200 pb-4">
+                   <h4 className="text-base font-normal">{title}</h4>
+                </div>
+              ))}
+           </div>
         </div>
+
       </div>
 
-      {/* === RELATED PRODUCTS === */}
+      {/* Related Products */}
       {related.length > 0 && (
-        <section className="mt-16 border-t pt-10">
+        <section className="mt-20 border-t pt-10">
           <h2 className="mb-6 text-xl font-semibold tracking-wide uppercase">
             Related Products
           </h2>
