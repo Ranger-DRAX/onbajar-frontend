@@ -19,7 +19,6 @@ export default async function ProductDetailsPage({ params }: Props) {
 
   const product = normalizeProduct(raw?.data ?? raw);
 
-  // Related products — same category, excluding current
   const relatedRes = await getProducts({ page: 1, limit: 5 });
   const related = relatedRes.data
     .filter((p) => p.isActive && p._id !== id)
@@ -31,107 +30,156 @@ export default async function ProductDetailsPage({ params }: Props) {
     : product.price;
 
   return (
-    <main className="w-full px-6 py-12">
-      {/* 3-Column Layout */}
-      <div className="grid gap-12 lg:grid-cols-[380px_1fr_420px]">
-        
-        {/* Left Column: Details & Description */}
-        <div className="order-2 space-y-8 lg:order-1">
-          <div>
-            <h1 className="text-4xl font-normal text-black mb-2">{product.title}</h1>
-            <p className="text-xl text-black">
-              {product.currency}. {discountedPrice.toLocaleString("en-BD")}
-              {product.currency === "BDT" ? "৳" : ""} 
-            </p>
-             {product.discount && (
-                  <p className="text-sm text-gray-400 line-through mt-1">
-                    {product.currency}. {product.price.toLocaleString("en-BD")}
-                  </p>
-              )}
+    <main className="min-h-screen bg-white px-4 py-6 md:px-8 md:py-8 xl:px-12">
+      <section className="grid items-start gap-8 xl:grid-cols-[minmax(320px,430px)_minmax(420px,1fr)_minmax(320px,540px)] xl:gap-12">
+        {/* Left */}
+        <div className="relative max-w-[430px] xl:pt-4">
+          <h1 className="text-4xl leading-none font-normal tracking-tight md:text-6xl">
+            {product.title}
+          </h1>
+          <div
+            className="mt-5 flex items-center gap-3"
+            style={{
+              fontFamily: "Inter, Noto Sans Bengali, Arial, sans-serif",
+            }}
+          >
+            <span className="text-2xl font-normal">
+              {discountedPrice.toLocaleString("en-BD")}৳
+            </span>
+
+            {product.discount && (
+              <span className="text-2xl text-black/55 line-through">
+                {product.price.toLocaleString("en-BD")}৳
+              </span>
+            )}
           </div>
 
-          <div className="h-px bg-gray-200 w-full" />
+          <div className="my-8 border-t border-black/15" />
 
-          <div>
-            <h3 className="text-lg font-medium mb-4">Details</h3>
-            <div className="space-y-4 text-base leading-relaxed text-gray-800">
-              {product.description && <p>{product.description}</p>}
-              
-              {product.bullets.length > 0 && (
-                <ul className="space-y-2 mt-4">
-                  {product.bullets.map((b) => (
-                    <li key={b} className="flex items-start gap-2">
-                       <span className="text-black">→</span> {b}
-                    </li>
-                  ))}
-                </ul>
-              )}
+          {product.description && (
+            <div>
+              <h2 className="mb-4 text-2xl font-medium">Details</h2>
+              <p className="text-[15px] leading-7 whitespace-pre-line text-black/95">
+                {product.description}
+              </p>
             </div>
-          </div>
-         </div>
+          )}
 
-        {/* Middle Column: Main Image */}
-        <div className="order-1 lg:order-2">
-             <ImageGallery images={product.images} title={product.title} />
+          {product.bullets.length > 0 && (
+            <ul className="mt-6 space-y-2 text-[15px] leading-7 text-black/90">
+              {product.bullets.map((b) => (
+                <li key={b} className="flex items-start gap-2">
+                  <span className="mt-[1px] text-base">→</span>
+                  <span>{b}</span>
+                </li>
+              ))}
+            </ul>
+          )}
         </div>
 
-        {/* Right Column: Size Chart & Actions */}
-        <div className="order-3 lg:order-3 space-y-8">
-           {/* Size Chart Table */}
-           {product.sizeChart && (
+        {/* Center */}
+        <div className="flex w-full justify-center xl:sticky xl:top-6">
+          <div className="w-full max-w-[760px]">
+            <ImageGallery images={product.images} title={product.title} />
+          </div>
+        </div>
+
+        {/* Right */}
+        <aside className="xl:pt-8">
+          {product.sizeChart && (
             <div>
-              <h3 className="text-lg font-normal mb-4">Size Chart</h3>
-              <div className="border border-gray-200">
-                <table className="w-full text-sm text-center">
+              <h3 className="text-[22px] font-medium">Size Chart</h3>
+
+              <div className="mt-3 overflow-x-auto rounded-md border border-gray-200 bg-gray-50">
+                <table className="w-full text-center text-xs text-black">
                   <thead>
-                    <tr className="bg-gray-50 border-b border-gray-200">
-                       <th className="py-2 border-r border-gray-200 font-medium">Size</th> 
-                       {product.sizeChart.columns.map(c => (
-                         <th key={c} className="py-2 border-r border-gray-200 font-medium last:border-0">{c}</th>
-                       ))}
+                    <tr className="bg-gray-200">
+                      <th className="border-r border-b border-gray-300 px-4 py-3 font-medium text-black">
+                        Size
+                      </th>
+                      {product.sizeChart.columns.map((col) => (
+                        <th
+                          key={col}
+                          className="border-r border-b border-gray-300 px-4 py-3 font-medium text-black last:border-r-0"
+                        >
+                          {col}
+                        </th>
+                      ))}
                     </tr>
                   </thead>
+
                   <tbody>
                     {product.sizeChart.rows.map((row) => (
-                      <tr key={row.label} className="border-b border-gray-200 last:border-0">
-                         <td className="py-2 border-r border-gray-200">{row.label}</td>
-                         {row.values.map((v, i) => (
-                           <td key={i} className="py-2 border-r border-gray-200 last:border-0">{v}</td>
-                         ))}
+                      <tr key={row.label} className="bg-white">
+                        <td className="border-r border-b border-gray-300 px-4 py-3 font-medium text-black">
+                          {row.label}
+                        </td>
+
+                        {row.values.map((v, i) => (
+                          <td
+                            key={`${row.label}-${i}`}
+                            className="border-r border-b border-gray-300 px-4 py-3 text-gray-700 last:border-r-0"
+                          >
+                            {v}
+                          </td>
+                        ))}
                       </tr>
                     ))}
                   </tbody>
                 </table>
-                <p className="text-xs text-gray-400 mt-2 p-1">Inches</p>
               </div>
+
+              <p className="mt-2 text-xs text-black/35">
+                {product.sizeChart.unit
+                  ? `${product.sizeChart.unit}*`
+                  : "Inches*"}
+              </p>
             </div>
-           )}
+          )}
 
-           {/* Add To Cart Block */}
-           <AddToCartButton product={product} />
+          <div className="mt-10">
+            <AddToCartButton product={product} />
+          </div>
 
-           {/* Info Sections */}
-           <div className="space-y-6 pt-6 border-t border-gray-200">
-              {[
-                "Quality Assurance",
-                "Shipping and Easy Returns or Exchange",
-                "Care Instructions"
-              ].map(title => (
-                <div key={title} className="border-b border-gray-200 pb-4">
-                   <h4 className="text-base font-normal">{title}</h4>
-                </div>
-              ))}
-           </div>
-        </div>
+          <div className="mt-6 border-t border-black/15">
+            {[
+              "Quality Assurance",
+              "Shipping and Easy Returns or Exchange",
+              "Care Instructions",
+            ].map((item) => (
+              <details key={item} className="border-b border-black/15">
+                <summary className="flex cursor-pointer list-none items-center justify-between py-5 text-[15px]">
+                  <span>{item}</span>
+                  <svg
+                    className="h-4 w-4 text-black/50 transition-transform group-open:rotate-180"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={1.8}
+                      d="M19 9l-7 7-7-7"
+                    />
+                  </svg>
+                </summary>
 
-      </div>
+                <p className="pb-5 text-sm leading-7 text-black/55">
+                  Content coming soon.
+                </p>
+              </details>
+            ))}
+          </div>
+        </aside>
+      </section>
 
-      {/* Related Products */}
       {related.length > 0 && (
-        <section className="mt-20 border-t pt-10">
-          <h2 className="mb-6 text-xl font-semibold tracking-wide uppercase">
+        <section className="mt-20 border-t border-black/10 pt-10">
+          <h2 className="mb-6 text-lg font-medium tracking-[0.16em] uppercase">
             Related Products
           </h2>
+
           <ProductGrid cols={4}>
             {related.map((p) => (
               <ProductCard

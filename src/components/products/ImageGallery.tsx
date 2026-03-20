@@ -1,45 +1,53 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 
 type Props = { images: string[]; title: string };
 
 export default function ImageGallery({ images, title }: Props) {
+  const list = useMemo(
+    () =>
+      images && images.length > 0
+        ? images
+        : ["https://placehold.co/1200x1600?text=Product"],
+    [images],
+  );
+
   const [active, setActive] = useState(0);
-  const list = images.length > 0 ? images : ["https://placehold.co/479x599"];
 
   return (
-    <div className="flex flex-col gap-4">
-      {/* Main image */}
-      <div className="relative aspect-[3/4] w-full overflow-hidden bg-gray-50">
+    <div className="flex w-full flex-col items-center gap-4">
+      <div className="relative h-[65vh] w-full bg-white md:h-[72vh] xl:h-[82vh]">
         <Image
           src={list[active]}
           alt={title}
           fill
-          className="object-cover"
           priority
-          sizes="(max-width: 768px) 100vw, 50vw"
+          className="object-contain object-center"
+          sizes="(max-width: 768px) 100vw, (max-width: 1280px) 60vw, 50vw"
         />
       </div>
 
-      {/* Thumbnails */}
       {list.length > 1 && (
-        <div className="grid grid-cols-4 gap-2 lg:grid-cols-6">
-          {list.map((src, i) => (
+        <div className="flex flex-wrap justify-center gap-2">
+          {list.slice(0, 6).map((src, i) => (
             <button
-              key={i}
+              key={`${src}-${i}`}
+              type="button"
               onClick={() => setActive(i)}
-              className={`relative aspect-square overflow-hidden bg-gray-50 ${
-                active === i ? "ring-1 ring-black" : ""
+              className={`relative h-[72px] w-[56px] overflow-hidden border transition ${
+                active === i
+                  ? "border-black"
+                  : "border-black/10 hover:border-black/35"
               }`}
             >
               <Image
                 src={src}
-                alt=""
+                alt={`${title} thumbnail ${i + 1}`}
                 fill
                 className="object-cover"
-                sizes="100px"
+                sizes="56px"
               />
             </button>
           ))}

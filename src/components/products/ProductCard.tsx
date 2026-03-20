@@ -26,53 +26,48 @@ export default function ProductCard({
   isBestProduct,
   discount,
 }: Props) {
+  const discounted = discount
+    ? Math.round(price * (1 - discount.value / 100))
+    : price;
+
   return (
     <Link href={href} className="group block" aria-label={title}>
-      {/* Image */}
-      <div className="relative aspect-4/5 w-full overflow-hidden bg-[#efefef]">
+      <div className="relative aspect-[4/5] w-full overflow-hidden bg-white">
         <Image
           src={imageUrl}
           alt={title}
           fill
           sizes="(max-width: 640px) 50vw, 25vw"
-          className="object-contain p-4 transition-transform duration-300 group-hover:scale-105"
-          priority={false}
+          className="object-contain p-4 transition-transform duration-300 group-hover:scale-[1.03]"
         />
-        {/* Badges */}
-        <div className="absolute top-2 left-2 flex flex-col gap-1">
+
+        <div className="absolute left-3 top-3 flex flex-col gap-1">
           {isBestProduct && (
-            <span className="bg-black px-2 py-0.5 text-[10px] font-medium tracking-wide text-white uppercase">
+            <span className="bg-black px-2 py-1 text-[10px] font-medium uppercase tracking-wide text-white">
               Best Seller
             </span>
           )}
+
           {discount && (
-            <span className="bg-red-500 px-2 py-0.5 text-[10px] font-medium text-white">
+            <span className="bg-red-500 px-2 py-1 text-[10px] font-medium text-white">
               -{discount.value}% OFF
             </span>
           )}
         </div>
       </div>
 
-      {/* Text */}
-      <div className="pt-2 pb-4">
-        <p className="line-clamp-1 text-[13px] leading-tight font-normal text-black">
+      <div className="pt-3">
+        <p className="line-clamp-1 text-[14px] font-normal text-black">
           {title}
         </p>
-        <div className="mt-0.5 flex items-center gap-2">
-          {discount ? (
-            <>
-              <span className="text-[11px] font-medium text-black">
-                {formatMoney(
-                  Math.round(price * (1 - discount.value / 100)),
-                  currency,
-                )}
-              </span>
-              <span className="text-[11px] text-zinc-400 line-through">
-                {formatMoney(price, currency)}
-              </span>
-            </>
-          ) : (
-            <span className="text-[11px] font-light tracking-wide text-zinc-400">
+
+        <div className="mt-1 flex items-center gap-2">
+          <span className="text-[12px] font-medium text-black">
+            {formatMoney(discounted, currency)}
+          </span>
+
+          {discount && (
+            <span className="text-[12px] text-black/40 line-through">
               {formatMoney(price, currency)}
             </span>
           )}
