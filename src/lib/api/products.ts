@@ -8,6 +8,7 @@ if (!BASE) {
 
 export function normalizeProduct(p: any): Product {
   const price = p?.pricing?.sellingPrice ?? p?.price ?? 0;
+  const effectivePrice = p?.effectivePrice ?? price;
   const currency = p?.pricing?.currency ?? "BDT";
 
   const images = Array.isArray(p?.images)
@@ -35,8 +36,10 @@ export function normalizeProduct(p: any): Product {
     categoryName,
     categorySlug,
     price,
+    effectivePrice,
     currency,
     images,
+    video: p?.video,
     description,
     bullets,
     hasSize,
@@ -46,6 +49,7 @@ export function normalizeProduct(p: any): Product {
     isActive: p?.isActive ?? true,
     isBestProduct: p?.isBestProduct ?? false,
     purchaseCount: p?.purchaseCount ?? 0,
+    stockSummary: p?.stockSummary,
   };
 }
 

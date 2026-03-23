@@ -5,6 +5,11 @@ export type Category = {
   isActive: boolean;
 };
 
+export type Video = {
+  type: "youtube" | "custom";
+  url: string;
+};
+
 export type Discount = null | {
   type: "percentage" | "fixed";
   value: number;
@@ -19,6 +24,11 @@ export type SizeChart = null | {
   rows: SizeChartRow[];
 };
 
+export type StockSummary = {
+  managed: boolean;
+  quantity?: number;
+};
+
 export type ProductApi = {
   _id: string;
   name: string;
@@ -26,16 +36,19 @@ export type ProductApi = {
   category: Category;
   pricing?: { sellingPrice: number; currency: string };
   price?: number;
+  effectivePrice?: number;
   discount: Discount;
   images: string[];
+  video?: Video;
   details: { description: string; bullets: string[] };
   hasSize: boolean;
   sizes: string[];
   sizeChart: SizeChart;
-  allowedAddons: null;
-  isBestProduct?: boolean; // ✅ add
-  purchaseCount?: number; // ✅ add
+  allowedAddons: unknown;
+  isBestProduct?: boolean; 
+  purchaseCount?: number; 
   isActive: boolean;
+  stockSummary?: StockSummary;
   createdAt: string;
   updatedAt: string;
   __v: number;
@@ -60,8 +73,10 @@ export type Product = {
   categoryName: string;
   categorySlug: string;
   price: number;
+  effectivePrice: number;
   currency: string;
   images: string[];
+  video?: Video;
   description: string;
   bullets: string[];
   sizes: string[];
@@ -71,4 +86,5 @@ export type Product = {
   isBestProduct: boolean;
   purchaseCount: number;
   isActive: boolean;
+  stockSummary?: StockSummary;
 };

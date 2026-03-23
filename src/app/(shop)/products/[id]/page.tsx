@@ -69,7 +69,7 @@ export default async function ProductDetailsPage({ params }: Props) {
             <ul className="mt-6 space-y-2 text-[15px] leading-7 text-black/90">
               {product.bullets.map((b) => (
                 <li key={b} className="flex items-start gap-2">
-                  <span className="mt-[1px] text-base">→</span>
+                  <span className="mt-[1p x] text-base">→</span>
                   <span>{b}</span>
                 </li>
               ))}
