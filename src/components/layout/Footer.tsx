@@ -4,31 +4,33 @@ import FooterLogo from "@/assets/OnbajarLogo-2.svg";
 
 export default function Footer() {
   return (
-    <footer className="bg-gradient-to-r from-black via-zinc-950 to-zinc-900 text-zinc-200">
-      <div className="w-full px-4 py-14 sm:px-6 sm:py-16 lg:px-8">
-        <div className="grid grid-cols-1 gap-12 lg:grid-cols-12 lg:gap-8">
-          {/* Left: Brand + contact */}
+    <footer className="bg-[#121212] text-[#F2F2F2]">
+      <div className="mx-auto w-full max-w-[1707px] px-6 py-16 md:px-10 lg:px-14 lg:py-24">
+        <div className="grid grid-cols-1 gap-14 lg:grid-cols-12 lg:items-start">
+          {/* Left: Brand + Contact */}
           <div className="lg:col-span-5">
             <Link href="/" className="inline-flex items-center">
               <Image
                 src={FooterLogo}
                 alt="Onbajar"
-                width={180} // adjust as needed
-                height={48} // adjust as needed
+                width={230}
+                height={60}
                 priority
               />
             </Link>
-            <p className="mt-4 max-w-md text-sm leading-5 text-zinc-300">
+
+            <p className="mt-5 max-w-[420px] text-[15px] leading-[1.15] text-[#E5E5E5]">
               Onbajar delivers authentic club jerseys, sports kits, and regular
-              essential t-shirts, building Bangladesh's brand across the world.
+              essential t-shirts, building Bangladesh&apos;s brand across the
+              world.
             </p>
 
-            <ul className="mt-7 space-y-3 text-sm text-zinc-300">
+            <ul className="mt-8 space-y-4 text-[15px] leading-[1.1] text-[#F2F2F2]">
               <li className="flex items-start gap-3">
-                <span className="mt-0.5 text-zinc-400">
+                <span className="mt-0.5 shrink-0 text-[#D9D9D9]">
                   <svg
-                    width="18"
-                    height="18"
+                    width="16"
+                    height="16"
                     viewBox="0 0 24 24"
                     fill="none"
                     xmlns="http://www.w3.org/2000/svg"
@@ -48,17 +50,18 @@ export default function Footer() {
                     />
                   </svg>
                 </span>
-                <span>
+
+                <span className="max-w-[420px]">
                   Hazaribagh Bazar (Opposite of Al Arafah Islami Bank),
                   Hazaribagh, Dhaka
                 </span>
               </li>
 
               <li className="flex items-center gap-3">
-                <span className="text-zinc-400">
+                <span className="shrink-0 text-[#D9D9D9]">
                   <svg
-                    width="18"
-                    height="18"
+                    width="16"
+                    height="16"
                     viewBox="0 0 24 24"
                     fill="none"
                     xmlns="http://www.w3.org/2000/svg"
@@ -72,6 +75,7 @@ export default function Footer() {
                     />
                   </svg>
                 </span>
+
                 <a
                   href="tel:+8801982733499"
                   className="transition-colors hover:text-white"
@@ -81,10 +85,10 @@ export default function Footer() {
               </li>
 
               <li className="flex items-center gap-3">
-                <span className="text-zinc-400">
+                <span className="shrink-0 text-[#D9D9D9]">
                   <svg
-                    width="18"
-                    height="18"
+                    width="16"
+                    height="16"
                     viewBox="0 0 24 24"
                     fill="none"
                     xmlns="http://www.w3.org/2000/svg"
@@ -96,6 +100,7 @@ export default function Footer() {
                     />
                   </svg>
                 </span>
+
                 <a
                   href="https://facebook.com/onbajar"
                   target="_blank"
@@ -109,16 +114,14 @@ export default function Footer() {
           </div>
 
           {/* Middle: Customer Service */}
-          <div className="lg:col-span-3 lg:pt-2">
-            <div className="text-sm font-semibold text-white">
+          <div className="lg:col-span-3 lg:pt-10 lg:pl-10">
+            <h3 className="text-[20px] font-normal leading-[153%] tracking-[-0.03em] text-[#F2F2F2]">
               Customer Service
-            </div>
-            <ul className="mt-4 space-y-2 text-sm text-zinc-300">
+            </h3>
+
+            <ul className="mt-2 space-y-1 text-[20px] font-normal leading-[153%] tracking-[-0.03em] text-[#F2F2F2]">
               <li>
-                <Link
-                  href="/faq"
-                  className="transition-colors hover:text-white"
-                >
+                <Link href="/faq" className="transition-colors hover:text-white">
                   FAQs
                 </Link>
               </li>
@@ -141,17 +144,18 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Right: Newsletter */}
-          <div className="lg:col-span-4 lg:pt-2 sm:px-38">
-            <div className="text-sm font-semibold text-white ">
+          {/* Right: Stay Connected */}
+          <div className="lg:col-span-4 lg:pt-4 lg:pl-10">
+            <h3 className="text-[20px] font-semibold leading-[1.2] text-[#F2F2F2]">
               Stay Connected
-            </div>
-            <p className="mt-4 max-w-sm text-sm leading-5 text-zinc-300">
+            </h3>
+
+            <p className="mt-4 max-w-[340px] text-[15px] leading-[1.15] text-[#E5E5E5]">
               Be one of the first to receive new product launches, sale offers,
               collabs &amp; more.
             </p>
 
-            <form className="mt-5">
+            <form className="mt-6">
               <label htmlFor="footer-email" className="sr-only">
                 Your Email
               </label>
@@ -159,7 +163,7 @@ export default function Footer() {
                 id="footer-email"
                 type="email"
                 placeholder="Your Email"
-                className="w-full max-w-xs border border-zinc-500/70 bg-transparent px-4 py-2 text-sm text-white placeholder:text-zinc-400 focus:border-white/80 focus:outline-none"
+                className="h-[38px] w-full max-w-[280px] border border-[#D9D9D9] bg-transparent px-4 text-[15px] text-white placeholder:text-[#D9D9D9] outline-none transition focus:border-white"
               />
             </form>
           </div>

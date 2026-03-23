@@ -1,6 +1,7 @@
 import "./globals.css";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
+import BottomFooter   from "@/components/layout/BottomFooter";
 
 export default function RootLayout({
   children,
@@ -15,6 +16,7 @@ export default function RootLayout({
         {children}
         </main>
         <Footer />
+        <BottomFooter />
       </body>
     </html>
   );
