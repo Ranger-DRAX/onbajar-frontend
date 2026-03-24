@@ -1,6 +1,6 @@
 export default function BottomFooter() {
   return (
-    <div className="flex h-[61px] items-center justify-center bg-[#D9D9D9] px-4 text-center">
+    <div className="flex h-[50px] items-center justify-center bg-[#D9D9D9] px-4 text-center">
       <div className="flex items-center gap-2 text-[14px] font-normal leading-none text-[#121212]">
         <span>Developed in Bangladesh</span>
 

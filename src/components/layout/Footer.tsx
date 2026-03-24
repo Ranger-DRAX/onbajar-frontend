@@ -4,9 +4,9 @@ import FooterLogo from "@/assets/OnbajarLogo-2.svg";
 
 export default function Footer() {
   return (
-    <footer className="bg-[#121212] text-[#F2F2F2]">
-      <div className="mx-auto w-full max-w-[1707px] px-6 py-16 md:px-10 lg:px-14 lg:py-24">
-        <div className="grid grid-cols-1 gap-14 lg:grid-cols-12 lg:items-start">
+    <footer className="bg-gradient-to-r from-black via-zinc-950 to-zinc-900 text-zinc-200">
+      <div className="w-full px-4 py-14 sm:px-6 sm:py-16 lg:px-8">
+        <div className="grid grid-cols-1 gap-26 lg:grid-cols-12 lg:items-start">
           {/* Left: Brand + Contact */}
           <div className="lg:col-span-5">
             <Link href="/" className="inline-flex items-center">
@@ -114,10 +114,7 @@ export default function Footer() {
           </div>
 
           {/* Middle: Customer Service */}
-          <div className="lg:col-span-3 lg:pt-10 lg:pl-10">
-            <h3 className="text-[20px] font-normal leading-[153%] tracking-[-0.03em] text-[#F2F2F2]">
-              Customer Service
-            </h3>
+          <div className="lg:col-span-3 lg:pt-14 lg:pl-10">
 
             <ul className="mt-2 space-y-1 text-[20px] font-normal leading-[153%] tracking-[-0.03em] text-[#F2F2F2]">
               <li>
@@ -145,7 +142,7 @@ export default function Footer() {
           </div>
 
           {/* Right: Stay Connected */}
-          <div className="lg:col-span-4 lg:pt-4 lg:pl-10">
+          <div className="lg:col-span-4 lg:pt-14 lg:pl-10">
             <h3 className="text-[20px] font-semibold leading-[1.2] text-[#F2F2F2]">
               Stay Connected
             </h3>
