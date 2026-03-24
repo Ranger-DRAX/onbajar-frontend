@@ -5,9 +5,16 @@ import {
   normalizeProduct,
 } from "@/lib/api/products";
 import ImageGallery from "@/components/products/ImageGallery";
-import AddToCartButton from "@/components/products/AddToCartButton";
+import AddToCartButton from "@/components/ui/AddToCartButton";
 import ProductCard from "@/components/products/ProductCard";
 import ProductGrid from "@/components/products/ProductGrid";
+
+function getYouTubeEmbedUrl(url: string) {
+  const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
+  const match = url.match(regExp);
+  const id = match && match[2].length === 11 ? match[2] : null;
+  return id ? `https://www.youtube.com/embed/${id}` : url;
+}
 
 type Props = { params: Promise<{ id: string }> };
 
@@ -44,7 +51,7 @@ export default async function ProductDetailsPage({ params }: Props) {
             }}
           >
             <span className="text-2xl font-normal">
-              {discountedPrice.toLocaleString("en-BD")}৳
+              BDT. {discountedPrice.toLocaleString("en-BD")}৳
             </span>
 
             {product.discount && (
@@ -69,7 +76,7 @@ export default async function ProductDetailsPage({ params }: Props) {
             <ul className="mt-6 space-y-2 text-[15px] leading-7 text-black/90">
               {product.bullets.map((b) => (
                 <li key={b} className="flex items-start gap-2">
-                  <span className="mt-[1p x] text-base">→</span>
+                  <span className="mt-[1px] text-base">→</span>
                   <span>{b}</span>
                 </li>
               ))}
@@ -93,8 +100,8 @@ export default async function ProductDetailsPage({ params }: Props) {
               <div className="mt-3 overflow-x-auto rounded-md border border-gray-200 bg-gray-50">
                 <table className="w-full text-center text-xs text-black">
                   <thead>
-                    <tr className="bg-gray-200">
-                      <th className="border-r border-b border-gray-300 px-4 py-3 font-medium text-black">
+                    <tr className="">
+                      <th className="border-r border-b border-gray-300 bg-gray-200 px-4 py-3 font-medium text-black">
                         Size
                       </th>
                       {product.sizeChart.columns.map((col) => (
@@ -111,7 +118,7 @@ export default async function ProductDetailsPage({ params }: Props) {
                   <tbody>
                     {product.sizeChart.rows.map((row) => (
                       <tr key={row.label} className="bg-white">
-                        <td className="border-r border-b border-gray-300 px-4 py-3 font-medium text-black">
+                        <td className="border-r border-b border-gray-300 bg-gray-200 px-4 py-3 font-medium text-black">
                           {row.label}
                         </td>
 
@@ -174,6 +181,28 @@ export default async function ProductDetailsPage({ params }: Props) {
         </aside>
       </section>
 
+      {product.video?.url && (
+        <section className="mt-20 w-full">
+         <div className="relative h-[800px] w-full overflow-hidden rounded-lg bg-gray-100">
+            {product.video.type === "youtube" ? (
+              <iframe
+                src={getYouTubeEmbedUrl(product.video.url)}
+                title={product.title}
+                className="absolute top-0 left-0 h-full w-full border-0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+              />
+            ) : (
+              <video
+                src={product.video.url}
+                className="absolute top-0 left-0 h-full w-full object-contain"
+                controls
+                playsInline
+              />
+            )}
+          </div>
+        </section>
+      )}
       {related.length > 0 && (
         <section className="mt-20 border-t border-black/10 pt-10">
           <h2 className="mb-6 text-lg font-medium tracking-[0.16em] uppercase">
