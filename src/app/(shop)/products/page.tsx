@@ -2,7 +2,6 @@ import ProductCard from "@/components/products/ProductCard";
 import ProductGrid from "@/components/products/ProductGrid";
 import SortSelect from "@/components/products/SortSelect";
 import Pagination from "@/components/products/Pagination";
-import CallToAction from "@/components/layout/CallToAction";
 import { getProducts, normalizeProduct } from "@/lib/api/products";
 import type { Product } from "@/types/product";
 import { Suspense } from "react";
@@ -86,8 +85,6 @@ export default async function ProductsPage({
       <Suspense>
         <Pagination currentPage={page} totalPages={res.meta.totalPages} />
       </Suspense>
-
-      <CallToAction />
     </main>
   );
 }

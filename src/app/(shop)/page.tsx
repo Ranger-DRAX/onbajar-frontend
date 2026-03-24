@@ -5,7 +5,6 @@ import Link from "next/link";
 import Image from "next/image";
 import HeroImage from "@/assets/image/HeroSectionImage.svg";
 import RightArrowIcon from "@/assets/image/RightArrowIcon.svg";
-import CallToAction from "@/components/layout/CallToAction";
 
 export default async function HomePage() {
   const res = await getProducts({ page: 1, limit: 12 });
@@ -97,7 +96,6 @@ export default async function HomePage() {
           </ProductGrid>
         </section>
       )}
-      <CallToAction />
     </main>
   );
 }

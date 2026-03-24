@@ -2,6 +2,7 @@ import "./globals.css";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import BottomFooter   from "@/components/layout/BottomFooter";
+import CallToAction from "@/components/layout/CallToAction";
 
 export default function RootLayout({
   children,
@@ -15,6 +16,7 @@ export default function RootLayout({
         <main className="w-full">
         {children}
         </main>
+        <CallToAction />
         <Footer />
         <BottomFooter />
       </body>

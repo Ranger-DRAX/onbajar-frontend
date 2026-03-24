@@ -5,7 +5,7 @@ import DeliveryIcon from "@/assets/image/deliveryIcon.svg";
 export default function CallToAction() {
   return (
     <section className="relative w-full overflow-hidden bg-[#F1F1F1]">
-      <div className="relative mx-auto h-[498px] max-w-[1905px] bg-[#F1F1F1]">
+      <div className="relative mx-auto h-[398px] max-w-[1905px] bg-[#F1F1F1]">
         <div className="grid h-full grid-cols-2">
           {/* Bulk Order */}
           <div className="flex items-center justify-center bg-[#F1F1F1]">
@@ -61,7 +61,7 @@ export default function CallToAction() {
         </div>
 
         {/* divider */}
-        <div className="pointer-events-none absolute top-[14px] left-1/2 z-10 h-[487px] w-px -translate-x-1/2 bg-[#6E6E6E]" />
+        <div className="pointer-events-none absolute top-[4px] left-1/2 z-10 h-[387px] w-px -translate-x-1/2 bg-[#6E6E6E]" />
       </div>
     </section>
   );
