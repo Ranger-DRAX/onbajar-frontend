@@ -79,7 +79,7 @@ export default function AddToCartButton({ product }: Props) {
         </div>
       )}
 
-      <div className="grid grid-cols-[110px_1fr] gap-3">
+      <div className="grid grid-cols-[110px_151px] gap-3">
         <div className="flex h-11 items-center justify-between border border-black/20 px-3">
           <button
             type="button"

@@ -116,7 +116,7 @@ export default function Footer() {
           {/* Middle: Customer Service */}
           <div className="lg:col-span-3 lg:pt-14 lg:pl-10">
 
-            <ul className="mt-2 space-y-1 text-[20px] font-normal leading-[153%] tracking-[-0.03em] text-[#F2F2F2]">
+            <ul className="mt-8 space-y-1 text-[16px] font-normal leading-[153%] tracking-[-0.03em] text-[#F2F2F2]">
               <li>
                 <Link href="/faq" className="transition-colors hover:text-white">
                   FAQs
@@ -143,7 +143,7 @@ export default function Footer() {
 
           {/* Right: Stay Connected */}
           <div className="lg:col-span-4 lg:pt-14 lg:pl-10">
-            <h3 className="text-[20px] font-semibold leading-[1.2] text-[#F2F2F2]">
+            <h3 className="text-[18px] font-semibold leading-[1.2] text-[#F2F2F2]">
               Stay Connected
             </h3>
 
