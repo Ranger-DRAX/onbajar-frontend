@@ -9,7 +9,7 @@ type Props = { product: Product };
 export default function AddToCartButton({ product }: Props) {
   const sizes = product.hasSize ? product.sizes ?? [] : [];
   const [selectedSize, setSelectedSize] = useState<string | null>(
-    sizes.length > 0 ? sizes[0] : product.hasSize ? null : "one-size",
+    product.hasSize ? null : "one-size",
   );
   const [qty, setQty] = useState(1);
   const addItem = useCartStore((s) => s.addItem);
