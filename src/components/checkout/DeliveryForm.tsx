@@ -14,18 +14,14 @@ export default function DeliveryForm({
   setDelivery,
   showErrors,
 }: DeliveryFormProps) {
-  const noteWordCount =
-    delivery.note?.trim().split(/\s+/).filter(Boolean).length ?? 0;
-  const maxWords = 60;
+  const maxCharacters = 60;
+  const noteCharacterCount = (delivery.note || "").length;
 
   const handleNoteChange = (text: string) => {
-    const words = text.trim().split(/\s+/).filter(Boolean);
-    if (
-      words.length <= maxWords ||
-      text.length < (delivery.note?.length ?? 0)
-    ) {
-      setDelivery((p) => ({ ...p, note: text }));
-    }
+    setDelivery((p) => ({
+      ...p,
+      note: text.slice(0, maxCharacters),
+    }));
   };
 
   return (
@@ -33,6 +29,7 @@ export default function DeliveryForm({
       <h2 className="mb-[16px] text-[40px] leading-[54px] font-bold tracking-[-0.03em] text-black">
         Delivery Information
       </h2>
+
       <div className="space-y-4">
         <div className="relative">
           <input
@@ -73,6 +70,7 @@ export default function DeliveryForm({
               <p className="mt-1 text-xs text-red-500">Required</p>
             )}
           </div>
+
           <div className="relative">
             <input
               required
@@ -134,6 +132,7 @@ export default function DeliveryForm({
                 </option>
               ))}
             </select>
+
             <label
               className={`pointer-events-none absolute top-2.5 left-3 text-base text-neutral-900 transition-all ${
                 delivery.zilla ? "hidden" : ""
@@ -141,9 +140,11 @@ export default function DeliveryForm({
             >
               Zilla
             </label>
+
             <div className="pointer-events-none absolute top-1/2 right-3 -translate-y-1/2">
               <div className="h-0 w-0 border-t-[6px] border-r-[6px] border-l-[6px] border-t-neutral-900 border-r-transparent border-l-transparent" />
             </div>
+
             {showErrors && !delivery.zilla.trim() && (
               <p className="mt-1 text-xs text-red-500">Required</p>
             )}
@@ -169,6 +170,7 @@ export default function DeliveryForm({
                 </option>
               ))}
             </select>
+
             <label
               className={`pointer-events-none absolute top-2.5 left-3 text-base text-neutral-900 transition-all ${
                 delivery.thana ? "hidden" : ""
@@ -176,9 +178,11 @@ export default function DeliveryForm({
             >
               Thana
             </label>
+
             <div className="pointer-events-none absolute top-1/2 right-3 -translate-y-1/2">
               <div className="h-0 w-0 border-t-[6px] border-r-[6px] border-l-[6px] border-t-neutral-900 border-r-transparent border-l-transparent" />
             </div>
+
             {showErrors && !delivery.thana.trim() && (
               <p className="mt-1 text-xs text-red-500">Required</p>
             )}
@@ -189,17 +193,23 @@ export default function DeliveryForm({
           <textarea
             name="note"
             value={delivery.note || ""}
-            onChange={(e) => handleNoteChange(e.target.value.slice(0, 60))}
+            onChange={(e) => handleNoteChange(e.target.value)}
             placeholder=" "
             rows={3}
-            maxLength={60}
+            maxLength={maxCharacters}
             className={`${inputCls} peer min-h-[10px] resize-none pt-3`}
           />
           <label className="pointer-events-none absolute top-2.5 left-3 bg-white px-1 text-base text-neutral-400 transition-all peer-focus:-top-2 peer-focus:text-xs peer-focus:text-neutral-500 peer-[:not(:placeholder-shown)]:-top-2 peer-[:not(:placeholder-shown)]:text-xs peer-[:not(:placeholder-shown)]:text-neutral-500">
             Note (Optional)
           </label>
-          <p className="mt-1 text-xs text-neutral-500">
-            {(delivery.note || "").length} / 60 characters
+          <p
+            className={`mt-1 text-xs ${
+              noteCharacterCount > Math.floor(maxCharacters * 0.9)
+                ? "text-orange-500"
+                : "text-neutral-500"
+            }`}
+          >
+            {noteCharacterCount} / {maxCharacters} characters
           </p>
         </div>
       </div>
