@@ -2,16 +2,9 @@ import { NextResponse } from "next/server";
 
 export const runtime = "nodejs";
 
-const ORDER_API_BASE_URL = process.env.ORDER_API_BASE_URL;
+const ORDER_API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "https://on-bazar-backend.vercel.app";
 
 export async function POST(request: Request) {
-  if (!ORDER_API_BASE_URL) {
-    return NextResponse.json(
-      { success: false, message: "ORDER_API_BASE_URL is missing" },
-      { status: 500 },
-    );
-  }
-
   try {
     const payload = await request.json();
 

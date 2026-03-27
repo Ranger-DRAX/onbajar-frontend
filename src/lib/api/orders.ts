@@ -1,7 +1,6 @@
 import type { CartItem } from "@/types/cart";
 
-// const API_BASE =
-//   process.env.NEXT_PUBLIC_API_BASE_URL ?? "https://on-bazar-backend.vercel.app";
+const API_BASE = "https://on-bazar-backend.vercel.app";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -167,9 +166,11 @@ export function buildOrderPayload(
 
 // ─── placeOrder ───────────────────────────────────────────────────────────────
 
-// In src/lib/api/orders.ts - Change the placeOrder function to:
-export async function placeOrder(payload: OrderPayload): Promise<OrderResponse> {
-  const res = await fetch(`/api/orders`, {  // Call YOUR frontend's API route
+export async function placeOrder(
+  payload: OrderPayload,
+): Promise<OrderResponse> {
+  // 👇 Change this to fetch from your local route instead of API_BASE
+  const res = await fetch(`/api/orders`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(payload),
@@ -180,8 +181,10 @@ export async function placeOrder(payload: OrderPayload): Promise<OrderResponse> 
       success: false,
       message: "Failed to place order",
     }));
-    throw new Error(errBody.message || "Failed to place order");
+    throw new Error(
+      errBody.errors?.join(", ") ?? errBody.message ?? "Failed to place order",
+    );
   }
 
-  return res.json();
+  return res.json() as Promise<OrderResponse>;
 }
