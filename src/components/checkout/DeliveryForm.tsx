@@ -14,12 +14,16 @@ export default function DeliveryForm({
   setDelivery,
   showErrors,
 }: DeliveryFormProps) {
-  const noteWordCount = delivery.note?.trim().split(/\s+/).filter(Boolean).length ?? 0;
+  const noteWordCount =
+    delivery.note?.trim().split(/\s+/).filter(Boolean).length ?? 0;
   const maxWords = 60;
 
   const handleNoteChange = (text: string) => {
     const words = text.trim().split(/\s+/).filter(Boolean);
-    if (words.length <= maxWords || text.length < (delivery.note?.length ?? 0)) {
+    if (
+      words.length <= maxWords ||
+      text.length < (delivery.note?.length ?? 0)
+    ) {
       setDelivery((p) => ({ ...p, note: text }));
     }
   };
@@ -185,18 +189,17 @@ export default function DeliveryForm({
           <textarea
             name="note"
             value={delivery.note || ""}
-            onChange={(e) => handleNoteChange(e.target.value)}
+            onChange={(e) => handleNoteChange(e.target.value.slice(0, 60))}
             placeholder=" "
             rows={3}
+            maxLength={60}
             className={`${inputCls} peer min-h-[10px] resize-none pt-3`}
           />
           <label className="pointer-events-none absolute top-2.5 left-3 bg-white px-1 text-base text-neutral-400 transition-all peer-focus:-top-2 peer-focus:text-xs peer-focus:text-neutral-500 peer-[:not(:placeholder-shown)]:-top-2 peer-[:not(:placeholder-shown)]:text-xs peer-[:not(:placeholder-shown)]:text-neutral-500">
             Note (Optional)
           </label>
-          <p className={`mt-1 text-xs ${
-            noteWordCount > Math.floor(maxWords * 0.9) ? "text-orange-500" : "text-neutral-500"
-          }`}>
-            {noteWordCount} / {maxWords} words
+          <p className="mt-1 text-xs text-neutral-500">
+            {(delivery.note || "").length} / 60 characters
           </p>
         </div>
       </div>
