@@ -22,7 +22,7 @@ function Radio({ active, dark }: { active: boolean; dark?: boolean }) {
     >
       {active && (
         <span
-          className={`absolute left-1/2 top-1/2 h-[6px] w-[6px] -translate-x-1/2 -translate-y-1/2 rounded-full ${
+          className={`absolute top-1/2 left-1/2 h-[6px] w-[6px] -translate-x-1/2 -translate-y-1/2 rounded-full ${
             dark ? "bg-white" : "bg-black"
           }`}
         />
@@ -38,7 +38,7 @@ export default function BillingForm({
 }: BillingFormProps) {
   return (
     <section className="mt-4 mb-14 max-w-[703px]">
-      <h2 className="mb-[16px] text-[40px] font-bold leading-[54px] tracking-[-0.03em] text-black">
+      <h2 className="mb-[16px] text-[40px] leading-[54px] font-bold tracking-[-0.03em] text-black">
         Billing Information
       </h2>
 
@@ -61,7 +61,10 @@ export default function BillingForm({
               : "bg-white text-black"
           }`}
         >
-          <Radio active={!billing.sameAsDelivery} dark={!billing.sameAsDelivery} />
+          <Radio
+            active={!billing.sameAsDelivery}
+            dark={!billing.sameAsDelivery}
+          />
           <span>Use a different billing information</span>
         </button>
       </div>

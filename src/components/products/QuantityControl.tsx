@@ -22,7 +22,9 @@ export default function QuantityControl({
       >
         −
       </button>
-      <span className="w-10 text-center text-sm font-medium select-none">{qty}</span>
+      <span className="w-10 text-center text-sm font-medium select-none">
+        {qty}
+      </span>
       <button
         onClick={() => onChange(Math.min(max, qty + 1))}
         className="flex h-full w-10 items-center justify-center text-lg text-gray-600 transition-colors hover:bg-gray-50 hover:text-black"

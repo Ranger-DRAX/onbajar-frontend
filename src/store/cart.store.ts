@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import type { CartItem, CartStore } from "@/types/cart";
+import type { CartStore } from "@/types/cart";
 
 const key = (id: string, size: string | null) => `${id}__${size ?? "one-size"}`;
 
@@ -8,6 +8,8 @@ export const useCartStore = create<CartStore>()(
   persist(
     (set, get) => ({
       items: [],
+      promoCode: null,
+      discount: 0,
 
       addItem: (item) => {
         set((state) => {
@@ -39,7 +41,41 @@ export const useCartStore = create<CartStore>()(
         }));
       },
 
-      clearCart: () => set({ items: [] }),
+      applyPromoCode: async (code) => {
+        try {
+          const subtotal = get().totalPrice();
+          const productIds = get().items.map((i) => i.id);
+
+          const res = await fetch(
+            `${process.env.NEXT_PUBLIC_API_BASE_URL ?? "https://on-bazar-backend.vercel.app"}/api/promocodes/apply`,
+            {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ code, subtotal, productIds }),
+            },
+          );
+
+          const data = await res.json();
+          if (!res.ok || !data.success) {
+            set({ promoCode: null, discount: 0 });
+            throw new Error(data.message || "Invalid promo code");
+          }
+
+          set({
+            promoCode: data.data.code,
+            discount: data.data.discountAmount,
+          });
+        } catch (error) {
+          set({ promoCode: null, discount: 0 });
+          throw error;
+        }
+      },
+
+      removePromoCode: () => {
+        set({ promoCode: null, discount: 0 });
+      },
+
+      clearCart: () => set({ items: [], promoCode: null, discount: 0 }),
 
       totalItems: () => get().items.reduce((sum, i) => sum + i.qty, 0),
 

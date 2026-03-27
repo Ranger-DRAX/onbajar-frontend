@@ -16,7 +16,9 @@ export default function DeliveryForm({
 }: DeliveryFormProps) {
   return (
     <section className="mt-4">
-      <h2 className="mb-[16px] text-[40px] font-bold leading-[54px] tracking-[-0.03em] text-black">Delivery Information</h2>
+      <h2 className="mb-[16px] text-[40px] leading-[54px] font-bold tracking-[-0.03em] text-black">
+        Delivery Information
+      </h2>
       <div className="space-y-4">
         <div className="relative">
           <input
@@ -27,9 +29,9 @@ export default function DeliveryForm({
               setDelivery((p) => ({ ...p, fullName: e.target.value }))
             }
             placeholder=" "
-            className={`${inputCls} peer pt-5 pb-1 h-14`}
+            className={`${inputCls} peer h-14 pt-5 pb-1`}
           />
-          <label className="absolute left-3 top-4 text-base text-neutral-400 transition-all peer-focus:top-1 peer-focus:text-xs peer-focus:text-neutral-500 peer-[:not(:placeholder-shown)]:top-1 peer-[:not(:placeholder-shown)]:text-xs peer-[:not(:placeholder-shown)]:text-neutral-500 pointer-events-none">
+          <label className="pointer-events-none absolute top-4 left-3 text-base text-neutral-400 transition-all peer-focus:top-1 peer-focus:text-xs peer-focus:text-neutral-500 peer-[:not(:placeholder-shown)]:top-1 peer-[:not(:placeholder-shown)]:text-xs peer-[:not(:placeholder-shown)]:text-neutral-500">
             Full Name
           </label>
           {showErrors && !delivery.fullName.trim() && (
@@ -48,9 +50,9 @@ export default function DeliveryForm({
                 setDelivery((p) => ({ ...p, email: e.target.value }))
               }
               placeholder=" "
-              className={`${inputCls} peer pt-5 pb-1 h-14`}
+              className={`${inputCls} peer h-14 pt-5 pb-1`}
             />
-            <label className="absolute left-3 top-4 text-base text-neutral-400 transition-all peer-focus:top-1 peer-focus:text-xs peer-focus:text-neutral-500 peer-[:not(:placeholder-shown)]:top-1 peer-[:not(:placeholder-shown)]:text-xs peer-[:not(:placeholder-shown)]:text-neutral-500 pointer-events-none">
+            <label className="pointer-events-none absolute top-4 left-3 text-base text-neutral-400 transition-all peer-focus:top-1 peer-focus:text-xs peer-focus:text-neutral-500 peer-[:not(:placeholder-shown)]:top-1 peer-[:not(:placeholder-shown)]:text-xs peer-[:not(:placeholder-shown)]:text-neutral-500">
               Email
             </label>
             {showErrors && !delivery.email.trim() && (
@@ -66,9 +68,9 @@ export default function DeliveryForm({
                 setDelivery((p) => ({ ...p, phone: e.target.value }))
               }
               placeholder=" "
-              className={`${inputCls} peer pt-5 pb-1 h-14`}
+              className={`${inputCls} peer h-14 pt-5 pb-1`}
             />
-            <label className="absolute left-3 top-4 text-base text-neutral-400 transition-all peer-focus:top-1 peer-focus:text-xs peer-focus:text-neutral-500 peer-[:not(:placeholder-shown)]:top-1 peer-[:not(:placeholder-shown)]:text-xs peer-[:not(:placeholder-shown)]:text-neutral-500 pointer-events-none">
+            <label className="pointer-events-none absolute top-4 left-3 text-base text-neutral-400 transition-all peer-focus:top-1 peer-focus:text-xs peer-focus:text-neutral-500 peer-[:not(:placeholder-shown)]:top-1 peer-[:not(:placeholder-shown)]:text-xs peer-[:not(:placeholder-shown)]:text-neutral-500">
               Phone No
             </label>
             {showErrors && !delivery.phone.trim() && (
@@ -86,9 +88,9 @@ export default function DeliveryForm({
               setDelivery((p) => ({ ...p, address: e.target.value }))
             }
             placeholder=" "
-            className={`${inputCls} peer pt-5 pb-1 h-14`}
+            className={`${inputCls} peer h-14 pt-5 pb-1`}
           />
-          <label className="absolute left-3 top-4 text-base text-neutral-400 transition-all peer-focus:top-1 peer-focus:text-xs peer-focus:text-neutral-500 peer-[:not(:placeholder-shown)]:top-1 peer-[:not(:placeholder-shown)]:text-xs peer-[:not(:placeholder-shown)]:text-neutral-500 pointer-events-none">
+          <label className="pointer-events-none absolute top-4 left-3 text-base text-neutral-400 transition-all peer-focus:top-1 peer-focus:text-xs peer-focus:text-neutral-500 peer-[:not(:placeholder-shown)]:top-1 peer-[:not(:placeholder-shown)]:text-xs peer-[:not(:placeholder-shown)]:text-neutral-500">
             Full Address
           </label>
           {showErrors && !delivery.address.trim() && (
@@ -119,14 +121,14 @@ export default function DeliveryForm({
               ))}
             </select>
             <label
-              className={`absolute left-3 top-2.5 text-base text-neutral-900 pointer-events-none transition-all ${
+              className={`pointer-events-none absolute top-2.5 left-3 text-base text-neutral-900 transition-all ${
                 delivery.zilla ? "hidden" : ""
               }`}
             >
               Zilla
             </label>
-            <div className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2">
-              <div className="h-0 w-0 border-l-[6px] border-r-[6px] border-t-[6px] border-l-transparent border-r-transparent border-t-neutral-900" />
+            <div className="pointer-events-none absolute top-1/2 right-3 -translate-y-1/2">
+              <div className="h-0 w-0 border-t-[6px] border-r-[6px] border-l-[6px] border-t-neutral-900 border-r-transparent border-l-transparent" />
             </div>
             {showErrors && !delivery.zilla.trim() && (
               <p className="mt-1 text-xs text-red-500">Required</p>
@@ -154,14 +156,14 @@ export default function DeliveryForm({
               ))}
             </select>
             <label
-              className={`absolute left-3 top-2.5 text-base text-neutral-900 pointer-events-none transition-all ${
+              className={`pointer-events-none absolute top-2.5 left-3 text-base text-neutral-900 transition-all ${
                 delivery.thana ? "hidden" : ""
               }`}
             >
               Thana
             </label>
-            <div className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2">
-              <div className="h-0 w-0 border-l-[6px] border-r-[6px] border-t-[6px] border-l-transparent border-r-transparent border-t-neutral-900" />
+            <div className="pointer-events-none absolute top-1/2 right-3 -translate-y-1/2">
+              <div className="h-0 w-0 border-t-[6px] border-r-[6px] border-l-[6px] border-t-neutral-900 border-r-transparent border-l-transparent" />
             </div>
             {showErrors && !delivery.thana.trim() && (
               <p className="mt-1 text-xs text-red-500">Required</p>
@@ -178,9 +180,9 @@ export default function DeliveryForm({
             }
             placeholder=" "
             rows={1}
-            className={`${inputCls} peer pt-3 min-h-[40px] resize-none`}
+            className={`${inputCls} peer min-h-[40px] resize-none pt-3`}
           />
-          <label className="absolute left-3 top-2.5 text-base text-neutral-400 transition-all peer-focus:-top-2 peer-focus:text-xs peer-focus:text-neutral-500 peer-[:not(:placeholder-shown)]:-top-2 peer-[:not(:placeholder-shown)]:text-xs peer-[:not(:placeholder-shown)]:text-neutral-500 pointer-events-none bg-white px-1">
+          <label className="pointer-events-none absolute top-2.5 left-3 bg-white px-1 text-base text-neutral-400 transition-all peer-focus:-top-2 peer-focus:text-xs peer-focus:text-neutral-500 peer-[:not(:placeholder-shown)]:-top-2 peer-[:not(:placeholder-shown)]:text-xs peer-[:not(:placeholder-shown)]:text-neutral-500">
             Note
           </label>
         </div>

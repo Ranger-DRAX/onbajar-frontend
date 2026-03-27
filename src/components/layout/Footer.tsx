@@ -115,10 +115,12 @@ export default function Footer() {
 
           {/* Middle: Customer Service */}
           <div className="lg:col-span-3 lg:pt-14 lg:pl-10">
-
-            <ul className="mt-8 space-y-1 text-[16px] font-normal leading-[153%] tracking-[-0.03em] text-[#F2F2F2]">
+            <ul className="mt-8 space-y-1 text-[16px] leading-[153%] font-normal tracking-[-0.03em] text-[#F2F2F2]">
               <li>
-                <Link href="/faq" className="transition-colors hover:text-white">
+                <Link
+                  href="/faq"
+                  className="transition-colors hover:text-white"
+                >
                   FAQs
                 </Link>
               </li>
@@ -143,7 +145,7 @@ export default function Footer() {
 
           {/* Right: Stay Connected */}
           <div className="lg:col-span-4 lg:pt-14 lg:pl-10">
-            <h3 className="text-[18px] font-semibold leading-[1.2] text-[#F2F2F2]">
+            <h3 className="text-[18px] leading-[1.2] font-semibold text-[#F2F2F2]">
               Stay Connected
             </h3>
 
@@ -160,7 +162,7 @@ export default function Footer() {
                 id="footer-email"
                 type="email"
                 placeholder="Your Email"
-                className="h-[38px] w-full max-w-[280px] border border-[#D9D9D9] bg-transparent px-4 text-[15px] text-white placeholder:text-[#D9D9D9] outline-none transition focus:border-white"
+                className="h-[38px] w-full max-w-[280px] border border-[#D9D9D9] bg-transparent px-4 text-[15px] text-white transition outline-none placeholder:text-[#D9D9D9] focus:border-white"
               />
             </form>
           </div>

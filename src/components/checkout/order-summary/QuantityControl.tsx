@@ -31,7 +31,7 @@ export default function QuantityControl({
         −
       </button>
 
-      <span className="flex-1 select-none text-center text-[15px] leading-[20px] text-black">
+      <span className="flex-1 text-center text-[15px] leading-[20px] text-black select-none">
         {value}
       </span>
 

@@ -7,7 +7,7 @@ import type { Product } from "@/types/product";
 type Props = { product: Product };
 
 export default function AddToCartButton({ product }: Props) {
-  const sizes = product.hasSize ? product.sizes ?? [] : [];
+  const sizes = product.hasSize ? (product.sizes ?? []) : [];
   const [selectedSize, setSelectedSize] = useState<string | null>(
     product.hasSize ? null : "one-size",
   );

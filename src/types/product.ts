@@ -45,8 +45,8 @@ export type ProductApi = {
   sizes: string[];
   sizeChart: SizeChart;
   allowedAddons: unknown;
-  isBestProduct?: boolean; 
-  purchaseCount?: number; 
+  isBestProduct?: boolean;
+  purchaseCount?: number;
   isActive: boolean;
   stockSummary?: StockSummary;
   createdAt: string;

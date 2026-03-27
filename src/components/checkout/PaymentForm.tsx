@@ -52,7 +52,7 @@ export default function PaymentForm({
 }: PaymentFormProps) {
   return (
     <section className="mb-14 max-w-[470px]">
-      <h2 className="mb-[28px] text-[40px] font-bold leading-[54px] tracking-[-0.03em] text-black">
+      <h2 className="mb-[28px] text-[40px] leading-[54px] font-bold tracking-[-0.03em] text-black">
         Payment Options
       </h2>
 

@@ -11,7 +11,10 @@ interface CartSummaryRowProps {
 }
 
 function formatPrice(amount: number, currency = "BDT") {
-  const formatted = Number.isInteger(amount) ? amount.toString() : amount.toFixed(2);
+  const formatted = Number.isInteger(amount)
+    ? amount.toString()
+    : amount.toFixed(2);
+
   return `${currency} ${formatted}৳`;
 }
 
@@ -35,11 +38,11 @@ export default function CartSummaryRow({
       </div>
 
       <div className="min-w-0">
-        <p className="text-[15px] font-normal uppercase leading-[20px] text-black">
+        <p className="text-[15px] leading-[20px] font-normal text-black uppercase">
           {item.title}
         </p>
 
-        <p className="mt-[10px] text-[15px] font-normal leading-[20px] text-[#505050]">
+        <p className="mt-[10px] text-[15px] leading-[20px] font-normal text-[#505050]">
           SIZE: {item.size}
         </p>
 
@@ -52,15 +55,16 @@ export default function CartSummaryRow({
         </button>
       </div>
 
-      <QuantityControl
-        value={item.qty}
-        min={1}
-        onDecrease={onDecrease}
-        onIncrease={onIncrease}
-        className="sm:justify-self-center"
-      />
+      <div className="sm:justify-self-center">
+        <QuantityControl
+          value={item.qty}
+          min={1}
+          onDecrease={onDecrease}
+          onIncrease={onIncrease}
+        />
+      </div>
 
-      <p className="w-[120px] text-left text-[15px] font-normal leading-[20px] text-black sm:text-right">
+      <p className="w-[120px] text-left text-[15px] leading-[20px] font-normal text-black sm:text-right">
         {formatPrice(item.price, currency)}
       </p>
     </div>

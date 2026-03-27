@@ -41,9 +41,9 @@ export default function ProductCard({
           className="object-contain p-4 transition-transform duration-300 group-hover:scale-[1.03]"
         />
 
-        <div className="absolute left-3 top-3 flex flex-col gap-1">
+        <div className="absolute top-3 left-3 flex flex-col gap-1">
           {isBestProduct && (
-            <span className="bg-black px-2 py-1 text-[10px] font-medium uppercase tracking-wide text-white">
+            <span className="bg-black px-2 py-1 text-[10px] font-medium tracking-wide text-white uppercase">
               Best Seller
             </span>
           )}

@@ -15,6 +15,10 @@ interface OrderSummaryProps {
   setUpsells: Dispatch<SetStateAction<UpsellsState>>;
   deliveryFee: number;
   total: number;
+  promoCode: string | null;
+  discount: number;
+  onApplyPromo: (code: string) => Promise<void>;
+  onRemovePromo: () => void;
 }
 
 export default function OrderSummary({
@@ -25,6 +29,10 @@ export default function OrderSummary({
   setUpsells,
   deliveryFee,
   total,
+  promoCode,
+  discount,
+  onApplyPromo,
+  onRemovePromo,
 }: OrderSummaryProps) {
   const currency = items[0]?.currency ?? "BDT";
 
@@ -60,7 +68,7 @@ export default function OrderSummary({
       </div>
 
       <div className="mt-[54px]">
-        <h3 className="mb-[21px] text-[15px] font-medium uppercase leading-[20px] tracking-[-0.03em] text-black">
+        <h3 className="mb-[21px] text-[15px] leading-[20px] font-medium tracking-[-0.03em] text-black uppercase">
           MAKE THE GIFT MORE SPECIAL
         </h3>
 
@@ -80,10 +88,17 @@ export default function OrderSummary({
         </div>
       </div>
 
-      <OrderSummaryTotals deliveryFee={deliveryFee} total={total} />
+      <OrderSummaryTotals
+        deliveryFee={deliveryFee}
+        total={total}
+        promoCode={promoCode}
+        discount={discount}
+        onApplyPromo={onApplyPromo}
+        onRemovePromo={onRemovePromo}
+      />
 
       <div className="mt-[36px] text-center">
-        <p className="text-[32px] font-medium leading-[43px] text-black">
+        <p className="text-[32px] leading-[43px] font-medium text-black">
           Thank you for choosing us!
         </p>
       </div>

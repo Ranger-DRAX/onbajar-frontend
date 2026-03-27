@@ -22,19 +22,24 @@ import Footer from "@/components/layout/Footer";
 
 export default function CheckoutClient() {
   const router = useRouter();
-  const { items, updateQty, removeItem, totalPrice, clearCart } =
-    useCartStore();
+  const {
+    items,
+    updateQty,
+    removeItem,
+    totalPrice,
+    clearCart,
+    promoCode,
+    discount,
+    applyPromoCode,
+    removePromoCode,
+  } = useCartStore();
 
-  const currency = items[0]?.currency ?? "BDT";
-
-  // ── Upsell state ────────────────────────────────────────────────────────────
   const [upsells, setUpsells] = useState({
     giftCard: 0,
     eidCard: 0,
     giftBox: 0,
   });
 
-  // ── Delivery state ──────────────────────────────────────────────────────────
   const [delivery, setDelivery] = useState<DeliveryInfo>({
     fullName: "",
     email: "",
@@ -45,7 +50,6 @@ export default function CheckoutClient() {
     note: "",
   });
 
-  // ── Billing state ───────────────────────────────────────────────────────────
   const [billing, setBilling] = useState<BillingInfo>({
     sameAsDelivery: true,
     fullName: "",
@@ -53,19 +57,16 @@ export default function CheckoutClient() {
     phone: "",
   });
 
-  // ── Payment state ───────────────────────────────────────────────────────────
   const [paymentMethod, setPaymentMethod] = useState<"COD" | "Bkash">("COD");
   const [bkash, setBkash] = useState({
     customerPhone: "",
     transactionId: "",
   });
 
-  // ── Submission state ────────────────────────────────────────────────────────
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [showErrors, setShowErrors] = useState(false);
 
-  // ── Empty cart guard ────────────────────────────────────────────────────────
   if (items.length === 0) {
     return (
       <main className="w-full px-6 py-20 text-center font-sans">
@@ -81,15 +82,14 @@ export default function CheckoutClient() {
   }
 
   const subtotal = totalPrice();
-  const deliveryFee = 60; // backend-calculated; 60 BDT is the standard rate
+  const deliveryFee = 60;
   const upsellTotal =
     upsells.giftCard * UPSELL_PRICES.giftCard +
     upsells.eidCard * UPSELL_PRICES.eidCard +
     upsells.giftBox * UPSELL_PRICES.giftBox;
 
-  const total = subtotal + deliveryFee + upsellTotal;
+  const total = Math.max(0, subtotal + deliveryFee + upsellTotal - discount);
 
-  // ── Validation ──────────────────────────────────────────────────────────────
   const deliveryValid =
     delivery.fullName.trim() !== "" &&
     delivery.email.trim() !== "" &&
@@ -110,7 +110,6 @@ export default function CheckoutClient() {
 
   const canSubmit = deliveryValid && billingValid && paymentValid;
 
-  // ── Submit ──────────────────────────────────────────────────────────────────
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!canSubmit) {
@@ -137,6 +136,7 @@ export default function CheckoutClient() {
       delivery,
       resolvedBilling,
       resolvedPayment,
+      { promoCode: promoCode || undefined },
     );
 
     setIsSubmitting(true);
@@ -145,7 +145,6 @@ export default function CheckoutClient() {
     try {
       const response = await placeOrder(payload);
       clearCart();
-      // FIX: Access property correctly via payload check or response structure
       router.push(`/order-success/${response.data.orderNumber}`);
     } catch (err) {
       setError(
@@ -158,7 +157,6 @@ export default function CheckoutClient() {
     }
   };
 
-  // ── Render ──────────────────────────────────────────────────────────────────
   return (
     <div className="min-h-screen bg-white font-sans text-neutral-900">
       <CheckoutHeader />
@@ -186,7 +184,7 @@ export default function CheckoutClient() {
               showErrors={showErrors}
             />
 
-            <div className="-mt-8">
+            <div className="-mt-2">
               <PrimaryButton
                 type="submit"
                 loading={isSubmitting}
@@ -197,6 +195,7 @@ export default function CheckoutClient() {
                 Confirm Order
               </PrimaryButton>
             </div>
+
             {error && <p className="mt-4 text-red-600">{error}</p>}
           </div>
 
@@ -208,6 +207,10 @@ export default function CheckoutClient() {
             setUpsells={setUpsells}
             deliveryFee={deliveryFee}
             total={total}
+            promoCode={promoCode}
+            discount={discount}
+            onApplyPromo={applyPromoCode}
+            onRemovePromo={removePromoCode}
           />
         </div>
       </form>

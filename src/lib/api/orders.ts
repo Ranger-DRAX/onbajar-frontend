@@ -52,19 +52,34 @@ export type OrderResponse = {
   success: true;
   data: {
     _id: string;
-    orderNumber: string; // e.g. "ORD-20260304-0009"
+    orderNumber: string;
     status: string;
-    createdAt: string;
     pricing: {
       itemsSubtotal: number;
+      addonsSubtotal: number;
+      subtotalBeforePromo: number;
+      promoDiscount: number;
       subtotal: number;
-      deliveryCharge: number; // backend-calculated, do NOT hardcode on FE
+      deliveryCharge: number;
       grandTotal: number;
       currency: string;
     };
+    delivery: DeliveryInfo;
+    billing: BillingInfo;
     payment: {
-      method: "COD" | "Bkash";
+      method: string;
+      cod?: { confirmed: boolean };
+      bkash?: { customerPhone: string | null; transactionId: string | null };
+      paidAt?: string | null;
     };
+    promo?: {
+      promoId: string;
+      code: string;
+      discountType: string;
+      discountValue: number;
+      discountAmount: number;
+    } | null;
+    createdAt: string;
   };
 };
 
@@ -129,17 +144,14 @@ export function buildOrderPayload(
       product: item.id,
       quantity: item.qty,
     };
-    // Include size only when hasSize=true — proxied by size not being null or "one-size"
     if (item.size !== null && item.size !== "one-size") {
       orderItem.size = item.size;
     }
     return orderItem;
   });
 
-  // Strip empty strings only from OPTIONAL delivery fields (required fields kept as-is)
   const cleanedDelivery = cleanDelivery(delivery);
 
-  // Strip empty strings from optional billing fields when not sameAsDelivery
   const cleanBilling: BillingInfo = billing.sameAsDelivery
     ? { sameAsDelivery: true }
     : (stripEmpty(billing) as BillingInfo);

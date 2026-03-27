@@ -15,7 +15,7 @@ export default function ProductSizeChart({ sizeChart }: Props) {
         <table className="w-full text-center text-xs text-black">
           <thead>
             <tr className="">
-              <th className="border-r border-b border-gray-300  bg-gray-100 px-4 py-3 font-medium text-black">
+              <th className="border-r border-b border-gray-300 bg-gray-100 px-4 py-3 font-medium text-black">
                 Size
               </th>
               {sizeChart.columns.map((col) => (
@@ -39,7 +39,7 @@ export default function ProductSizeChart({ sizeChart }: Props) {
                 {row.values.map((v, i) => (
                   <td
                     key={`${row.label}-${i}`}
-                    className="border-r border-b border-gray-300 px-4 py-3 last:border-r-0 text-black "
+                    className="border-r border-b border-gray-300 px-4 py-3 text-black last:border-r-0"
                   >
                     {v}
                   </td>
