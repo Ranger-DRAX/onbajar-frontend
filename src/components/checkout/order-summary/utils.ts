@@ -1,3 +1,3 @@
 export function formatPrice(amount: number, currency = "BDT") {
-  return `${currency} ${amount}৳`;
+  return `${currency} ${amount.toFixed(2)}৳`;
 }
