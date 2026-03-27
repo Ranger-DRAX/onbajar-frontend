@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useCartStore } from "@/store/cart.store";
 import {
   buildOrderPayload,
@@ -21,6 +21,7 @@ import PrimaryButton from "@/components/ui/PrimaryButton";
 import Footer from "@/components/layout/Footer";
 
 export default function CheckoutClient() {
+  const [mounted, setMounted] = useState(false);
   const router = useRouter();
   const {
     items,
@@ -66,6 +67,14 @@ export default function CheckoutClient() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [showErrors, setShowErrors] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) {
+    return null;
+  }
 
   if (items.length === 0) {
     return (
