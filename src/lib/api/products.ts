@@ -55,12 +55,7 @@ export async function getProducts(params?: { page?: number; limit?: number }) {
 
   const url = `${BASE}/api/products?page=${page}&limit=${limit}`;
 
-  let res: Response;
-  try {
-    res = await fetch(url, { cache: "no-store" });
-  } catch (error) {
-    throw new Error(`Failed to fetch products from ${url}: ${error instanceof Error ? error.message : "Unknown error"}`);
-  }
+  const res = await fetch(url, { next: { revalidate: 60 } });
 
   if (!res.ok) throw new Error(`Failed to fetch products: ${res.status}`);
 
@@ -76,7 +71,7 @@ export async function getProductById(id: string) {
   // 1) Try direct endpoint
   try {
     const direct = await fetch(`${BASE}/api/products/${id}`, {
-      cache: "no-store",
+      next: { revalidate: 60 },
     });
 
     if (direct.ok) {
