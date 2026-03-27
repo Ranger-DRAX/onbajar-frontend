@@ -1,10 +1,6 @@
 import type { Product, ProductsResponse } from "@/types/product";
 
-const BASE = process.env.NEXT_PUBLIC_API_BASE_URL;
-
-if (!BASE) {
-  throw new Error("NEXT_PUBLIC_API_BASE_URL is missing in .env.local");
-}
+const BASE = process.env.NEXT_PUBLIC_API_BASE_URL || "https://on-bazar-backend.vercel.app";
 
 export function normalizeProduct(p: any): Product {
   const price = p?.pricing?.sellingPrice ?? p?.price ?? 0;
@@ -59,7 +55,13 @@ export async function getProducts(params?: { page?: number; limit?: number }) {
 
   const url = `${BASE}/api/products?page=${page}&limit=${limit}`;
 
-  const res = await fetch(url, { cache: "no-store" });
+  let res: Response;
+  try {
+    res = await fetch(url, { cache: "no-store" });
+  } catch (error) {
+    throw new Error(`Failed to fetch products from ${url}: ${error instanceof Error ? error.message : "Unknown error"}`);
+  }
+
   if (!res.ok) throw new Error(`Failed to fetch products: ${res.status}`);
 
   return (await res.json()) as ProductsResponse;
