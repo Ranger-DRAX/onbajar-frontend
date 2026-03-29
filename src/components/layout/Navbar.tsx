@@ -4,12 +4,14 @@ import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import CartCount from "./CartCount";
+import CartSidebar from "./CartSidebar";
 import NavBarLogo from "@/assets/OnbajarLogo.svg";
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [shopDropdownOpen, setShopDropdownOpen] = useState(false);
   const [newDropDropdownOpen, setNewDropDropdownOpen] = useState(false);
+  const [isCartOpen, setIsCartOpen] = useState(false);
 
   return (
     <header className="sticky top-0 z-50 bg-white">
@@ -166,10 +168,11 @@ export default function Header() {
               <div className="h-5 w-px bg-gray-300"></div>
 
               {/* Cart Icon */}
-              <Link
-                href="/checkout"
-                aria-label="Shopping cart"
+              <button
+                type="button"
+                aria-label="Open shopping cart"
                 className="relative text-gray-900 transition-colors hover:text-gray-700"
+                onClick={() => setIsCartOpen(true)}
               >
                 <svg
                   className="h-6 w-6"
@@ -185,7 +188,7 @@ export default function Header() {
                   />
                 </svg>
                 <CartCount />
-              </Link>
+              </button>
 
               {/* Mobile menu button */}
               <button
@@ -256,6 +259,8 @@ export default function Header() {
           )}
         </div>
       </nav>
+
+      <CartSidebar open={isCartOpen} onClose={() => setIsCartOpen(false)} />
     </header>
   );
 }

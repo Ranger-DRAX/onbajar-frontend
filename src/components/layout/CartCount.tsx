@@ -1,17 +1,17 @@
 "use client";
 
 import { useCartStore } from "@/store/cart.store";
-import { useEffect, useState } from "react";
+import { useSyncExternalStore } from "react";
 
 export default function CartCount() {
-  const [mounted, setMounted] = useState(false);
   const total = useCartStore((s) => s.totalItems());
+  const hydrated = useSyncExternalStore(
+    useCartStore.persist.onFinishHydration,
+    () => useCartStore.persist.hasHydrated(),
+    () => false,
+  );
 
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  if (!mounted) return null;
+  if (!hydrated) return null;
 
   if (total === 0) return null;
   return (

@@ -1,6 +1,7 @@
 import type { Product, ProductsResponse } from "@/types/product";
 
-const BASE = process.env.NEXT_PUBLIC_API_BASE_URL || "https://on-bazar-backend.vercel.app";
+const BASE =
+  process.env.NEXT_PUBLIC_API_BASE_URL || "https://on-bazar-backend.vercel.app";
 
 export function normalizeProduct(p: any): Product {
   const price = p?.pricing?.sellingPrice ?? p?.price ?? 0;
