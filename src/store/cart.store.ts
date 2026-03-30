@@ -82,6 +82,11 @@ export const useCartStore = create<CartStore>()(
       totalPrice: () =>
         get().items.reduce((sum, i) => sum + i.price * i.qty, 0),
     }),
-    { name: "onbajar-cart" },
+    {
+      name: "onbajar-cart",
+      onRehydrateStorage: () => (state, action) => {
+        // onRehydrateStorage is called before hydration completes
+      },
+    },
   ),
 );
