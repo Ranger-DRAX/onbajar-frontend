@@ -3,11 +3,23 @@ import ProductGrid from "@/components/products/ProductGrid";
 import SortSelect from "@/components/products/SortSelect";
 import Pagination from "@/components/products/Pagination";
 import { getProducts, normalizeProduct } from "@/lib/api/products";
-import type { Product } from "@/types/product";
+import { getKeyrings, normalizeKeyring } from "@/lib/api/keyrings";
 import { Suspense } from "react";
 
-function sortProducts(products: Product[], sort: string): Product[] {
-  const sorted = [...products];
+type UnifiedItem = {
+  id: string;
+  title: string;
+  price: number;
+  currency: string;
+  images: string[];
+  isBestProduct: boolean;
+  discount: any;
+  purchaseCount: number;
+  href: string;
+};
+
+function sortItems(items: UnifiedItem[], sort: string): UnifiedItem[] {
+  const sorted = [...items];
   switch (sort) {
     case "price-asc":
       return sorted.sort((a, b) => a.price - b.price);
@@ -29,19 +41,55 @@ export default async function ProductsPage({
   const { sort = "newest", page: pageParam = "1" } = await searchParams;
   const page = Math.max(1, parseInt(pageParam, 10) || 1);
 
-  const res = await getProducts({ page, limit: 12 });
+  // Fetch both in parallel
+  const [productsRes, keyringsRes] = await Promise.all([
+    getProducts({ page, limit: 12 }),
+    getKeyrings({ page: 1, limit: 50 }),
+  ]);
 
-  const products = sortProducts(
-    res.data.filter((p) => p.isActive).map(normalizeProduct),
-    sort,
-  );
+  const products: UnifiedItem[] = productsRes.data
+    .filter((p) => p.isActive)
+    .map((p) => {
+      const n = normalizeProduct(p);
+      return {
+        id: n.id,
+        title: n.title,
+        price: n.price,
+        currency: n.currency,
+        images: n.images,
+        isBestProduct: n.isBestProduct,
+        discount: n.discount,
+        purchaseCount: n.purchaseCount,
+        href: `/products/${n.id}`,
+      };
+    });
+
+  const keyrings: UnifiedItem[] = keyringsRes.data
+    .filter((k) => k.isActive)
+    .map((k) => {
+      const n = normalizeKeyring(k);
+      return {
+        id: n.id,
+        title: n.title,
+        price: n.price,
+        currency: n.currency,
+        images: n.images,
+        isBestProduct: n.isBestProduct,
+        discount: n.discount,
+        purchaseCount: n.purchaseCount,
+        href: `/keyrings/${n.id}`,
+      };
+    });
+
+  const allItems = sortItems([...products, ...keyrings], sort);
+  const totalCount = productsRes.meta.total + keyringsRes.meta.total;
 
   return (
     <main className="w-full px-6">
       {/* Top bar */}
       <div className="mb-6 flex items-center justify-between px-6 py-8">
         <p className="text-xs tracking-widest text-gray-500 uppercase">
-          {res.meta.total} Products
+          {totalCount} Products
         </p>
         <div className="flex items-center gap-0.5 uppercase">
           <button className="flex h-8 items-center gap-1 px-1 text-xs tracking-wide uppercase transition-colors hover:border-black">
@@ -68,22 +116,25 @@ export default async function ProductsPage({
       </div>
 
       <ProductGrid>
-        {products.map((p) => (
+        {allItems.map((item) => (
           <ProductCard
-            key={p.id}
-            href={`/products/${p.id}`}
-            title={p.title}
-            price={p.price}
-            currency={p.currency}
-            imageUrl={p.images?.[0] ?? "https://placehold.co/479x599"}
-            isBestProduct={p.isBestProduct}
-            discount={p.discount}
+            key={item.id}
+            href={item.href}
+            title={item.title}
+            price={item.price}
+            currency={item.currency}
+            imageUrl={item.images?.[0] ?? "https://placehold.co/479x599"}
+            isBestProduct={item.isBestProduct}
+            discount={item.discount}
           />
         ))}
       </ProductGrid>
 
       <Suspense>
-        <Pagination currentPage={page} totalPages={res.meta.totalPages} />
+        <Pagination
+          currentPage={page}
+          totalPages={productsRes.meta.totalPages}
+        />
       </Suspense>
     </main>
   );

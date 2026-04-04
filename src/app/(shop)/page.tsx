@@ -1,18 +1,31 @@
 import ProductCard from "@/components/products/ProductCard";
 import ProductGrid from "@/components/products/ProductGrid";
 import { getProducts, normalizeProduct } from "@/lib/api/products";
+import { getKeyrings, normalizeKeyring } from "@/lib/api/keyrings";
 import Link from "next/link";
 import Image from "next/image";
 import HeroImage from "@/assets/image/HeroSectionImage.svg";
 import RightArrowIcon from "@/assets/image/RightArrowIcon.svg";
 
 export default async function HomePage() {
-  const res = await getProducts({ page: 1, limit: 12 });
+  const [productsRes, keyringsRes] = await Promise.all([
+    getProducts({ page: 1, limit: 12 }),
+    getKeyrings({ page: 1, limit: 12 }),
+  ]);
 
-  const allProducts = res.data.filter((p) => p.isActive).map(normalizeProduct);
+  const allProducts = productsRes.data
+    .filter((p) => p.isActive)
+    .map((p) => ({ ...normalizeProduct(p), href: `/products/${p._id}` }));
 
-  const bestSellers = allProducts.filter((p) => p.isBestProduct).slice(0, 4);
-  const newArrivals = allProducts.slice(0, 8);
+  const allKeyrings = keyringsRes.data
+    .filter((k) => k.isActive)
+    .map((k) => ({ ...normalizeKeyring(k), href: `/keyrings/${k._id}` }));
+
+  // Merge for display
+  const allItems = [...allProducts, ...allKeyrings];
+
+  const bestSellers = allItems.filter((p) => p.isBestProduct).slice(0, 4);
+  const newArrivals = allItems.slice(0, 8);
 
   return (
     <main>
@@ -49,7 +62,7 @@ export default async function HomePage() {
           {newArrivals.map((p) => (
             <ProductCard
               key={p.id}
-              href={`/products/${p.id}`}
+              href={p.href}
               title={p.title}
               price={p.price}
               currency={p.currency}
@@ -84,7 +97,7 @@ export default async function HomePage() {
             {bestSellers.map((p) => (
               <ProductCard
                 key={p.id}
-                href={`/products/${p.id}`}
+                href={p.href}
                 title={p.title}
                 price={p.price}
                 currency={p.currency}
