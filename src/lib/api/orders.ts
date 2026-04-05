@@ -5,9 +5,12 @@ const API_BASE = "https://on-bazar-backend.vercel.app";
 // ─── Types ────────────────────────────────────────────────────────────────────
 
 export type OrderItem = {
-  product: string;
+  itemType?: "product" | "keyring";
   quantity: number;
   size?: string; // omitted when hasSize === false (size stored as "one-size" in cart)
+  product?: string;
+  keyring?: string;
+  personalisationText?: string;
 };
 
 export type DeliveryInfo = {
@@ -127,6 +130,10 @@ function cleanDelivery(d: DeliveryInfo): DeliveryInfo {
   return { ...required, ...optional };
 }
 
+function normalizeItemType(itemType?: string): "product" | "keyring" {
+  return itemType === "keyring" ? "keyring" : "product";
+}
+
 export function buildOrderPayload(
   cartItems: CartItem[],
   delivery: DeliveryInfo,
@@ -139,14 +146,29 @@ export function buildOrderPayload(
   },
 ): OrderPayload {
   const items: OrderItem[] = cartItems.map((item) => {
-    const orderItem: OrderItem = {
-      product: item.id,
+    const type = normalizeItemType(item.itemType);
+    const orderItem: Partial<OrderItem> = {
+      itemType: type,
       quantity: item.qty,
     };
+
+    if (type === "keyring") {
+      orderItem.keyring = item.id;
+      // Send the raw personalisation value when the user provided one.
+      // Checkout pre-validates that keyring items always have a value before submit,
+      // so this path is only hit when a value is genuinely present.
+      // DO NOT fall back to "" — the backend rejects empty strings.
+      if (item.personalisationText?.trim()) {
+        orderItem.personalisationText = item.personalisationText.trim();
+      }
+    } else {
+      orderItem.product = item.id;
+    }
+
     if (item.size !== null && item.size !== "one-size") {
       orderItem.size = item.size;
     }
-    return orderItem;
+    return orderItem as OrderItem;
   });
 
   const cleanedDelivery = cleanDelivery(delivery);

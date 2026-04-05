@@ -6,6 +6,9 @@ import Image from "next/image";
 import CartCount from "./CartCount";
 import CartSidebar from "./CartSidebar";
 import NavBarLogo from "@/assets/OnbajarLogo.svg";
+import AnimeImage from "@/assets/image/categoryImage/AnimeImage.svg";
+import HarryPotterImage from "@/assets/image/categoryImage/HarryPotterImage2.svg";
+import TShirtImage from "@/assets/image/categoryImage/TShirtImage.svg";
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -67,20 +70,62 @@ export default function Header() {
                     />
                   </svg>
                 </Link>
+
                 {shopDropdownOpen && (
-                  <div className="absolute top-full left-0 mt-2 w-48 rounded-md border border-gray-200 bg-white py-2 shadow-lg">
-                    <Link
-                      href="/products/all"
-                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"
-                    >
-                      All Products
-                    </Link>
-                    <Link
-                      href="/products/categories"
-                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"
-                    >
-                      Categories
-                    </Link>
+                  <div className="absolute left-1/2 top-[calc(100%+10px)] z-50 w-[427px] -translate-x-1/2 overflow-hidden rounded-sm bg-white shadow-[0_4px_24px_rgba(0,0,0,0.12)]">
+                    {[
+                      {
+                        href: "/products/anime",
+                        label: "Anime",
+                        image: AnimeImage,
+                        alt: "Anime",
+                      },
+                      {
+                        href: "/products/harry-potter",
+                        label: "Harry Potter",
+                        image: HarryPotterImage,
+                        alt: "Harry Potter",
+                      },
+                      {
+                        href: "/products/t-shirts",
+                        label: "T-Shirts",
+                        image: TShirtImage,
+                        alt: "T-Shirts",
+                      },
+                    ].map((item) => (
+                      <Link
+                        key={item.label}
+                        href={item.href}
+                        className="group flex h-[70px] w-full items-center justify-between border-b border-[#D9D9D9] bg-white px-4 transition-colors duration-200 last:border-b-0 hover:bg-[#0A0A0A]"
+                      >
+                        <div className="flex items-center gap-3">
+                          <Image
+                            src={item.image}
+                            alt={item.alt}
+                            width={30}
+                            height={30}
+                            className="h-[30px] w-[30px] object-contain"
+                          />
+                          <span className="text-[20px] font-normal text-black transition-colors duration-200 group-hover:text-white">
+                            {item.label}
+                          </span>
+                        </div>
+
+                        <svg
+                          className="h-6 w-6 text-white opacity-0 transition-all duration-200 group-hover:opacity-100"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M5 12h14M13 4l8 8-8 8"
+                          />
+                        </svg>
+                      </Link>
+                    ))}
                   </div>
                 )}
               </div>

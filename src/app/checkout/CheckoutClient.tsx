@@ -117,7 +117,14 @@ export default function CheckoutClient() {
     paymentMethod === "COD" ||
     (bkash.customerPhone.trim() !== "" && bkash.transactionId.trim() !== "");
 
-  const canSubmit = deliveryValid && billingValid && paymentValid;
+  // Keyrings always require personalisationText (backend enforces this).
+  // Capture which keyrings are missing it so we can show a precise message.
+  const keyringsMissingText = items.filter(
+    (item) => item.itemType === "keyring" && !item.personalisationText?.trim(),
+  );
+  const keyringPersonalisationValid = keyringsMissingText.length === 0;
+
+  const canSubmit = deliveryValid && billingValid && paymentValid && keyringPersonalisationValid;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -206,6 +213,21 @@ export default function CheckoutClient() {
             </div>
 
             {error && <p className="mt-4 text-red-600">{error}</p>}
+
+            {/* Keyring personalisation warning — shown before submit attempt */}
+            {!keyringPersonalisationValid && (
+              <div className="mt-4 rounded border border-amber-300 bg-amber-50 p-4 text-sm text-amber-800">
+                <p className="font-semibold">Personalisation required for:</p>
+                <ul className="mt-1 list-inside list-disc">
+                  {keyringsMissingText.map((item) => (
+                    <li key={item.id}>
+                      <strong>{item.title}</strong> — please go back and enter a
+                      personalisation letter/word.
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
           </div>
 
           <OrderSummary

@@ -1,11 +1,13 @@
 export type CartItem = {
   id: string;
+  itemType: "product" | "keyring";
   title: string;
   price: number;
   currency: string;
   imageUrl: string;
   size: string | null;
   qty: number;
+  personalisationText?: string;
 };
 
 export type CartStore = {

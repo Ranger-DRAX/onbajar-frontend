@@ -11,6 +11,8 @@ export type KeyringPersonalisationField = {
   type: "text" | "image";
   label: string;
   required: boolean;
+  maxLength?: number;
+  maxWords?: number;
 };
 
 export type KeyringDetails = {

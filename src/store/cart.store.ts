@@ -4,6 +4,10 @@ import type { CartStore } from "@/types/cart";
 
 const key = (id: string, size: string | null) => `${id}__${size ?? "one-size"}`;
 
+function normalizeItemType(itemType?: string): "product" | "keyring" {
+  return itemType === "keyring" ? "keyring" : "product";
+}
+
 export const useCartStore = create<CartStore>()(
   persist(
     (set, get) => ({
@@ -22,7 +26,12 @@ export const useCartStore = create<CartStore>()(
               ),
             };
           }
-          return { items: [...state.items, { ...item, qty: 1 }] };
+          return {
+            items: [
+              ...state.items,
+              { ...item, itemType: normalizeItemType(item.itemType), qty: 1 },
+            ],
+          };
         });
       },
 

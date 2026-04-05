@@ -24,6 +24,7 @@ export default function AddToCartButton({ product }: Props) {
     for (let i = 0; i < qty; i += 1) {
       addItem({
         id: product.id,
+        itemType: "product",
         title: product.title,
         price: itemPrice,
         currency: product.currency,

@@ -5,8 +5,7 @@ import {
   normalizeKeyring,
 } from "@/lib/api/keyrings";
 import ImageGallery from "@/components/products/ImageGallery";
-import KeyringPersonalisation from "@/components/keyrings/KeyringPersonalisation";
-import KeyringAddToCart from "@/components/keyrings/KeyringAddToCart";
+import KeyringPurchaseSection from "@/components/keyrings/KeyringPurchaseSection";
 import ProductCard from "@/components/products/ProductCard";
 import ProductGrid from "@/components/products/ProductGrid";
 import ProductAccordion from "@/components/products/details/ProductAccordion";
@@ -143,8 +142,7 @@ export default async function KeyringDetailPage({ params }: Props) {
 
         {/* Right — Purchase */}
         <aside className="xl:pt-8">
-          <KeyringPersonalisation fields={keyring.personalisation} />
-          <KeyringAddToCart keyring={keyring} />
+          <KeyringPurchaseSection keyring={keyring} />
           <ProductAccordion />
         </aside>
       </section>
