@@ -10,15 +10,22 @@ import {
   type DeliveryInfo,
   type BillingInfo,
   type PaymentInfo,
+  type AddonPayloadEntry,
+  type SelectedKeyringPayloadEntry,
 } from "@/lib/api/orders";
 import CheckoutHeader from "@/components/layout/CheckoutHeader";
 import DeliveryForm from "@/components/checkout/DeliveryForm";
 import BillingForm from "@/components/checkout/BillingForm";
 import PaymentForm from "@/components/checkout/PaymentForm";
 import OrderSummary from "@/components/checkout/OrderSummary";
-import { UPSELL_PRICES } from "@/components/checkout/constants";
 import PrimaryButton from "@/components/ui/PrimaryButton";
 import Footer from "@/components/layout/Footer";
+import type { Addon } from "@/types/addon";
+import type { Keyring } from "@/types/keyring";
+import type { AddonCartEntry, SelectedKeyring } from "@/components/checkout/order-summary/types";
+
+const API_BASE =
+  process.env.NEXT_PUBLIC_API_BASE_URL || "https://on-bazar-backend.vercel.app";
 
 export default function CheckoutClient() {
   const [mounted, setMounted] = useState(false);
@@ -35,12 +42,15 @@ export default function CheckoutClient() {
     removePromoCode,
   } = useCartStore();
 
-  const [upsells, setUpsells] = useState({
-    giftCard: 0,
-    eidCard: 0,
-    giftBox: 0,
-  });
+  /* ── Addons fetched from API ── */
+  const [addons, setAddons] = useState<Addon[]>([]);
+  const [addonEntries, setAddonEntries] = useState<AddonCartEntry[]>([]);
 
+  /* ── Keyrings for the checkout keyring section ── */
+  const [keyrings, setKeyrings] = useState<Keyring[]>([]);
+  const [selectedKeyring, setSelectedKeyring] = useState<SelectedKeyring | null>(null);
+
+  /* ── Delivery / billing / payment ── */
   const [delivery, setDelivery] = useState<DeliveryInfo>({
     fullName: "",
     email: "",
@@ -59,22 +69,74 @@ export default function CheckoutClient() {
   });
 
   const [paymentMethod, setPaymentMethod] = useState<"COD" | "Bkash">("COD");
-  const [bkash, setBkash] = useState({
-    customerPhone: "",
-    transactionId: "",
-  });
+  const [bkash, setBkash] = useState({ customerPhone: "", transactionId: "" });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [showErrors, setShowErrors] = useState(false);
 
+  /* Mount guard */
   useEffect(() => {
     setMounted(true);
   }, []);
 
-  if (!mounted) {
-    return null;
-  }
+  /* Fetch addons + keyrings client-side (OrderSummary is in the right panel) */
+  useEffect(() => {
+    if (!mounted) return;
+
+    // Addons
+    fetch(`${API_BASE}/api/addons`)
+      .then((r) => r.json())
+      .then((res) => {
+        if (res.success && Array.isArray(res.data)) {
+          const active: Addon[] = res.data.filter((a: Addon) => a.isActive);
+          setAddons(active);
+          setAddonEntries(
+            active.map((a) => ({ addon: a._id, quantity: 0, customerNote: null })),
+          );
+        }
+      })
+      .catch(() => {/* silently ignore - addons are optional */});
+
+    // Keyrings
+    fetch(`${API_BASE}/api/keyrings?page=1&limit=100`)
+      .then((r) => r.json())
+      .then((res) => {
+        if (Array.isArray(res.data)) {
+          // normalise to minimal shape needed for the picker
+          const normalised: Keyring[] = res.data
+            .filter((k: any) => k.isActive !== false)
+            .map((k: any) => ({
+              id: k._id ?? k.id,
+              slug: k.slug ?? "",
+              title: k.name ?? k.title ?? "Untitled",
+              keyringType: k.keyringType ?? "",
+              colors: Array.isArray(k.colors) ? k.colors : [],
+              categoryName: k.category?.name ?? "",
+              categorySlug: k.category?.slug ?? "",
+              price: k.pricing?.sellingPrice ?? 0,
+              effectivePrice: k.effectivePrice ?? k.pricing?.sellingPrice ?? 0,
+              currency: k.pricing?.currency ?? "BDT",
+              images: Array.isArray(k.images) ? k.images.map((img: any) => typeof img === "string" ? img : img?.url ?? "") : [],
+              video: k.video ?? null,
+              description: k.details?.description ?? "",
+              features: Array.isArray(k.details?.features) ? k.details.features : [],
+              material: k.details?.material ?? "",
+              dimensions: k.details?.dimensions ?? "",
+              weight: k.details?.weight ?? 0,
+              discount: k.discount ?? null,
+              isActive: k.isActive ?? true,
+              isBestProduct: k.isBestProduct ?? false,
+              personalisation: Array.isArray(k.personalisation) ? k.personalisation : [],
+              purchaseCount: k.purchaseCount ?? 0,
+            }));
+          setKeyrings(normalised);
+        }
+      })
+      .catch(() => {/* silently ignore */});
+  }, [mounted]);
+
+  if (!mounted) return null;
 
   if (items.length === 0) {
     return (
@@ -90,15 +152,25 @@ export default function CheckoutClient() {
     );
   }
 
+  /* ── Totals ── */
   const subtotal = totalPrice();
   const deliveryFee = 60;
-  const upsellTotal =
-    upsells.giftCard * UPSELL_PRICES.giftCard +
-    upsells.eidCard * UPSELL_PRICES.eidCard +
-    upsells.giftBox * UPSELL_PRICES.giftBox;
 
-  const total = Math.max(0, subtotal + deliveryFee + upsellTotal - discount);
+  const addonTotal = addonEntries.reduce((sum, e) => {
+    const addon = addons.find((a) => a._id === e.addon);
+    return sum + (addon ? addon.price * e.quantity : 0);
+  }, 0);
 
+  const keyringTotal = selectedKeyring
+    ? selectedKeyring.price * selectedKeyring.quantity
+    : 0;
+
+  const total = Math.max(
+    0,
+    subtotal + deliveryFee + addonTotal + keyringTotal - discount,
+  );
+
+  /* ── Validation ── */
   const deliveryValid =
     delivery.fullName.trim() !== "" &&
     delivery.email.trim() !== "" &&
@@ -117,15 +189,15 @@ export default function CheckoutClient() {
     paymentMethod === "COD" ||
     (bkash.customerPhone.trim() !== "" && bkash.transactionId.trim() !== "");
 
-  // Keyrings always require personalisationText (backend enforces this).
-  // Capture which keyrings are missing it so we can show a precise message.
   const keyringsMissingText = items.filter(
     (item) => item.itemType === "keyring" && !item.personalisationText?.trim(),
   );
   const keyringPersonalisationValid = keyringsMissingText.length === 0;
 
-  const canSubmit = deliveryValid && billingValid && paymentValid && keyringPersonalisationValid;
+  const canSubmit =
+    deliveryValid && billingValid && paymentValid && keyringPersonalisationValid;
 
+  /* ── Submit ── */
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!canSubmit) {
@@ -147,12 +219,41 @@ export default function CheckoutClient() {
           phone: billing.phone,
         };
 
+    /* Build addons array — only entries with qty > 0 */
+    const addonsPayload: AddonPayloadEntry[] = addonEntries
+      .filter((e) => e.quantity > 0)
+      .map((e) => {
+        const payloadEntry: AddonPayloadEntry = {
+          addon: e.addon,
+          quantity: e.quantity,
+        };
+        if (e.customerNote) {
+          payloadEntry.customerNote = e.customerNote;
+        }
+        return payloadEntry;
+      });
+
+    /* Build checkout-keyring payload if one was chosen */
+    const checkoutKeyringPayload: SelectedKeyringPayloadEntry | undefined =
+      selectedKeyring
+        ? {
+            keyring: selectedKeyring.id,
+            color: selectedKeyring.color,
+            personalisationText: selectedKeyring.personalisationText,
+            quantity: selectedKeyring.quantity,
+          }
+        : undefined;
+
     const payload = buildOrderPayload(
       items,
       delivery,
       resolvedBilling,
       resolvedPayment,
-      { promoCode: promoCode || undefined },
+      {
+        promoCode: promoCode || undefined,
+        addons: addonsPayload.length > 0 ? addonsPayload : undefined,
+        checkoutKeyring: checkoutKeyringPayload,
+      },
     );
 
     setIsSubmitting(true);
@@ -214,7 +315,7 @@ export default function CheckoutClient() {
 
             {error && <p className="mt-4 text-red-600">{error}</p>}
 
-            {/* Keyring personalisation warning — shown before submit attempt */}
+            {/* Keyring personalisation warning */}
             {!keyringPersonalisationValid && (
               <div className="mt-4 rounded border border-amber-300 bg-amber-50 p-4 text-sm text-amber-800">
                 <p className="font-semibold">Personalisation required for:</p>
@@ -234,8 +335,12 @@ export default function CheckoutClient() {
             items={items}
             updateQty={updateQty}
             onRemoveItem={removeItem}
-            upsells={upsells}
-            setUpsells={setUpsells}
+            addons={addons}
+            addonEntries={addonEntries}
+            setAddonEntries={setAddonEntries}
+            keyrings={keyrings}
+            selectedKeyring={selectedKeyring}
+            setSelectedKeyring={setSelectedKeyring}
             deliveryFee={deliveryFee}
             total={total}
             promoCode={promoCode}

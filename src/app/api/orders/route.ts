@@ -13,12 +13,23 @@ type OrderItem = {
   keyring?: string;
   quantity: number;
   size?: string;
+  color?: string;             // for keyrings
   personalisationText?: string;
+};
+
+type AddonEntry = {
+  addon: string;
+  quantity: number;
+  customerNote?: string;      // optional — omitted when null
 };
 
 export async function POST(request: Request) {
   // ── 1. Parse request body ──────────────────────────────────────────────────
-  let payload: { items?: OrderItem[]; [key: string]: unknown };
+  let payload: {
+    items?: OrderItem[];
+    addons?: AddonEntry[];
+    [key: string]: unknown;
+  };
   try {
     payload = await request.json();
   } catch {

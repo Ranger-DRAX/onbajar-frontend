@@ -7,9 +7,10 @@ const API_BASE = "https://on-bazar-backend.vercel.app";
 export type OrderItem = {
   itemType?: "product" | "keyring";
   quantity: number;
-  size?: string; // omitted when hasSize === false (size stored as "one-size" in cart)
+  size?: string;             // omitted when hasSize === false
   product?: string;
   keyring?: string;
+  color?: string;            // for keyrings only
   personalisationText?: string;
 };
 
@@ -40,8 +41,22 @@ export type PaymentInfo =
       bkash: { customerPhone: string; transactionId: string };
     };
 
+export type AddonPayloadEntry = {
+  addon: string;
+  quantity: number;
+  customerNote?: string;   // omitted entirely when not provided
+};
+
+export type SelectedKeyringPayloadEntry = {
+  keyring: string;
+  color: string;
+  personalisationText: string;
+  quantity: number;
+};
+
 export type OrderPayload = {
   items: OrderItem[];
+  addons?: AddonPayloadEntry[];
   delivery: DeliveryInfo;
   billing: BillingInfo;
   payment: PaymentInfo;
@@ -143,6 +158,8 @@ export function buildOrderPayload(
     promoCode?: string;
     saveAddress?: boolean;
     addressLabel?: string;
+    addons?: AddonPayloadEntry[];
+    checkoutKeyring?: SelectedKeyringPayloadEntry;
   },
 ): OrderPayload {
   const items: OrderItem[] = cartItems.map((item) => {
@@ -177,12 +194,38 @@ export function buildOrderPayload(
     ? { sameAsDelivery: true }
     : (stripEmpty(billing) as BillingInfo);
 
+  // If a keyring was chosen from the checkout keyring-picker, add it as a
+  // cart item with itemType="keyring" so the backend processes it correctly.
+  if (options?.checkoutKeyring) {
+    const ck = options.checkoutKeyring;
+    const ckItem: OrderItem = {
+      itemType: "keyring",
+      keyring: ck.keyring,
+      quantity: ck.quantity,
+    };
+    if (ck.color) ckItem.color = ck.color;
+    if (ck.personalisationText) ckItem.personalisationText = ck.personalisationText;
+    items.push(ckItem);
+  }
+
+  // Strip null customerNote — backend Joi rejects null; omit the field entirely
+  const addonEntries = (options?.addons ?? [])
+    .filter((a) => a.quantity > 0)
+    .map((a) => ({
+      addon: a.addon,
+      quantity: a.quantity,
+      ...(a.customerNote ? { customerNote: a.customerNote } : {}),
+    }));
+
   return {
     items,
+    ...(addonEntries.length > 0 ? { addons: addonEntries } : {}),
     delivery: cleanedDelivery,
     billing: cleanBilling,
     payment,
-    ...options,
+    ...(options?.promoCode ? { promoCode: options.promoCode } : {}),
+    ...(options?.saveAddress !== undefined ? { saveAddress: options.saveAddress } : {}),
+    ...(options?.addressLabel ? { addressLabel: options.addressLabel } : {}),
   };
 }
 

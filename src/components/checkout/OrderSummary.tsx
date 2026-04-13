@@ -1,18 +1,25 @@
 import { Dispatch, SetStateAction } from "react";
 import { CartItem } from "@/types/cart";
-import { UPSELL_PRICES } from "./constants";
+import { Addon } from "@/types/addon";
+import { Keyring } from "@/types/keyring";
 import CartSummaryRow from "./order-summary/CartSummaryRow";
 import OrderSummaryTotals from "./order-summary/OrderSummaryTotals";
-import UpsellSummaryRow from "./order-summary/UpsellSummaryRow";
-import { UPSELL_ITEMS } from "./order-summary/data";
-import type { UpsellsState } from "./order-summary/types";
+import AddonRow from "./order-summary/AddonRow";
+import KeyringSection from "./order-summary/KeyringSection";
+import type { AddonCartEntry, SelectedKeyring } from "./order-summary/types";
 
 interface OrderSummaryProps {
   items: CartItem[];
   updateQty: (id: string, size: string | null, qty: number) => void;
   onRemoveItem?: (id: string, size: string | null) => void;
-  upsells: UpsellsState;
-  setUpsells: Dispatch<SetStateAction<UpsellsState>>;
+  /* dynamic addons from API */
+  addons: Addon[];
+  addonEntries: AddonCartEntry[];
+  setAddonEntries: Dispatch<SetStateAction<AddonCartEntry[]>>;
+  /* checkout keyring section */
+  keyrings: Keyring[];
+  selectedKeyring: SelectedKeyring | null;
+  setSelectedKeyring: Dispatch<SetStateAction<SelectedKeyring | null>>;
   deliveryFee: number;
   total: number;
   promoCode: string | null;
@@ -25,8 +32,12 @@ export default function OrderSummary({
   items,
   updateQty,
   onRemoveItem,
-  upsells,
-  setUpsells,
+  addons,
+  addonEntries,
+  setAddonEntries,
+  keyrings,
+  selectedKeyring,
+  setSelectedKeyring,
   deliveryFee,
   total,
   promoCode,
@@ -36,22 +47,15 @@ export default function OrderSummary({
 }: OrderSummaryProps) {
   const currency = items[0]?.currency ?? "BDT";
 
-  const decrementUpsell = (key: keyof UpsellsState) => {
-    setUpsells((prev) => ({
-      ...prev,
-      [key]: Math.max(0, prev[key] - 1),
-    }));
-  };
-
-  const incrementUpsell = (key: keyof UpsellsState) => {
-    setUpsells((prev) => ({
-      ...prev,
-      [key]: prev[key] + 1,
-    }));
+  const updateAddonEntry = (addonId: string, updated: AddonCartEntry) => {
+    setAddonEntries((prev) =>
+      prev.map((e) => (e.addon === addonId ? updated : e)),
+    );
   };
 
   return (
     <aside className="w-full bg-[#F5F5F5] px-6 py-10 lg:min-h-screen lg:w-[45%] lg:border-l-[0.5px] lg:border-[#8E8E8E] lg:px-[78px] lg:pt-[99px] lg:pb-[36px]">
+      {/* Cart items */}
       <div className="space-y-[12px]">
         {items.map((item) => (
           <CartSummaryRow
@@ -67,26 +71,37 @@ export default function OrderSummary({
         ))}
       </div>
 
+      {/* ── Make the gift more special ── */}
       <div className="mt-[54px]">
         <h3 className="mb-[21px] text-[15px] leading-[20px] font-medium tracking-[-0.03em] text-black uppercase">
           MAKE THE GIFT MORE SPECIAL
         </h3>
 
-        <div className="space-y-[12px]">
-          {UPSELL_ITEMS.map((item) => (
-            <UpsellSummaryRow
-              key={item.key}
-              title={item.title}
-              image={item.image}
-              alt={item.alt}
-              value={upsells[item.key]}
-              price={UPSELL_PRICES[item.key]}
-              onDecrease={() => decrementUpsell(item.key)}
-              onIncrease={() => incrementUpsell(item.key)}
-            />
-          ))}
-        </div>
+        {addons.length === 0 ? (
+          <p className="text-[13px] text-neutral-400">Loading add-ons…</p>
+        ) : (
+          <div className="space-y-[12px]">
+            {addons.map((addon) => {
+              const entry = addonEntries.find((e) => e.addon === addon._id)!;
+              return (
+                <AddonRow
+                  key={addon._id}
+                  addon={addon}
+                  entry={entry}
+                  onChange={(updated) => updateAddonEntry(addon._id, updated)}
+                />
+              );
+            })}
+          </div>
+        )}
       </div>
+
+      {/* ── Customised Keyrings section ── */}
+      <KeyringSection
+        keyrings={keyrings}
+        selected={selectedKeyring}
+        onSelect={setSelectedKeyring}
+      />
 
       <OrderSummaryTotals
         deliveryFee={deliveryFee}
