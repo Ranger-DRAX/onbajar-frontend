@@ -6,6 +6,8 @@ import Link from "next/link";
 import Image from "next/image";
 import HeroImage from "@/assets/image/HeroSectionImage.svg";
 import RightArrowIcon from "@/assets/image/RightArrowIcon.svg";
+import ReviewSection from "@/components/home/ReviewSection";
+import AboutScrollSection from "@/components/home/AboutScrollSection";
 
 export default async function HomePage() {
   const [productsRes, keyringsRes] = await Promise.all([
@@ -109,6 +111,12 @@ export default async function HomePage() {
           </ProductGrid>
         </section>
       )}
+
+      {/* ─── About Scroll Section ─── */}
+      <AboutScrollSection />
+
+      {/* ─── Review Section ─── */}
+      <ReviewSection />
     </main>
   );
 }
