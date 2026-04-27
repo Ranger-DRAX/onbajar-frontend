@@ -16,7 +16,12 @@ export default async function HomePage() {
   ]);
 
   const allProducts = productsRes.data
-    .filter((p) => p.isActive)
+    .filter((p) => {
+      const isAddonCat =
+        p.category?.name?.toLowerCase().includes("addon") ||
+        p.category?.slug?.toLowerCase().includes("addon");
+      return p.isActive && !isAddonCat;
+    })
     .map((p) => ({ ...normalizeProduct(p), href: `/products/${p._id}` }));
 
   const allKeyrings = keyringsRes.data

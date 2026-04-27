@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { useCartStore } from "@/store/cart.store";
 import type { Keyring } from "@/types/keyring";
 
@@ -15,6 +16,7 @@ export default function KeyringAddToCart({
 }: Props) {
   const [qty, setQty] = useState(1);
   const addItem = useCartStore((s) => s.addItem);
+  const router = useRouter();
 
   const itemPrice = keyring.discount
     ? Math.round(keyring.price * (1 - keyring.discount.value / 100))
@@ -29,7 +31,7 @@ export default function KeyringAddToCart({
         const val = (personalisationData[field.label] || "").trim();
         if (field.required && !val) {
           alert(`${field.label} is required.`);
-          return;
+          return false;
         }
         if (val) {
           const lowerLabel = field.label.toLowerCase();
@@ -41,17 +43,17 @@ export default function KeyringAddToCart({
               .toUpperCase();
             if (!letter) {
               alert(`${field.label} must be a letter A–Z.`);
-              return;
+              return false;
             }
             rawPersonalisation = letter;
           } else if (lowerLabel.includes("single word")) {
             if (val.split(/\s+/).length > 1) {
               alert(`${field.label} must be a single word.`);
-              return;
+              return false;
             }
             if (val.length > 10) {
               alert(`${field.label} cannot exceed 10 letters.`);
-              return;
+              return false;
             }
             rawPersonalisation = val;
           } else if (
@@ -61,11 +63,11 @@ export default function KeyringAddToCart({
             const words = val.split(/\s+/);
             if (words.length > 2) {
               alert(`${field.label} must be a maximum of 2 words.`);
-              return;
+              return false;
             }
             if (val.replace(/\s+/g, "").length > 20) {
               alert(`${field.label} cannot exceed 20 letters in total.`);
-              return;
+              return false;
             }
             rawPersonalisation = val;
           } else {
@@ -90,6 +92,7 @@ export default function KeyringAddToCart({
         personalisationText,
       });
     }
+    return true;
   };
 
   return (
@@ -124,7 +127,11 @@ export default function KeyringAddToCart({
 
       <button
         type="button"
-        onClick={handleAdd}
+        onClick={() => {
+          if (handleAdd()) {
+            router.push("/checkout");
+          }
+        }}
         className="h-11 w-full bg-black px-4 text-sm font-medium text-white transition-opacity hover:opacity-90"
       >
         Order Now

@@ -263,3 +263,13 @@ body {
     padding: 16px 16px 18px;
   }
 }
+
+/* Globals for pointer cursor */
+button,
+a,
+[role="button"],
+input[type="button"],
+input[type="submit"],
+input[type="reset"] {
+  cursor: pointer;
+}

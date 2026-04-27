@@ -100,7 +100,7 @@ export default function AboutScrollSection() {
      * h-[300vh]: the extra 200vh is the scroll travel for the animation.
      * Increase this number for slower / more cinematic pacing.
      */
-    <div ref={containerRef} className="relative h-[300vh]">
+    <div ref={containerRef} id="about" className="relative h-[300vh]">
       {/* Sticky fullscreen panel */}
       <div className="sticky top-0 h-screen w-full overflow-hidden">
         {/* ── Background image ── */}

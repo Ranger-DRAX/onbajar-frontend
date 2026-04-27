@@ -48,7 +48,12 @@ export default async function ProductsPage({
   ]);
 
   const products: UnifiedItem[] = productsRes.data
-    .filter((p) => p.isActive)
+    .filter((p) => {
+      const isAddonCat =
+        p.category?.name?.toLowerCase().includes("addon") ||
+        p.category?.slug?.toLowerCase().includes("addon");
+      return p.isActive && !isAddonCat;
+    })
     .map((p) => {
       const n = normalizeProduct(p);
       return {

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { useCartStore } from "@/store/cart.store";
 import type { Product } from "@/types/product";
 
@@ -13,13 +14,14 @@ export default function AddToCartButton({ product }: Props) {
   );
   const [qty, setQty] = useState(1);
   const addItem = useCartStore((s) => s.addItem);
+  const router = useRouter();
 
   const itemPrice = product.discount
     ? Math.round(product.price * (1 - product.discount.value / 100))
     : product.price;
 
   const handleAdd = () => {
-    if (product.hasSize && !selectedSize) return;
+    if (product.hasSize && !selectedSize) return false;
 
     for (let i = 0; i < qty; i += 1) {
       addItem({
@@ -32,6 +34,7 @@ export default function AddToCartButton({ product }: Props) {
         size: selectedSize,
       });
     }
+    return true;
   };
 
   return (
@@ -113,7 +116,11 @@ export default function AddToCartButton({ product }: Props) {
 
       <button
         type="button"
-        onClick={handleAdd}
+        onClick={() => {
+          if (handleAdd()) {
+            router.push("/checkout");
+          }
+        }}
         disabled={product.hasSize && !selectedSize}
         className="h-11 w-full bg-black px-4 text-sm font-medium text-white transition-opacity hover:opacity-90 disabled:opacity-50"
       >

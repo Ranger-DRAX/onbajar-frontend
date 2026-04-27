@@ -174,13 +174,13 @@ export default function Header() {
               </div>
 
               <Link
-                href="/about-us"
+                href="/#about"
                 className="text-sm font-normal text-gray-900 transition-colors hover:text-gray-700"
               >
                 About Us
               </Link>
               <Link
-                href="/bulk-order"
+                href="/#bulk-order"
                 className="text-sm font-normal text-gray-900 transition-colors hover:text-gray-700"
               >
                 Bulk Order
@@ -286,14 +286,14 @@ export default function Header() {
                   New Drop
                 </Link>
                 <Link
-                  href="/about-us"
+                  href="/#about"
                   className="font-normal text-gray-900 transition-colors hover:text-gray-700"
                   onClick={() => setIsMenuOpen(false)}
                 >
                   About Us
                 </Link>
                 <Link
-                  href="/bulk-order"
+                  href="/#bulk-order"
                   className="font-normal text-gray-900 transition-colors hover:text-gray-700"
                   onClick={() => setIsMenuOpen(false)}
                 >
