@@ -13,20 +13,31 @@ export default function KeyringPersonalisation({ fields, onChange }: Props) {
 
   if (!fields || fields.length === 0) return null;
 
-  const handleChange = (label: string, value: string, field: KeyringPersonalisationField) => {
+  const handleChange = (
+    label: string,
+    value: string,
+    field: KeyringPersonalisationField,
+  ) => {
     let finalValue = value;
     const lowerLabel = field.label.toLowerCase();
 
     // 1. Enforce Initial / Single Letter Logic
-    if (lowerLabel.includes("initial") || lowerLabel.includes("single letter")) {
+    if (
+      lowerLabel.includes("initial") ||
+      lowerLabel.includes("single letter")
+    ) {
       // Strictly 1 A-Z letter, uppercased
       const matched = value.replace(/[^a-zA-Z]/g, "").toUpperCase();
       finalValue = matched.slice(0, 1);
     }
 
     // 2. Enforce Word Limit (for others)
-    if (field.maxWords && !(lowerLabel.includes("initial") || lowerLabel.includes("single letter"))) {
-      const words = finalValue.trim() === "" ? [] : finalValue.trim().split(/\s+/);
+    if (
+      field.maxWords &&
+      !(lowerLabel.includes("initial") || lowerLabel.includes("single letter"))
+    ) {
+      const words =
+        finalValue.trim() === "" ? [] : finalValue.trim().split(/\s+/);
       if (words.length > field.maxWords) {
         return; // Block input if it exceeds word count
       }
@@ -42,27 +53,44 @@ export default function KeyringPersonalisation({ fields, onChange }: Props) {
       <h3 className="text-[22px] font-medium">Personalise</h3>
       {fields.map((field) => {
         const currentValue = values[field.label] ?? "";
-        const words = currentValue.trim() === "" ? [] : currentValue.trim().split(/\s+/);
-        const maxWords = field.maxWords ?? (field.label.toLowerCase().includes("initial") ? 1 : field.label.toLowerCase().includes("single word") ? 1 : field.label.toLowerCase().includes("double word") || field.label.toLowerCase().includes("two word") ? 2 : undefined);
-        const maxLength = field.maxLength ?? (field.label.toLowerCase().includes("initial") ? 1 : field.label.toLowerCase().includes("single word") ? 10 : field.label.toLowerCase().includes("double word") || field.label.toLowerCase().includes("two word") ? 21 : undefined);
+        const words =
+          currentValue.trim() === "" ? [] : currentValue.trim().split(/\s+/);
+        const maxWords =
+          field.maxWords ??
+          (field.label.toLowerCase().includes("initial")
+            ? 1
+            : field.label.toLowerCase().includes("single word")
+              ? 1
+              : field.label.toLowerCase().includes("double word") ||
+                  field.label.toLowerCase().includes("two word")
+                ? 2
+                : undefined);
+        const maxLength =
+          field.maxLength ??
+          (field.label.toLowerCase().includes("initial")
+            ? 1
+            : field.label.toLowerCase().includes("single word")
+              ? 10
+              : field.label.toLowerCase().includes("double word") ||
+                  field.label.toLowerCase().includes("two word")
+                ? 21
+                : undefined);
 
         return (
           <div key={field.label}>
-            <div className="flex items-center justify-between mb-1.5 ">
+            <div className="mb-1.5 flex items-center justify-between">
               <label
                 htmlFor={`personalisation-${field.label}`}
                 className="block text-sm text-black/60"
               >
                 {field.label}
-                {field.required && (
-                  <span className="ml-1 text-red-500">*</span>
-                )}
+                {field.required && <span className="ml-1 text-red-500">*</span>}
               </label>
-              <div className="text-[10px] uppercase tracking-tighter text-black/30">
+              <div className="text-[10px] tracking-tighter text-black/30 uppercase">
                 {words.length} / {maxWords} Words
               </div>
             </div>
-            
+
             <input
               id={`personalisation-${field.label}`}
               type="text"
@@ -71,10 +99,10 @@ export default function KeyringPersonalisation({ fields, onChange }: Props) {
               placeholder={`Enter ${field.label.toLowerCase()}…`}
               required={field.required}
               maxLength={maxLength}
-              className="h-11 w-full border border-black/20 bg-transparent px-4 text-sm text-black outline-none placeholder:text-black/30 focus:border-black transition"
+              className="h-11 w-full border border-black/20 bg-transparent px-4 text-sm text-black transition outline-none placeholder:text-black/30 focus:border-black"
             />
             {maxLength && (
-              <div className="flex justify-end mt-1">
+              <div className="mt-1 flex justify-end">
                 <span className="text-[10px] text-black/20">
                   {currentValue.length} / {maxLength}
                 </span>

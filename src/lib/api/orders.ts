@@ -7,10 +7,10 @@ const API_BASE = "https://on-bazar-backend.vercel.app";
 export type OrderItem = {
   itemType?: "product" | "keyring";
   quantity: number;
-  size?: string;             // omitted when hasSize === false
+  size?: string; // omitted when hasSize === false
   product?: string;
   keyring?: string;
-  color?: string;            // for keyrings only
+  color?: string; // for keyrings only
   personalisationText?: string;
 };
 
@@ -44,7 +44,7 @@ export type PaymentInfo =
 export type AddonPayloadEntry = {
   addon: string;
   quantity: number;
-  customerNote?: string;   // omitted entirely when not provided
+  customerNote?: string; // omitted entirely when not provided
 };
 
 export type SelectedKeyringPayloadEntry = {
@@ -204,7 +204,8 @@ export function buildOrderPayload(
       quantity: ck.quantity,
     };
     if (ck.color) ckItem.color = ck.color;
-    if (ck.personalisationText) ckItem.personalisationText = ck.personalisationText;
+    if (ck.personalisationText)
+      ckItem.personalisationText = ck.personalisationText;
     items.push(ckItem);
   }
 
@@ -224,7 +225,9 @@ export function buildOrderPayload(
     billing: cleanBilling,
     payment,
     ...(options?.promoCode ? { promoCode: options.promoCode } : {}),
-    ...(options?.saveAddress !== undefined ? { saveAddress: options.saveAddress } : {}),
+    ...(options?.saveAddress !== undefined
+      ? { saveAddress: options.saveAddress }
+      : {}),
     ...(options?.addressLabel ? { addressLabel: options.addressLabel } : {}),
   };
 }

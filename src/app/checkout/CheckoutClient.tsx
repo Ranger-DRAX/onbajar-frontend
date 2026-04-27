@@ -22,7 +22,10 @@ import PrimaryButton from "@/components/ui/PrimaryButton";
 import Footer from "@/components/layout/Footer";
 import type { Addon } from "@/types/addon";
 import type { Keyring } from "@/types/keyring";
-import type { AddonCartEntry, SelectedKeyring } from "@/components/checkout/order-summary/types";
+import type {
+  AddonCartEntry,
+  SelectedKeyring,
+} from "@/components/checkout/order-summary/types";
 
 const API_BASE =
   process.env.NEXT_PUBLIC_API_BASE_URL || "https://on-bazar-backend.vercel.app";
@@ -48,7 +51,8 @@ export default function CheckoutClient() {
 
   /* ── Keyrings for the checkout keyring section ── */
   const [keyrings, setKeyrings] = useState<Keyring[]>([]);
-  const [selectedKeyring, setSelectedKeyring] = useState<SelectedKeyring | null>(null);
+  const [selectedKeyring, setSelectedKeyring] =
+    useState<SelectedKeyring | null>(null);
 
   /* ── Delivery / billing / payment ── */
   const [delivery, setDelivery] = useState<DeliveryInfo>({
@@ -92,11 +96,17 @@ export default function CheckoutClient() {
           const active: Addon[] = res.data.filter((a: Addon) => a.isActive);
           setAddons(active);
           setAddonEntries(
-            active.map((a) => ({ addon: a._id, quantity: 0, customerNote: null })),
+            active.map((a) => ({
+              addon: a._id,
+              quantity: 0,
+              customerNote: null,
+            })),
           );
         }
       })
-      .catch(() => {/* silently ignore - addons are optional */});
+      .catch(() => {
+        /* silently ignore - addons are optional */
+      });
 
     // Keyrings
     fetch(`${API_BASE}/api/keyrings?page=1&limit=100`)
@@ -117,23 +127,33 @@ export default function CheckoutClient() {
               price: k.pricing?.sellingPrice ?? 0,
               effectivePrice: k.effectivePrice ?? k.pricing?.sellingPrice ?? 0,
               currency: k.pricing?.currency ?? "BDT",
-              images: Array.isArray(k.images) ? k.images.map((img: any) => typeof img === "string" ? img : img?.url ?? "") : [],
+              images: Array.isArray(k.images)
+                ? k.images.map((img: any) =>
+                    typeof img === "string" ? img : (img?.url ?? ""),
+                  )
+                : [],
               video: k.video ?? null,
               description: k.details?.description ?? "",
-              features: Array.isArray(k.details?.features) ? k.details.features : [],
+              features: Array.isArray(k.details?.features)
+                ? k.details.features
+                : [],
               material: k.details?.material ?? "",
               dimensions: k.details?.dimensions ?? "",
               weight: k.details?.weight ?? 0,
               discount: k.discount ?? null,
               isActive: k.isActive ?? true,
               isBestProduct: k.isBestProduct ?? false,
-              personalisation: Array.isArray(k.personalisation) ? k.personalisation : [],
+              personalisation: Array.isArray(k.personalisation)
+                ? k.personalisation
+                : [],
               purchaseCount: k.purchaseCount ?? 0,
             }));
           setKeyrings(normalised);
         }
       })
-      .catch(() => {/* silently ignore */});
+      .catch(() => {
+        /* silently ignore */
+      });
   }, [mounted]);
 
   if (!mounted) return null;
@@ -195,7 +215,10 @@ export default function CheckoutClient() {
   const keyringPersonalisationValid = keyringsMissingText.length === 0;
 
   const canSubmit =
-    deliveryValid && billingValid && paymentValid && keyringPersonalisationValid;
+    deliveryValid &&
+    billingValid &&
+    paymentValid &&
+    keyringPersonalisationValid;
 
   /* ── Submit ── */
   const handleSubmit = async (e: React.FormEvent) => {

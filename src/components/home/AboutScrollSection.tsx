@@ -2,12 +2,7 @@
 
 import { useRef } from "react";
 import Image from "next/image";
-import {
-  useScroll,
-  useTransform,
-  motion,
-  MotionValue,
-} from "framer-motion";
+import { useScroll, useTransform, motion, MotionValue } from "framer-motion";
 import ScrollEffectImage from "@/assets/image/ScrollEffectImage.png";
 
 /* ------------------------------------------------------------------ */
@@ -42,10 +37,10 @@ const N = ALL_TOKENS.length; // 18
  * Gives a soft lead-in and a hold at the end.
  */
 const ANIM_START = 0.05;
-const ANIM_END = 0.90;
-const RANGE = ANIM_END - ANIM_START;          // 0.85
-const STEP = RANGE / N;                       // ~0.047 per word
-const OVERLAP = STEP * 0.6;                     // smooth cross-fade
+const ANIM_END = 0.9;
+const RANGE = ANIM_END - ANIM_START; // 0.85
+const STEP = RANGE / N; // ~0.047 per word
+const OVERLAP = STEP * 0.6; // smooth cross-fade
 
 /* ------------------------------------------------------------------ */
 /* Single animated word                                                 */
@@ -54,7 +49,7 @@ const OVERLAP = STEP * 0.6;                     // smooth cross-fade
 interface WordProps {
   text: string;
   bold: boolean;
-  index: number;                   // 0-based in ALL_TOKENS
+  index: number; // 0-based in ALL_TOKENS
   progress: MotionValue<number>;
 }
 
@@ -108,7 +103,6 @@ export default function AboutScrollSection() {
     <div ref={containerRef} className="relative h-[300vh]">
       {/* Sticky fullscreen panel */}
       <div className="sticky top-0 h-screen w-full overflow-hidden">
-
         {/* ── Background image ── */}
         <Image
           src={ScrollEffectImage}
@@ -124,11 +118,8 @@ export default function AboutScrollSection() {
 
         {/* ── Centred content ── */}
         <div className="absolute inset-0 flex flex-col items-center justify-center px-4 text-center">
-
           {/* ABOUT heading — small tracking label */}
-          <motion.span
-            className="block mb-5 text-[13px] sm:text-sm tracking-[0.35em] uppercase"
-          >
+          <motion.span className="mb-5 block text-[13px] tracking-[0.35em] uppercase sm:text-sm">
             <AnimatedWord
               text={headingToken.text}
               bold={false}
@@ -141,21 +132,13 @@ export default function AboutScrollSection() {
            * Body sentence
            * Figma: 32px / 43px lh / bold / max-w ~887px / centered
            */}
-          <p
-            className="
-              w-full max-w-[887px]
-              text-[32px] sm:text-[32px]
-              font-bold
-              leading-[1.35]
-              text-center
-            "
-          >
+          <p className="w-full max-w-[887px] text-center text-[32px] leading-[1.35] font-bold sm:text-[32px]">
             {sentenceTokens.map((token, i) => (
               <span key={i}>
                 <AnimatedWord
                   text={token.text}
                   bold={token.bold}
-                  index={i + 1}          /* offset by 1 (ABOUT = 0) */
+                  index={i + 1} /* offset by 1 (ABOUT = 0) */
                   progress={scrollYProgress}
                 />
                 {/* inter-word space */}

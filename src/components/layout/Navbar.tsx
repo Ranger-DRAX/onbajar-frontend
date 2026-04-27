@@ -72,7 +72,7 @@ export default function Header() {
                 </Link>
 
                 {shopDropdownOpen && (
-                  <div className="absolute left-1/2 top-[calc(100%+10px)] z-50 w-[427px] -translate-x-1/2 overflow-hidden rounded-sm bg-white shadow-[0_4px_24px_rgba(0,0,0,0.12)]">
+                  <div className="absolute top-[calc(100%+10px)] left-1/2 z-50 w-[427px] -translate-x-1/2 overflow-hidden rounded-sm bg-white shadow-[0_4px_24px_rgba(0,0,0,0.12)]">
                     {[
                       {
                         href: "/products/anime",

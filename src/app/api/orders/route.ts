@@ -13,14 +13,14 @@ type OrderItem = {
   keyring?: string;
   quantity: number;
   size?: string;
-  color?: string;             // for keyrings
+  color?: string; // for keyrings
   personalisationText?: string;
 };
 
 type AddonEntry = {
   addon: string;
   quantity: number;
-  customerNote?: string;      // optional — omitted when null
+  customerNote?: string; // optional — omitted when null
 };
 
 export async function POST(request: Request) {
@@ -96,4 +96,3 @@ export async function POST(request: Request) {
     { status: upstream.status },
   );
 }
-

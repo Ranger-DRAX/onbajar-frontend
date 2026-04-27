@@ -30,7 +30,7 @@ export default function KeyringSection({
         {!selected ? (
           /* "Add Keyring" trigger row */
           <div className="grid grid-cols-1 gap-y-4 sm:grid-cols-[88px_minmax(180px,1fr)] sm:items-center sm:gap-x-[26px]">
-            <div className="h-[110px] w-[88px] overflow-hidden border border-dashed border-neutral-300 bg-[#F5F5F5] flex items-center justify-center">
+            <div className="flex h-[110px] w-[88px] items-center justify-center overflow-hidden border border-dashed border-neutral-300 bg-[#F5F5F5]">
               <span className="text-[28px] text-neutral-300">＋</span>
             </div>
             <div>
@@ -75,7 +75,7 @@ export default function KeyringSection({
                 </p>
               )}
               {selected.personalisationText && (
-                <p className="mt-[2px] text-[12px] italic text-neutral-400 line-clamp-1">
+                <p className="mt-[2px] line-clamp-1 text-[12px] text-neutral-400 italic">
                   "{selected.personalisationText}"
                 </p>
               )}
@@ -108,7 +108,10 @@ export default function KeyringSection({
                   type="button"
                   disabled={selected.quantity <= 1}
                   onClick={() =>
-                    onSelect({ ...selected, quantity: Math.max(1, selected.quantity - 1) })
+                    onSelect({
+                      ...selected,
+                      quantity: Math.max(1, selected.quantity - 1),
+                    })
                   }
                   aria-label="Decrease"
                   className="flex h-full w-[35px] items-center justify-center text-[16px] text-black hover:bg-black/[0.04] disabled:opacity-40"

@@ -75,7 +75,7 @@ export default function GiftCardModal({
           style={{ height: 175 }}
         >
           {/* Prompt label */}
-          <p className="text-[11px] tracking-wide text-neutral-400 uppercase mb-3">
+          <p className="mb-3 text-[11px] tracking-wide text-neutral-400 uppercase">
             {addon.note
               ? addon.note.replace(/"/g, "")
               : "What would you like written on the card?"}
@@ -87,7 +87,7 @@ export default function GiftCardModal({
             onChange={(e) => setNote(e.target.value)}
             placeholder="Type here..."
             rows={3}
-            className="w-full resize-none border-b border-neutral-300 bg-transparent text-[13px] leading-relaxed text-neutral-800 outline-none placeholder-neutral-300 focus:border-black"
+            className="w-full resize-none border-b border-neutral-300 bg-transparent text-[13px] leading-relaxed text-neutral-800 placeholder-neutral-300 outline-none focus:border-black"
           />
 
           {/* Word count */}
@@ -123,7 +123,7 @@ export default function GiftCardModal({
         <button
           type="button"
           onClick={onClose}
-          className="absolute right-3 top-3 flex h-7 w-7 items-center justify-center bg-white/80 text-neutral-600 shadow-sm hover:bg-white hover:text-black"
+          className="absolute top-3 right-3 flex h-7 w-7 items-center justify-center bg-white/80 text-neutral-600 shadow-sm hover:bg-white hover:text-black"
           aria-label="Close"
         >
           ✕

@@ -9,7 +9,10 @@ type Props = {
   personalisationData?: Record<string, string>;
 };
 
-export default function KeyringAddToCart({ keyring, personalisationData }: Props) {
+export default function KeyringAddToCart({
+  keyring,
+  personalisationData,
+}: Props) {
   const [qty, setQty] = useState(1);
   const addItem = useCartStore((s) => s.addItem);
 
@@ -32,7 +35,10 @@ export default function KeyringAddToCart({ keyring, personalisationData }: Props
           const lowerLabel = field.label.toLowerCase();
           if (lowerLabel.includes("initial")) {
             // Backend: exactly 1 A–Z letter (case-insensitive)
-            const letter = val.replace(/[^a-zA-Z]/g, "").slice(0, 1).toUpperCase();
+            const letter = val
+              .replace(/[^a-zA-Z]/g, "")
+              .slice(0, 1)
+              .toUpperCase();
             if (!letter) {
               alert(`${field.label} must be a letter A–Z.`);
               return;

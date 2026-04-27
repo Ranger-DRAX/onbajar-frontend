@@ -104,9 +104,7 @@ export default async function KeyringDetailPage({ params }: Props) {
           {/* Colors */}
           {keyring.colors.length > 0 && (
             <div className="mt-6">
-              <h3 className="mb-3 text-[22px] font-medium">
-                Available Colors
-              </h3>
+              <h3 className="mb-3 text-[22px] font-medium">Available Colors</h3>
               <div className="flex flex-wrap gap-2">
                 {keyring.colors.map((color) => (
                   <span

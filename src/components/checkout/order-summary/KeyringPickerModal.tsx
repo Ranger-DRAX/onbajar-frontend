@@ -124,7 +124,7 @@ export default function KeyringPickerModal({
                 ←
               </button>
             )}
-            <p className="text-[13px] font-medium uppercase tracking-wider text-black">
+            <p className="text-[13px] font-medium tracking-wider text-black uppercase">
               {step === "pick" ? "Choose a Keyring" : chosen?.title}
             </p>
           </div>
@@ -156,9 +156,7 @@ export default function KeyringPickerModal({
                   >
                     <div className="relative h-[110px] w-full bg-neutral-100">
                       <Image
-                        src={
-                          k.images[0] ?? "https://placehold.co/160x110"
-                        }
+                        src={k.images[0] ?? "https://placehold.co/160x110"}
                         alt={k.title}
                         fill
                         unoptimized
@@ -167,7 +165,7 @@ export default function KeyringPickerModal({
                       />
                     </div>
                     <div className="px-2 py-2">
-                      <p className="line-clamp-2 text-[12px] font-medium leading-tight text-black uppercase">
+                      <p className="line-clamp-2 text-[12px] leading-tight font-medium text-black uppercase">
                         {k.title}
                       </p>
                       <p className="mt-0.5 text-[11px] text-neutral-500">
@@ -200,7 +198,7 @@ export default function KeyringPickerModal({
               {/* Color selector */}
               {chosen.colors.length > 0 && (
                 <div>
-                  <p className="mb-2 text-[11px] uppercase tracking-wide text-neutral-500">
+                  <p className="mb-2 text-[11px] tracking-wide text-neutral-500 uppercase">
                     Color
                   </p>
                   <div className="flex flex-wrap gap-2">
@@ -232,7 +230,7 @@ export default function KeyringPickerModal({
 
                   return (
                     <div key={field.label}>
-                      <p className="mb-1 text-[11px] uppercase tracking-wide text-neutral-500">
+                      <p className="mb-1 text-[11px] tracking-wide text-neutral-500 uppercase">
                         {field.label}
                         {field.required && (
                           <span className="ml-1 text-red-400">*</span>
@@ -248,7 +246,7 @@ export default function KeyringPickerModal({
                           }))
                         }
                         placeholder={`e.g. Your text`}
-                        className="w-full border-b border-neutral-300 bg-transparent pb-1 text-[13px] text-neutral-800 outline-none placeholder-neutral-300 focus:border-black"
+                        className="w-full border-b border-neutral-300 bg-transparent pb-1 text-[13px] text-neutral-800 placeholder-neutral-300 outline-none focus:border-black"
                       />
                       {field.maxWords && (
                         <span
@@ -265,7 +263,7 @@ export default function KeyringPickerModal({
               ) : (
                 /* Fallback if API has no personalisation fields defined */
                 <div>
-                  <p className="mb-1 text-[11px] uppercase tracking-wide text-neutral-500">
+                  <p className="mb-1 text-[11px] tracking-wide text-neutral-500 uppercase">
                     Personalisation Text
                     <span className="ml-1 text-red-400">*</span>
                   </p>
@@ -276,7 +274,7 @@ export default function KeyringPickerModal({
                       setPersonalisationValues({ text: e.target.value })
                     }
                     placeholder="e.g. Fahad"
-                    className="w-full border-b border-neutral-300 bg-transparent pb-1 text-[13px] text-neutral-800 outline-none placeholder-neutral-300 focus:border-black"
+                    className="w-full border-b border-neutral-300 bg-transparent pb-1 text-[13px] text-neutral-800 placeholder-neutral-300 outline-none focus:border-black"
                   />
                   <span
                     className={`mt-0.5 block text-right text-[11px] ${
@@ -292,7 +290,7 @@ export default function KeyringPickerModal({
 
               {/* Quantity */}
               <div>
-                <p className="mb-2 text-[11px] uppercase tracking-wide text-neutral-500">
+                <p className="mb-2 text-[11px] tracking-wide text-neutral-500 uppercase">
                   Quantity
                 </p>
                 <div className="flex h-9 w-[120px] items-center border border-neutral-300">

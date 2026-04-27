@@ -10,7 +10,7 @@ export interface UpsellItemConfig {
 
 // ── Dynamic addon entries ──────────────────────────────────────────────────
 export type AddonCartEntry = {
-  addon: string;      // addon _id
+  addon: string; // addon _id
   quantity: number;
   customerNote: string | null; // null = not yet written; stripped from POST payload
 };

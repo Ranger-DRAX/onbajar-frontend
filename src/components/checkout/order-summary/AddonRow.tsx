@@ -32,13 +32,21 @@ export default function AddonRow({ addon, entry, onChange }: AddonRowProps) {
   };
 
   const handleNoteSave = (note: string) => {
-    onChange({ ...entry, customerNote: note, quantity: Math.max(1, entry.quantity) });
+    onChange({
+      ...entry,
+      customerNote: note,
+      quantity: Math.max(1, entry.quantity),
+    });
   };
 
   const increment = () => onChange({ ...entry, quantity: entry.quantity + 1 });
   const decrement = () => {
     const next = entry.quantity - 1;
-    onChange({ ...entry, quantity: next, customerNote: next === 0 ? null : entry.customerNote });
+    onChange({
+      ...entry,
+      quantity: next,
+      customerNote: next === 0 ? null : entry.customerNote,
+    });
   };
 
   const showNoteBtn = isNoteAddon(addon);
@@ -74,15 +82,13 @@ export default function AddonRow({ addon, entry, onChange }: AddonRowProps) {
               onClick={handleNoteOpen}
               className="mt-[6px] inline-flex items-center gap-1 text-[12px] text-neutral-500 underline underline-offset-2 transition-colors hover:text-black"
             >
-              {entry.customerNote
-                ? "✎ Edit message"
-                : "+ Add gift message"}
+              {entry.customerNote ? "✎ Edit message" : "+ Add gift message"}
             </button>
           )}
 
           {/* Preview written message */}
           {entry.customerNote && (
-            <p className="mt-1 text-[11px] leading-snug text-neutral-400 italic line-clamp-2">
+            <p className="mt-1 line-clamp-2 text-[11px] leading-snug text-neutral-400 italic">
               "{entry.customerNote}"
             </p>
           )}
@@ -116,7 +122,11 @@ export default function AddonRow({ addon, entry, onChange }: AddonRowProps) {
 
         {/* Line total */}
         <p className="w-[120px] text-left text-[15px] leading-[20px] font-normal text-black sm:text-right">
-          BDT {(addon.price * entry.quantity).toFixed(addon.price % 1 === 0 ? 0 : 2)}৳
+          BDT{" "}
+          {(addon.price * entry.quantity).toFixed(
+            addon.price % 1 === 0 ? 0 : 2,
+          )}
+          ৳
         </p>
       </div>
 

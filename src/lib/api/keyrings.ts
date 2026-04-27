@@ -45,9 +45,7 @@ export function normalizeKeyring(k: any): Keyring {
     discount: activeDiscount,
     isActive: k?.isActive ?? true,
     isBestProduct: k?.isBestProduct ?? false,
-    personalisation: Array.isArray(k?.personalisation)
-      ? k.personalisation
-      : [],
+    personalisation: Array.isArray(k?.personalisation) ? k.personalisation : [],
     purchaseCount: k?.purchaseCount ?? 0,
   };
 }
