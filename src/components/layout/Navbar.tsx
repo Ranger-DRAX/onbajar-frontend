@@ -13,7 +13,6 @@ import TShirtImage from "@/assets/image/categoryImage/TShirtImage.svg";
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [shopDropdownOpen, setShopDropdownOpen] = useState(false);
-  const [newDropDropdownOpen, setNewDropDropdownOpen] = useState(false);
   const [isCartOpen, setIsCartOpen] = useState(false);
 
   return (
@@ -130,48 +129,6 @@ export default function Header() {
                 )}
               </div>
 
-              {/* New Drop with dropdown */}
-              <div
-                className="relative"
-                onMouseEnter={() => setNewDropDropdownOpen(true)}
-                onMouseLeave={() => setNewDropDropdownOpen(false)}
-              >
-                <Link
-                  href="/new-drop"
-                  className="flex items-center gap-1 text-sm font-normal text-gray-900 transition-colors hover:text-gray-700"
-                >
-                  New Drop
-                  <svg
-                    className="h-4 w-4"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M19 9l-7 7-7-7"
-                    />
-                  </svg>
-                </Link>
-                {newDropDropdownOpen && (
-                  <div className="absolute top-full left-0 mt-2 w-48 rounded-md border border-gray-200 bg-white py-2 shadow-lg">
-                    <Link
-                      href="/new-drop/latest"
-                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"
-                    >
-                      Latest Arrivals
-                    </Link>
-                    <Link
-                      href="/new-drop/trending"
-                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"
-                    >
-                      Trending Now
-                    </Link>
-                  </div>
-                )}
-              </div>
 
               <Link
                 href="/#about"
@@ -277,13 +234,6 @@ export default function Header() {
                   onClick={() => setIsMenuOpen(false)}
                 >
                   Shop
-                </Link>
-                <Link
-                  href="/new-drop"
-                  className="font-normal text-gray-900 transition-colors hover:text-gray-700"
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  New Drop
                 </Link>
                 <Link
                   href="/#about"

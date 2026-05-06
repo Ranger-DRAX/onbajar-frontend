@@ -3,12 +3,9 @@
 @font-face {
   font-family: "Satoshi";
   src:
-    url("../assets/fonts/Satoshi_Complete/Fonts/WEB/fonts/Satoshi-Variable.woff2")
-      format("woff2"),
-    url("../assets/fonts/Satoshi_Complete/Fonts/WEB/fonts/Satoshi-Variable.woff")
-      format("woff"),
-    url("../assets/fonts/Satoshi_Complete/Fonts/WEB/fonts/Satoshi-Variable.ttf")
-      format("truetype");
+    url("../assets/fonts/Satoshi_Complete/Fonts/WEB/fonts/Satoshi-Variable.woff2") format("woff2"),
+    url("../assets/fonts/Satoshi_Complete/Fonts/WEB/fonts/Satoshi-Variable.woff") format("woff"),
+    url("../assets/fonts/Satoshi_Complete/Fonts/WEB/fonts/Satoshi-Variable.ttf") format("truetype");
   font-weight: 300 900;
   font-display: swap;
   font-style: normal;
@@ -17,12 +14,9 @@
 @font-face {
   font-family: "Satoshi";
   src:
-    url("../assets/fonts/Satoshi_Complete/Fonts/WEB/fonts/Satoshi-VariableItalic.woff2")
-      format("woff2"),
-    url("../assets/fonts/Satoshi_Complete/Fonts/WEB/fonts/Satoshi-VariableItalic.woff")
-      format("woff"),
-    url("../assets/fonts/Satoshi_Complete/Fonts/WEB/fonts/Satoshi-VariableItalic.ttf")
-      format("truetype");
+    url("../assets/fonts/Satoshi_Complete/Fonts/WEB/fonts/Satoshi-VariableItalic.woff2") format("woff2"),
+    url("../assets/fonts/Satoshi_Complete/Fonts/WEB/fonts/Satoshi-VariableItalic.woff") format("woff"),
+    url("../assets/fonts/Satoshi_Complete/Fonts/WEB/fonts/Satoshi-VariableItalic.ttf") format("truetype");
   font-weight: 300 900;
   font-display: swap;
   font-style: italic;
@@ -111,7 +105,8 @@ body {
 /* ---------- Review Card — Mobile first (vertical) ---------- */
 .review-card {
   display: flex;
-  flex-direction: column; /* image on top, text below on mobile */
+  flex-direction: column;
+  /* image on top, text below on mobile */
   align-items: stretch;
   border: 1px solid #e0e0e0;
   border-radius: 4px;

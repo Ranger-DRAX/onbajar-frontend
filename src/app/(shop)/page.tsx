@@ -48,14 +48,34 @@ export default async function HomePage() {
       {/* New Arrivals */}
       <section className="w-full border-t px-6 py-10">
         <div className="mb-6 flex items-center justify-between">
-          <h2 className="flex items-center gap-2 text-6xl tracking-wide">
+          <h2 className="flex items-center gap-2">
             <Image
               src={RightArrowIcon}
-              alt="Right arrow icon "
+              alt="Right arrow icon"
               priority
               className="h-20 w-20"
             />
-            <span>New Arrivals</span>
+
+            <span
+              style={{
+                width: "540px",
+                height: "100px",
+                fontFamily: "'Satoshi'",
+                fontStyle: "normal",
+                fontWeight: 500,
+                fontSize: "96px",
+                lineHeight: "130px",
+                display: "flex",
+                alignItems: "center",
+                letterSpacing: "-0.04em",
+                color: "#121212",
+                flex: "none",
+                order: 1,
+                flexGrow: 0,
+              }}
+            >
+              New Arrivals
+            </span>
           </h2>
 
           <Link
@@ -84,14 +104,34 @@ export default async function HomePage() {
       {bestSellers.length > 0 && (
         <section className="w-full px-4 py-10">
           <div className="mb-6 flex items-center justify-between">
-            <h2 className="flex items-center gap-2 text-6xl tracking-wide">
+            <h2 className="flex items-center gap-2">
               <Image
                 src={RightArrowIcon}
-                alt="Right arrow icon "
+                alt="Right arrow icon"
                 priority
                 className="h-20 w-20"
               />
-              <span>Best Sellers</span>
+
+              <span
+                style={{
+                  width: "540px",
+                  height: "100px",
+                  fontFamily: "'Satoshi'",
+                  fontStyle: "normal",
+                  fontWeight: 500,
+                  fontSize: "96px",
+                  lineHeight: "130px",
+                  display: "flex",
+                  alignItems: "center",
+                  letterSpacing: "-0.04em",
+                  color: "#121212",
+                  flex: "none",
+                  order: 1,
+                  flexGrow: 0,
+                }}
+              >
+                Best Sellers
+              </span>
             </h2>
             <Link
               href="/products"

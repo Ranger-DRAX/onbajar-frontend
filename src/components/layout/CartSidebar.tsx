@@ -262,7 +262,7 @@ export default function CartSidebar({ open, onClose }: CartSidebarProps) {
                 onClick={onClose}
                 className="mt-4 flex h-12 w-full items-center justify-center bg-[#0A0A0A] text-[16px] leading-6 font-medium text-white transition hover:bg-black/90 sm:h-14 sm:text-[18px] sm:leading-7"
               >
-                Checkout
+                Buy Now
               </Link>
             </div>
           </>

@@ -71,7 +71,7 @@ function AnimatedWord({ text, bold, index, progress }: WordProps) {
   return (
     <motion.span
       style={{ color }}
-      className={`inline-block ${bold ? "font-bold" : "font-bold"}`}
+      className={`inline-block ${bold ? "font-bold" : "font-medium"}`}
     >
       {text}
     </motion.span>
@@ -119,7 +119,23 @@ export default function AboutScrollSection() {
         {/* ── Centred content ── */}
         <div className="absolute inset-0 flex flex-col items-center justify-center px-4 text-center">
           {/* ABOUT heading — small tracking label */}
-          <motion.span className="mb-5 block text-[13px] tracking-[0.35em] uppercase sm:text-sm">
+          <motion.span
+            className="
+    relative
+    top-[20px]
+    mb-5
+    flex
+    h-[43px]
+    w-[108px]
+    items-center
+    justify-center
+    text-center
+    font-satoshi
+    text-[24px]
+    font-medium
+    leading-[43px]
+  "
+          >
             <AnimatedWord
               text={headingToken.text}
               bold={false}
@@ -132,7 +148,7 @@ export default function AboutScrollSection() {
            * Body sentence
            * Figma: 32px / 43px lh / bold / max-w ~887px / centered
            */}
-          <p className="w-full max-w-[887px] text-center text-[32px] leading-[1.35] font-bold sm:text-[32px]">
+          <p className="w-full max-w-[887px] text-center text-[24px] leading-[1.35] font-bold sm:text-[24px]">
             {sentenceTokens.map((token, i) => (
               <span key={i}>
                 <AnimatedWord

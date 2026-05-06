@@ -68,7 +68,7 @@ export default function ReviewSection() {
     <section className="review-section" aria-label="Customer Reviews">
       {/* Header */}
       <div className="review-section__header">
-        <h2 className="review-section__title">What&rsquo;re they saying?</h2>
+        <h2 className="text-[56px] font-medium leading-[80px] tracking-[-0.04em] text-[#121212]">What&rsquo;re they saying?</h2>
         <p className="review-section__label">Review</p>
       </div>
 
