@@ -8,17 +8,18 @@ export default function CartCount() {
   const [hydrated, setHydrated] = useState(false);
 
   useEffect(() => {
-    // Set hydrated to true when component mounts on client
     setHydrated(true);
   }, []);
 
+  // Show a plain filled dot badge (no number) — matches design reference
+  const visible = hydrated && total > 0;
+
   return (
     <span
-      className={`absolute -top-1.5 -right-1.5 flex h-4 w-4 items-center justify-center rounded-full bg-black text-[9px] leading-none font-bold text-white transition-opacity duration-200 ${
-        !hydrated || total === 0 ? "opacity-0" : "opacity-100"
+      aria-label={visible ? `${total} items in cart` : undefined}
+      className={`absolute -top-2 -right-2 h-[14px] w-[14px] rounded-full bg-[#1C1B1F] transition-opacity duration-200 ${
+        visible ? "opacity-100" : "opacity-0 pointer-events-none"
       }`}
-    >
-      {hydrated && total > 0 ? (total > 99 ? "99+" : total) : ""}
-    </span>
+    />
   );
 }
