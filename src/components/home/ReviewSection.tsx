@@ -9,6 +9,7 @@ import type { Swiper as SwiperType } from "swiper";
 import "swiper/css";
 
 import HappyCustomerImage from "@/assets/image/HappyCustomerImage.png";
+import ReviewSectionBackground from "@/assets/image/ReviewSectionBackground.svg";
 
 /* ------------------------------------------------------------------ */
 /* Data                                                                 */
@@ -66,6 +67,26 @@ export default function ReviewSection() {
 
   return (
     <section className="review-section" aria-label="Customer Reviews">
+      {/* Background image */}
+      <Image
+        src={ReviewSectionBackground}
+        alt=""
+        aria-hidden="true"
+        className="review-section__bg"
+        style={{
+          position: "absolute",
+          width: "1903px",
+          height: "604px",
+          left: "0px",
+          top: "180px",
+
+          flex: "none",
+          order: 0,
+          flexGrow: 0,
+          zIndex: 0,
+        }}
+      />
+
       {/* Header */}
       <div className="review-section__header">
         <h2 className="text-[56px] font-medium leading-[80px] tracking-[-0.04em] text-[#121212]">What&rsquo;re they saying?</h2>

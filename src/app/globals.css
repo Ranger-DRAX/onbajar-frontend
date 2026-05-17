@@ -68,12 +68,29 @@ body {
   overflow: hidden;
 }
 
+/* ---------- Background image ---------- */
+.review-section__bg {
+  position: absolute;
+  width: 1903px;
+  height: 604px;
+  left: 0;
+  top: 0;
+  flex: none;
+  order: 0;
+  flex-grow: 0;
+  z-index: 0;
+  pointer-events: none;
+  user-select: none;
+}
+
 /* ---------- Header ---------- */
 .review-section__header {
   display: flex;
   flex-direction: column;
   gap: 4px;
   margin-bottom: 40px;
+  position: relative;
+  z-index: 1;
 }
 
 .review-section__title {
@@ -96,6 +113,8 @@ body {
 .review-section__carousel {
   width: 100%;
   flex: 1;
+  position: relative;
+  z-index: 1;
 }
 
 .review-swiper {
@@ -196,6 +215,8 @@ body {
   justify-content: space-between;
   width: 100%;
   margin-top: 24px;
+  position: relative;
+  z-index: 1;
 }
 
 .review-section__nav-btn {
