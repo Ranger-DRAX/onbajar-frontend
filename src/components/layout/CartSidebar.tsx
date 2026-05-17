@@ -90,31 +90,28 @@ export default function CartSidebar({ open, onClose }: CartSidebarProps) {
 
   return (
     <div
-      className={`fixed inset-0 z-90 transition ${
-        open ? "pointer-events-auto" : "pointer-events-none"
-      }`}
+      className={`fixed inset-0 z-90 transition ${open ? "pointer-events-auto" : "pointer-events-none"
+        }`}
       aria-hidden={!open}
     >
       <button
         type="button"
         aria-label="Close cart sidebar"
-        className={`absolute inset-0 bg-black/35 transition-opacity ${
-          open ? "opacity-100" : "opacity-0"
-        }`}
+        className={`absolute inset-0 bg-black/35 transition-opacity ${open ? "opacity-100" : "opacity-0"
+          }`}
         onClick={onClose}
       />
 
       <aside
-        className={`absolute top-0 right-0 flex h-full w-full max-w-190 transform flex-col bg-[#F3F3F3] shadow-2xl transition-transform duration-300 ease-out ${
-          open ? "translate-x-0" : "translate-x-full"
-        }`}
+        className={`absolute top-0 right-0 flex h-[550px] w-full max-w-[550px] transform flex-col bg-[#F3F3F3] shadow-2xl transition-transform duration-300 ease-out ${open ? "translate-x-0" : "translate-x-full"
+          }`}
         role="dialog"
         aria-modal="true"
         aria-label="Shopping cart"
       >
         <div className="border-b border-[#8E8E8E] px-4 pt-4 pb-3 sm:px-8 sm:pt-6 sm:pb-4">
           <div className="flex items-center justify-between gap-4">
-            <h2 className="text-[20px] leading-none font-medium text-black uppercase sm:text-[34px]">
+            <h2 className="text-[16px] leading-none font-medium text-black uppercase sm:text-[24px]">
               YOUR CART ({cartCount})
             </h2>
 
@@ -122,7 +119,7 @@ export default function CartSidebar({ open, onClose }: CartSidebarProps) {
               type="button"
               onClick={onClose}
               aria-label="Close cart"
-              className="grid h-8 w-8 place-items-center rounded-full bg-[#E6E6E6] text-[24px] leading-none text-black transition hover:bg-[#DCDCDC] sm:h-10 sm:w-10 sm:text-[28px]"
+              className="grid h-7 w-7 place-items-center rounded-full bg-[#E6E6E6] text-[20px] leading-none text-black transition hover:bg-[#DCDCDC] sm:h-8 sm:w-8 sm:text-[22px]"
             >
               ×
             </button>
@@ -131,12 +128,12 @@ export default function CartSidebar({ open, onClose }: CartSidebarProps) {
 
         {items.length === 0 ? (
           <div className="flex flex-1 flex-col items-center justify-center px-4 text-center sm:px-8">
-            <p className="text-[22px] leading-7.5 font-medium text-black">
+            <p className="text-[16px] leading-6 font-medium text-black">
               Your cart is empty
             </p>
             <Link
               href="/products"
-              className="mt-4 text-[16px] leading-5.5 text-[#5A5A5A] underline underline-offset-4 hover:text-black"
+              className="mt-4 text-[13px] leading-5 text-[#5A5A5A] underline underline-offset-4 hover:text-black"
               onClick={onClose}
             >
               Continue Shopping
@@ -162,10 +159,10 @@ export default function CartSidebar({ open, onClose }: CartSidebarProps) {
                     </div>
 
                     <div className="min-w-0">
-                      <p className="text-[14px] leading-5 font-medium text-black uppercase sm:text-[18px] sm:leading-7">
+                      <p className="text-[12px] leading-4.5 font-medium text-black uppercase sm:text-[14px] sm:leading-6">
                         {item.title}
                       </p>
-                      <p className="mt-1.5 text-[12px] leading-4.5 text-[#525252] uppercase sm:mt-2 sm:text-[15px] sm:leading-5">
+                      <p className="mt-1.5 text-[11px] leading-4 text-[#525252] uppercase sm:mt-2 sm:text-[12px] sm:leading-4.5">
                         SIZE: {item.size ?? "ONE SIZE"}
                       </p>
                     </div>
@@ -182,12 +179,12 @@ export default function CartSidebar({ open, onClose }: CartSidebarProps) {
                         }
                       />
 
-                      <p className="text-[15px] leading-6 font-medium whitespace-nowrap text-black sm:hidden">
+                      <p className="text-[12px] leading-5 font-medium whitespace-nowrap text-black sm:hidden">
                         {formatPrice(item.price, currency)}
                       </p>
                     </div>
 
-                    <p className="hidden text-[18px] leading-7 font-medium whitespace-nowrap text-black sm:block">
+                    <p className="hidden text-[14px] leading-6 font-medium whitespace-nowrap text-black sm:block">
                       {formatPrice(item.price, currency)}
                     </p>
                   </div>
@@ -199,7 +196,7 @@ export default function CartSidebar({ open, onClose }: CartSidebarProps) {
               <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
                 <label
                   htmlFor="cart-promo"
-                  className="text-[15px] leading-5 text-[#3A3A3A] sm:text-[18px] sm:leading-6"
+                  className="text-[12px] leading-4.5 text-[#3A3A3A] sm:text-[14px] sm:leading-5"
                 >
                   Promo Code
                 </label>
@@ -240,19 +237,19 @@ export default function CartSidebar({ open, onClose }: CartSidebarProps) {
                 </p>
               )}
 
-              <div className="mt-4 flex items-center justify-between text-[20px] leading-7 text-[#3A3A3A] sm:text-[24px] sm:leading-10">
+              <div className="mt-4 flex items-center justify-between text-[15px] leading-6 text-[#3A3A3A] sm:text-[18px] sm:leading-8">
                 <span>Subtotal</span>
                 <span>{formatPrice(subtotal, currency)}</span>
               </div>
 
               {discount > 0 && (
-                <div className="mt-2 flex items-center justify-between text-[16px] leading-6 text-[#2D7A35] sm:text-[20px] sm:leading-9">
+                <div className="mt-2 flex items-center justify-between text-[13px] leading-5 text-[#2D7A35] sm:text-[16px] sm:leading-7">
                   <span>Discount</span>
                   <span>-{formatPrice(discount, currency)}</span>
                 </div>
               )}
 
-              <div className="mt-8 flex items-center justify-between text-[24px] leading-8 text-[#3A3A3A] sm:text-[30px] sm:leading-10">
+              <div className="mt-6 flex items-center justify-between text-[18px] leading-7 text-[#3A3A3A] sm:text-[22px] sm:leading-9">
                 <span>Total</span>
                 <span>{formatPrice(total, currency)}</span>
               </div>
@@ -260,7 +257,7 @@ export default function CartSidebar({ open, onClose }: CartSidebarProps) {
               <Link
                 href="/checkout"
                 onClick={onClose}
-                className="mt-4 flex h-12 w-full items-center justify-center bg-[#0A0A0A] text-[16px] leading-6 font-medium text-white transition hover:bg-black/90 sm:h-14 sm:text-[18px] sm:leading-7"
+                className="mt-4 flex h-10 w-full items-center justify-center bg-[#0A0A0A] text-[13px] leading-5 font-medium text-white transition hover:bg-black/90 sm:h-12 sm:text-[15px] sm:leading-6"
               >
                 Buy Now
               </Link>
