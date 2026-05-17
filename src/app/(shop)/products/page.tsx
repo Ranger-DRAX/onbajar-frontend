@@ -6,6 +6,10 @@ import { getProducts, normalizeProduct } from "@/lib/api/products";
 import { getKeyrings, normalizeKeyring } from "@/lib/api/keyrings";
 import { Suspense } from "react";
 
+// Skip static prerendering — fetches live data from the backend API
+export const dynamic = "force-dynamic";
+
+
 type UnifiedItem = {
   id: string;
   title: string;

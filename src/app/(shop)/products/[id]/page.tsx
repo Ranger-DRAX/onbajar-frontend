@@ -12,6 +12,10 @@ import ProductAccordion from "@/components/products/details/ProductAccordion";
 import ProductVideo from "@/components/products/details/ProductVideo";
 import ProductRelated from "@/components/products/details/ProductRelated";
 
+// Skip static prerendering — fetches live data from the backend API
+export const dynamic = "force-dynamic";
+
+
 type Props = { params: Promise<{ id: string }> };
 
 export default async function ProductDetailsPage({ params }: Props) {

@@ -9,6 +9,9 @@ import RightArrowIcon from "@/assets/image/RightArrowIcon.svg";
 import ReviewSection from "@/components/home/ReviewSection";
 import AboutScrollSection from "@/components/home/AboutScrollSection";
 
+// Skip static prerendering — page fetches live data from the backend API
+export const dynamic = "force-dynamic";
+
 export default async function HomePage() {
   const [productsRes, keyringsRes] = await Promise.all([
     getProducts({ page: 1, limit: 12 }),
