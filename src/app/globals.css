@@ -185,7 +185,7 @@ body {
 @media (min-width: 1024px) {
   .review-card {
     flex-direction: row;
-    height: 240px;
+    height: 423px;
   }
 
   .review-card__img-wrap {
