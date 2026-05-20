@@ -103,7 +103,7 @@ export default function CartSidebar({ open, onClose }: CartSidebarProps) {
       />
 
       <aside
-        className={`absolute top-0 right-0 flex h-[550px] w-full max-w-[550px] transform flex-col bg-[#F3F3F3] shadow-2xl transition-transform duration-300 ease-out ${open ? "translate-x-0" : "translate-x-full"
+        className={`absolute top-0 right-0 flex h-full sm:h-[550px] w-full max-w-[550px] transform flex-col bg-[#F3F3F3] shadow-2xl transition-transform duration-300 ease-out ${open ? "translate-x-0" : "translate-x-full"
           }`}
         role="dialog"
         aria-modal="true"
@@ -114,7 +114,7 @@ export default function CartSidebar({ open, onClose }: CartSidebarProps) {
             <h2 className="text-[16px] leading-none font-medium text-black uppercase sm:text-[24px]">
               YOUR CART ({cartCount})
             </h2>
-
+ 
             <button
               type="button"
               onClick={onClose}
@@ -125,7 +125,7 @@ export default function CartSidebar({ open, onClose }: CartSidebarProps) {
             </button>
           </div>
         </div>
-
+ 
         {items.length === 0 ? (
           <div className="flex flex-1 flex-col items-center justify-center px-4 text-center sm:px-8">
             <p className="text-[16px] leading-6 font-medium text-black">
@@ -148,16 +148,16 @@ export default function CartSidebar({ open, onClose }: CartSidebarProps) {
                     key={`${item.id}-${item.size}`}
                     className="grid grid-cols-[64px_minmax(0,1fr)] gap-x-3 gap-y-3 rounded-sm bg-white/70 p-3 sm:grid-cols-[80px_minmax(0,1fr)_117px_auto] sm:items-center sm:gap-x-5 sm:bg-transparent sm:p-0"
                   >
-                    <div className="relative h-25.5 w-20 overflow-hidden bg-[#DFDFDF]">
+                    <div className="relative h-20 w-16 sm:h-25.5 sm:w-20 overflow-hidden bg-[#DFDFDF]">
                       <Image
                         src={item.imageUrl}
                         alt={item.title}
                         fill
                         className="object-cover"
-                        sizes="80px"
+                        sizes="(max-width: 640px) 64px, 80px"
                       />
                     </div>
-
+ 
                     <div className="min-w-0">
                       <p className="text-[12px] leading-4.5 font-medium text-black uppercase sm:text-[14px] sm:leading-6">
                         {item.title}

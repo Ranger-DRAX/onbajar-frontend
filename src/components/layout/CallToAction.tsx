@@ -5,8 +5,8 @@ import DeliveryIcon from "@/assets/image/deliveryIcon.svg";
 export default function CallToAction() {
   return (
     <section id="bulk-order" className="relative w-full overflow-hidden bg-[#F1F1F1]">
-      <div className="relative mx-auto h-[300px] max-w-[1905px] bg-[#F1F1F1]">
-        <div className="grid h-full grid-cols-2">
+      <div className="relative mx-auto h-auto md:h-[300px] max-w-[1905px] bg-[#F1F1F1]">
+        <div className="grid h-full grid-cols-1 md:grid-cols-2 gap-10 md:gap-0 py-10 md:py-0">
           {/* Bulk Order */}
           <div className="flex items-center justify-center bg-[#F1F1F1]">
             <div className="flex flex-col items-center text-center">
@@ -61,7 +61,7 @@ export default function CallToAction() {
         </div>
 
         {/* divider */}
-        <div className="pointer-events-none absolute top-[4px] left-1/2 z-10 h-[387px] w-px -translate-x-1/2 bg-[#6E6E6E]" />
+        <div className="pointer-events-none absolute top-[4px] left-1/2 z-10 hidden h-[387px] w-px -translate-x-1/2 bg-[#6E6E6E] md:block" />
       </div>
     </section>
   );

@@ -73,23 +73,13 @@ export default function ReviewSection() {
         alt=""
         aria-hidden="true"
         className="review-section__bg"
-        style={{
-          position: "absolute",
-          width: "1903px",
-          height: "604px",
-          left: "0px",
-          top: "180px",
-
-          flex: "none",
-          order: 0,
-          flexGrow: 0,
-          zIndex: 0,
-        }}
       />
 
       {/* Header */}
       <div className="review-section__header">
-        <h2 className="text-[56px] font-medium leading-[80px] tracking-[-0.04em] text-[#121212]">What&rsquo;re they saying?</h2>
+        <h2 className="text-[28px] sm:text-[40px] md:text-[48px] lg:text-[56px] font-medium leading-tight lg:leading-[80px] tracking-[-0.04em] text-[#121212]">
+          What&rsquo;re they saying?
+        </h2>
         {/* <p className="review-section__label">Review</p> */}
       </div>
 

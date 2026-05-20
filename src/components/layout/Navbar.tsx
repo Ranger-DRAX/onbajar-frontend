@@ -220,7 +220,7 @@ export default function Header() {
 
           {/* Mobile Navigation */}
           {isMenuOpen && (
-            <div className="border-t py-4 md:hidden">
+            <div className="border-t py-4 px-8 md:hidden">
               <div className="flex flex-col space-y-4">
                 <Link
                   href="/products"

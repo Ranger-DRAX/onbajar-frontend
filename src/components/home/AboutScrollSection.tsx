@@ -125,15 +125,15 @@ export default function AboutScrollSection() {
     top-[20px]
     mb-5
     flex
-    h-[43px]
-    w-[108px]
     items-center
     justify-center
     text-center
     font-satoshi
-    text-[24px]
+    text-[16px]
+    sm:text-[20px]
+    md:text-[24px]
     font-medium
-    leading-[43px]
+    leading-none
   "
           >
             <AnimatedWord
@@ -148,7 +148,7 @@ export default function AboutScrollSection() {
            * Body sentence
            * Figma: 32px / 43px lh / bold / max-w ~887px / centered
            */}
-          <p className="w-full max-w-[887px] text-center text-[24px] leading-[1.35] font-bold sm:text-[24px]">
+          <p className="w-full max-w-[887px] text-center text-[18px] sm:text-[24px] md:text-[28px] lg:text-[32px] leading-[1.35] font-bold">
             {sentenceTokens.map((token, i) => (
               <span key={i}>
                 <AnimatedWord

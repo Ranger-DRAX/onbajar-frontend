@@ -6,7 +6,7 @@ export default function Footer() {
   return (
     <footer className="bg-gradient-to-r from-black via-zinc-950 to-zinc-900 text-zinc-200">
       <div className="w-full px-4 py-14 sm:px-6 sm:py-16 lg:px-8">
-        <div className="grid grid-cols-1 gap-26 lg:grid-cols-12 lg:items-start">
+        <div className="grid grid-cols-1 gap-10 sm:gap-16 lg:gap-26 lg:grid-cols-12 lg:items-start">
           {/* Left: Brand + Contact */}
           <div className="lg:col-span-5">
             <Link href="/" className="inline-flex items-center">
