@@ -49,7 +49,7 @@ export default async function HomePage() {
         />
       </div>
       {/* New Arrivals */}
-      <section className="w-full border-t px-4 sm:px-6 md:px-8 py-8 sm:py-12 md:py-16">
+      <section className="w-full border-t px-4 py-8 sm:px-6 sm:py-12 md:px-8 md:py-16">
         <div className="mb-6 flex items-center justify-between">
           <h2 className="flex items-center gap-2">
             <Image
@@ -59,14 +59,14 @@ export default async function HomePage() {
               className="h-8 w-8 sm:h-14 md:h-16 lg:h-20 lg:w-20"
             />
 
-            <span className="font-satoshi font-medium text-[32px] sm:text-[56px] md:text-[72px] lg:text-[96px] leading-[1.1] lg:leading-[130px] tracking-[-0.04em] text-[#121212]">
+            <span className="font-satoshi text-[32px] leading-[1.1] font-medium tracking-[-0.04em] text-[#121212] sm:text-[56px] md:text-[72px] lg:text-[96px] lg:leading-[130px]">
               New Arrivals
             </span>
           </h2>
 
           <Link
             href="/products"
-            className="text-xs text-gray-500 underline underline-offset-4 hover:text-black font-medium"
+            className="text-xs font-medium text-gray-500 underline underline-offset-4 hover:text-black"
           >
             View All
           </Link>
@@ -88,7 +88,7 @@ export default async function HomePage() {
       </section>
       {/* Best Sellers */}
       {bestSellers.length > 0 && (
-        <section className="w-full px-4 sm:px-6 md:px-8 py-8 sm:py-12 md:py-16">
+        <section className="w-full px-4 py-8 sm:px-6 sm:py-12 md:px-8 md:py-16">
           <div className="mb-6 flex items-center justify-between">
             <h2 className="flex items-center gap-2">
               <Image
@@ -98,13 +98,13 @@ export default async function HomePage() {
                 className="h-8 w-8 sm:h-14 md:h-16 lg:h-20 lg:w-20"
               />
 
-              <span className="font-satoshi font-medium text-[32px] sm:text-[56px] md:text-[72px] lg:text-[96px] leading-[1.1] lg:leading-[130px] tracking-[-0.04em] text-[#121212]">
+              <span className="font-satoshi text-[32px] leading-[1.1] font-medium tracking-[-0.04em] text-[#121212] sm:text-[56px] md:text-[72px] lg:text-[96px] lg:leading-[130px]">
                 Best Sellers
               </span>
             </h2>
             <Link
               href="/products"
-              className="text-xs text-gray-500 underline underline-offset-4 hover:text-black font-medium"
+              className="text-xs font-medium text-gray-500 underline underline-offset-4 hover:text-black"
             >
               View All
             </Link>

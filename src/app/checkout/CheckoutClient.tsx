@@ -297,9 +297,21 @@ export default function CheckoutClient() {
     }
   };
 
+  const currency = items[0]?.currency ?? "BDT";
+
   return (
     <div className="min-h-screen bg-white font-sans text-neutral-900">
       <CheckoutHeader />
+
+      {/* Mobile-only Order Summary bar */}
+      <div className="flex items-center justify-between border-b border-neutral-200 bg-white px-6 py-3 lg:hidden">
+        <span className="text-sm font-medium underline underline-offset-2 cursor-pointer">
+          Order Summary
+        </span>
+        <span className="text-sm font-medium">
+          {currency}. {total}৳
+        </span>
+      </div>
 
       <form onSubmit={handleSubmit} className="pt-8">
         <div className="flex flex-col lg:flex-row">

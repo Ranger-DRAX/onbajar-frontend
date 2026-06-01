@@ -18,15 +18,15 @@ export default function CheckoutHeader() {
             width={171}
             height={38}
             priority
-            className="h-auto w-[140px] sm:w-[140px]"
+            className="h-auto w-[120px] sm:w-[140px] md:w-[171px]"
           />
         </Link>
 
-        <div className="absolute top-1/2 right-6 flex -translate-y-1/2 items-center gap-2 md:right-12">
-          <span className="text-[15px] leading-5 font-medium tracking-[-0.03em] text-[#F2F2F2]">
+        <div className="absolute top-1/2 right-4 flex -translate-y-1/2 items-center gap-2 sm:right-6 md:right-12">
+          <span className="hidden text-[13px] leading-5 font-medium tracking-[-0.03em] text-[#F2F2F2] sm:inline md:text-[15px]">
             SECURE CHECKOUT
           </span>
-          <Image src={SecurityIcon} alt="Security" className="h-6 w-6" />
+          <Image src={SecurityIcon} alt="Security" className="h-5 w-5 sm:h-6 sm:w-6" />
         </div>
       </div>
     </header>

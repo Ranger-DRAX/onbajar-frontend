@@ -18,7 +18,7 @@ export default function CartCount() {
     <span
       aria-label={visible ? `${total} items in cart` : undefined}
       className={`absolute -top-2 -right-2 h-[14px] w-[14px] rounded-full bg-[#1C1B1F] transition-opacity duration-200 ${
-        visible ? "opacity-100" : "opacity-0 pointer-events-none"
+        visible ? "opacity-100" : "pointer-events-none opacity-0"
       }`}
     />
   );

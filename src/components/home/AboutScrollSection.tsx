@@ -119,23 +119,7 @@ export default function AboutScrollSection() {
         {/* ── Centred content ── */}
         <div className="absolute inset-0 flex flex-col items-center justify-center px-4 text-center">
           {/* ABOUT heading — small tracking label */}
-          <motion.span
-            className="
-    relative
-    top-[20px]
-    mb-5
-    flex
-    items-center
-    justify-center
-    text-center
-    font-satoshi
-    text-[16px]
-    sm:text-[20px]
-    md:text-[24px]
-    font-medium
-    leading-none
-  "
-          >
+          <motion.span className="font-satoshi relative top-[20px] mb-5 flex items-center justify-center text-center text-[16px] leading-none font-medium sm:text-[20px] md:text-[24px]">
             <AnimatedWord
               text={headingToken.text}
               bold={false}
@@ -148,7 +132,7 @@ export default function AboutScrollSection() {
            * Body sentence
            * Figma: 32px / 43px lh / bold / max-w ~887px / centered
            */}
-          <p className="w-full max-w-[887px] text-center text-[18px] sm:text-[24px] md:text-[28px] lg:text-[32px] leading-[1.35] font-bold">
+          <p className="w-full max-w-[887px] text-center text-[18px] leading-[1.35] font-bold sm:text-[24px] md:text-[28px] lg:text-[32px]">
             {sentenceTokens.map((token, i) => (
               <span key={i}>
                 <AnimatedWord

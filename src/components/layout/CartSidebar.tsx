@@ -97,13 +97,13 @@ export default function CartSidebar({ open, onClose }: CartSidebarProps) {
       <button
         type="button"
         aria-label="Close cart sidebar"
-        className={`absolute inset-0 bg-black/35 transition-opacity ${open ? "opacity-100" : "opacity-0"
+        className={`absolute inset-0 bg-black/30 transition-all duration-300 ${open ? "opacity-100 backdrop-blur-sm" : "opacity-0 backdrop-blur-none"
           }`}
         onClick={onClose}
       />
 
       <aside
-        className={`absolute top-0 right-0 flex h-full sm:h-[550px] w-full max-w-[550px] transform flex-col bg-[#F3F3F3] shadow-2xl transition-transform duration-300 ease-out ${open ? "translate-x-0" : "translate-x-full"
+        className={`absolute top-0 right-0 flex h-screen w-screen transform flex-col bg-[#F3F3F3] shadow-2xl transition-transform duration-300 ease-out sm:w-[668px] sm:h-[940px] ${open ? "translate-x-0" : "translate-x-full"
           }`}
         role="dialog"
         aria-modal="true"
@@ -111,10 +111,10 @@ export default function CartSidebar({ open, onClose }: CartSidebarProps) {
       >
         <div className="border-b border-[#8E8E8E] px-4 pt-4 pb-3 sm:px-8 sm:pt-6 sm:pb-4">
           <div className="flex items-center justify-between gap-4">
-            <h2 className="text-[16px] leading-none font-medium text-black uppercase sm:text-[24px]">
+            <h2 className="text-[24px] leading-none font-medium text-black uppercase sm:text-[24px]">
               YOUR CART ({cartCount})
             </h2>
- 
+
             <button
               type="button"
               onClick={onClose}
@@ -125,7 +125,7 @@ export default function CartSidebar({ open, onClose }: CartSidebarProps) {
             </button>
           </div>
         </div>
- 
+
         {items.length === 0 ? (
           <div className="flex flex-1 flex-col items-center justify-center px-4 text-center sm:px-8">
             <p className="text-[16px] leading-6 font-medium text-black">
@@ -148,7 +148,7 @@ export default function CartSidebar({ open, onClose }: CartSidebarProps) {
                     key={`${item.id}-${item.size}`}
                     className="grid grid-cols-[64px_minmax(0,1fr)] gap-x-3 gap-y-3 rounded-sm bg-white/70 p-3 sm:grid-cols-[80px_minmax(0,1fr)_117px_auto] sm:items-center sm:gap-x-5 sm:bg-transparent sm:p-0"
                   >
-                    <div className="relative h-20 w-16 sm:h-25.5 sm:w-20 overflow-hidden bg-[#DFDFDF]">
+                    <div className="relative h-20 w-16 overflow-hidden bg-[#DFDFDF] sm:h-25.5 sm:w-20">
                       <Image
                         src={item.imageUrl}
                         alt={item.title}
@@ -157,7 +157,7 @@ export default function CartSidebar({ open, onClose }: CartSidebarProps) {
                         sizes="(max-width: 640px) 64px, 80px"
                       />
                     </div>
- 
+
                     <div className="min-w-0">
                       <p className="text-[12px] leading-4.5 font-medium text-black uppercase sm:text-[14px] sm:leading-6">
                         {item.title}
@@ -196,7 +196,7 @@ export default function CartSidebar({ open, onClose }: CartSidebarProps) {
               <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
                 <label
                   htmlFor="cart-promo"
-                  className="text-[12px] leading-4.5 text-[#3A3A3A] sm:text-[14px] sm:leading-5"
+                  className="text-[12px] leading-4.5 text-[#3A3A3A] sm:text-[15px] sm:leading-5"
                 >
                   Promo Code
                 </label>
@@ -237,7 +237,7 @@ export default function CartSidebar({ open, onClose }: CartSidebarProps) {
                 </p>
               )}
 
-              <div className="mt-4 flex items-center justify-between text-[15px] leading-6 text-[#3A3A3A] sm:text-[18px] sm:leading-8">
+              <div className="mt-4 flex items-center justify-between text-[13px] leading-6 text-[#3A3A3A] sm:text-[18px] sm:leading-8">
                 <span>Subtotal</span>
                 <span>{formatPrice(subtotal, currency)}</span>
               </div>
@@ -249,7 +249,7 @@ export default function CartSidebar({ open, onClose }: CartSidebarProps) {
                 </div>
               )}
 
-              <div className="mt-6 flex items-center justify-between text-[18px] leading-7 text-[#3A3A3A] sm:text-[22px] sm:leading-9">
+              <div className="mt-4 flex items-center justify-between text-[15px] leading-7 text-[#3A3A3A] sm:text-[18px] sm:leading-9">
                 <span>Total</span>
                 <span>{formatPrice(total, currency)}</span>
               </div>

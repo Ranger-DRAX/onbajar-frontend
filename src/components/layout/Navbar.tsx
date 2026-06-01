@@ -130,7 +130,6 @@ export default function Header() {
                 )}
               </div>
 
-
               <Link
                 href="/#about"
                 className="text-sm font-normal text-gray-900 transition-colors hover:text-gray-700"
@@ -220,7 +219,7 @@ export default function Header() {
 
           {/* Mobile Navigation */}
           {isMenuOpen && (
-            <div className="border-t py-4 px-8 md:hidden">
+            <div className="border-t px-8 py-4 md:hidden">
               <div className="flex flex-col space-y-4">
                 <Link
                   href="/products"

@@ -9,7 +9,6 @@ import { Suspense } from "react";
 // Skip static prerendering — fetches live data from the backend API
 export const dynamic = "force-dynamic";
 
-
 function sortKeyrings(keyrings: Keyring[], sort: string): Keyring[] {
   const sorted = [...keyrings];
   switch (sort) {
