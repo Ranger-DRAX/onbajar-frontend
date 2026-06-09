@@ -314,8 +314,9 @@ export default function CheckoutClient() {
       </div>
 
       <form onSubmit={handleSubmit} className="pt-8">
-        <div className="flex flex-col lg:flex-row">
-          <div className="w-full px-6 py-8 lg:w-[55%] lg:px-20 lg:py-10 xl:pr-32">
+        <div className="flex flex-col lg:grid lg:grid-cols-[55%_45%] lg:items-start">
+          {/* Delivery & Billing Information */}
+          <div className="w-full px-6 py-8 lg:px-20 lg:py-10 xl:pr-32 order-1 lg:col-start-1 lg:row-start-1 lg:w-full">
             <DeliveryForm
               delivery={delivery}
               setDelivery={setDelivery}
@@ -327,7 +328,30 @@ export default function CheckoutClient() {
               setBilling={setBilling}
               showErrors={showErrors}
             />
+          </div>
 
+          {/* Order Summary */}
+          <OrderSummary
+            className="order-2 lg:col-start-2 lg:row-start-1 lg:row-span-2 lg:w-full"
+            items={items}
+            updateQty={updateQty}
+            onRemoveItem={removeItem}
+            addons={addons}
+            addonEntries={addonEntries}
+            setAddonEntries={setAddonEntries}
+            keyrings={keyrings}
+            selectedKeyring={selectedKeyring}
+            setSelectedKeyring={setSelectedKeyring}
+            deliveryFee={deliveryFee}
+            total={total}
+            promoCode={promoCode}
+            discount={discount}
+            onApplyPromo={applyPromoCode}
+            onRemovePromo={removePromoCode}
+          />
+
+          {/* Payment & Submit */}
+          <div className="w-full px-6 py-8 lg:px-20 lg:py-10 xl:pr-32 order-3 lg:col-start-1 lg:row-start-2 lg:w-full">
             <PaymentForm
               paymentMethod={paymentMethod}
               setPaymentMethod={setPaymentMethod}
@@ -348,6 +372,13 @@ export default function CheckoutClient() {
               </PrimaryButton>
             </div>
 
+            {/* Mobile-only "Thank you for choosing us!" */}
+            <div className="mt-6 flex justify-center lg:hidden">
+              <p className="w-[184px] text-center text-[14px] font-normal leading-[18px] text-black">
+                Thank you for choosing us!
+              </p>
+            </div>
+
             {error && <p className="mt-4 text-red-600">{error}</p>}
 
             {/* Keyring personalisation warning */}
@@ -365,24 +396,6 @@ export default function CheckoutClient() {
               </div>
             )}
           </div>
-
-          <OrderSummary
-            items={items}
-            updateQty={updateQty}
-            onRemoveItem={removeItem}
-            addons={addons}
-            addonEntries={addonEntries}
-            setAddonEntries={setAddonEntries}
-            keyrings={keyrings}
-            selectedKeyring={selectedKeyring}
-            setSelectedKeyring={setSelectedKeyring}
-            deliveryFee={deliveryFee}
-            total={total}
-            promoCode={promoCode}
-            discount={discount}
-            onApplyPromo={applyPromoCode}
-            onRemovePromo={removePromoCode}
-          />
         </div>
       </form>
 

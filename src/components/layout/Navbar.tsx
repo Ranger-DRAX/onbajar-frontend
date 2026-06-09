@@ -5,6 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import CartCount from "./CartCount";
 import CartSidebar from "./CartSidebar";
+import SearchSidebar from "./SearchSidebar";
 import NavBarLogo from "@/assets/OnbajarLogo.svg";
 import CartIcon from "@/assets/image/CartIcon.svg";
 import AnimeImage from "@/assets/image/categoryImage/AnimeImage.svg";
@@ -15,6 +16,7 @@ export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [shopDropdownOpen, setShopDropdownOpen] = useState(false);
   const [isCartOpen, setIsCartOpen] = useState(false);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
 
   return (
     <header className="sticky top-0 z-50 bg-white">
@@ -148,8 +150,9 @@ export default function Header() {
             <div className="flex items-center space-x-4">
               {/* Search Icon */}
               <button
-                aria-label="Search"
+                aria-label="Open search"
                 className="text-gray-900 transition-colors hover:text-gray-700"
+                onClick={() => setIsSearchOpen(true)}
               >
                 <svg
                   className="h-6 w-6"
@@ -249,6 +252,7 @@ export default function Header() {
       </nav>
 
       <CartSidebar open={isCartOpen} onClose={() => setIsCartOpen(false)} />
+      <SearchSidebar open={isSearchOpen} onClose={() => setIsSearchOpen(false)} />
     </header>
   );
 }

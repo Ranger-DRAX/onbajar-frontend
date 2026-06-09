@@ -11,10 +11,10 @@ interface PaymentFormProps {
 }
 
 const optionCls =
-  "flex h-[41px] w-[229px] items-center justify-between border-[0.75px] border-[#121212] px-[14px] text-[14px] leading-[19px] transition-colors";
+  "flex h-14 w-full items-center justify-between px-[14px] text-[14px] leading-[19px] transition-colors";
 
 const fieldCls =
-  "h-[41px] w-full border-[0.75px] border-[#121212] bg-transparent px-[12px] text-[15px] leading-[20px] text-black outline-none placeholder:text-[#969696]";
+  "h-14 w-full border-none bg-[#f5f5f5] px-3 text-[15px] leading-[20px] text-black outline-none placeholder:text-[#969696] transition-colors focus:bg-[#ebebeb]";
 
 function ArrowIcon({ white = false }: { white?: boolean }) {
   return (
@@ -56,14 +56,14 @@ export default function PaymentForm({
         Payment Options
       </h2>
 
-      <div className="flex flex-wrap gap-3">
+      <div className="grid grid-cols-2 gap-3 sm:flex sm:flex-wrap">
         <button
           type="button"
           onClick={() => setPaymentMethod("COD")}
           className={`${optionCls} ${
             paymentMethod === "COD"
               ? "bg-[#121212] text-white"
-              : "bg-white text-black"
+              : "bg-[#f5f5f5] text-black hover:bg-[#ebebeb]"
           }`}
         >
           <span>Cash on Delivery</span>
@@ -76,7 +76,7 @@ export default function PaymentForm({
           className={`${optionCls} ${
             paymentMethod === "Bkash"
               ? "bg-[#121212] text-white"
-              : "bg-white text-black"
+              : "bg-[#f5f5f5] text-black hover:bg-[#ebebeb]"
           }`}
         >
           <span>bKash</span>

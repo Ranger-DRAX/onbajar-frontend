@@ -26,8 +26,9 @@ export default function CartSummaryRow({
   onRemove,
 }: CartSummaryRowProps) {
   return (
-    <div className="grid grid-cols-1 gap-y-4 sm:grid-cols-[88px_minmax(180px,1fr)_117px_120px] sm:items-center sm:gap-x-[26px]">
-      <div className="relative h-[110px] w-[88px] overflow-hidden bg-[#E8E8E8]">
+    <div className="flex items-center gap-3">
+      {/* Image */}
+      <div className="relative h-[110px] w-[88px] shrink-0 overflow-hidden bg-[#E8E8E8]">
         <Image
           src={item.imageUrl}
           alt={item.title}
@@ -37,25 +38,25 @@ export default function CartSummaryRow({
         />
       </div>
 
-      <div className="min-w-0">
-        <p className="text-[15px] leading-[20px] font-normal text-black uppercase">
+      {/* Title + Size */}
+      <div className="min-w-0 flex-1">
+        <p className="line-clamp-2 text-[13px] leading-[18px] font-normal text-black uppercase">
           {item.title}
         </p>
-
-        <p className="mt-[10px] text-[15px] leading-[20px] font-normal text-[#505050]">
+        <p className="mt-[6px] text-[12px] leading-[16px] font-normal text-[#505050]">
           SIZE: {item.size}
         </p>
-
         <button
           type="button"
           onClick={onRemove}
-          className="mt-[10px] text-[13px] leading-[18px] text-[#666666] underline underline-offset-4 transition-colors hover:text-black"
+          className="mt-[6px] text-[11px] leading-[15px] text-[#666666] underline underline-offset-2 transition-colors hover:text-black"
         >
           Remove
         </button>
       </div>
 
-      <div className="sm:justify-self-center">
+      {/* Qty control */}
+      <div className="shrink-0">
         <QuantityControl
           value={item.qty}
           min={1}
@@ -64,7 +65,8 @@ export default function CartSummaryRow({
         />
       </div>
 
-      <p className="w-[120px] text-left text-[15px] leading-[20px] font-normal text-black sm:text-right">
+      {/* Price */}
+      <p className="w-[72px] shrink-0 text-right text-[13px] leading-[18px] font-normal text-black">
         {formatPrice(item.price, currency)}
       </p>
     </div>

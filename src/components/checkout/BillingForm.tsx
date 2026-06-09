@@ -8,10 +8,10 @@ interface BillingFormProps {
 }
 
 const optionBase =
-  "flex h-[41px] items-center gap-[10px] border-[0.75px] px-[14px] text-[14px] leading-[19px] transition-colors";
+  "flex h-14 items-center gap-[10px] px-[14px] text-[14px] leading-[19px] transition-colors";
 
 const fieldBase =
-  "h-[41px] w-full border-[0.75px] border-[#121212] bg-transparent px-[12px] text-[15px] leading-[20px] text-black outline-none placeholder:text-[#969696]";
+  "h-14 w-full border-none bg-[#f5f5f5] px-3 text-[15px] leading-[20px] text-black outline-none placeholder:text-[#969696] transition-colors focus:bg-[#ebebeb]";
 
 function Radio({ active, dark }: { active: boolean; dark?: boolean }) {
   return (
@@ -42,23 +42,27 @@ export default function BillingForm({
         Billing Information
       </h2>
 
-      <div className="grid gap-[9px] md:grid-cols-[357px_336px]">
+      <div className="grid gap-[9px] md:grid-cols-2">
         <button
           type="button"
           onClick={() => setBilling((b) => ({ ...b, sameAsDelivery: true }))}
-          className={`${optionBase} border-[#121212] bg-white text-black`}
+          className={`${optionBase} ${
+            billing.sameAsDelivery
+              ? "bg-[#121212] text-white"
+              : "bg-[#f5f5f5] text-black hover:bg-[#ebebeb]"
+          }`}
         >
-          <Radio active={billing.sameAsDelivery} />
+          <Radio active={billing.sameAsDelivery} dark={billing.sameAsDelivery} />
           <span>Same as delivery information</span>
         </button>
 
         <button
           type="button"
           onClick={() => setBilling((b) => ({ ...b, sameAsDelivery: false }))}
-          className={`${optionBase} border-[#121212] ${
+          className={`${optionBase} ${
             !billing.sameAsDelivery
-              ? "bg-black text-white"
-              : "bg-white text-black"
+              ? "bg-[#121212] text-white"
+              : "bg-[#f5f5f5] text-black hover:bg-[#ebebeb]"
           }`}
         >
           <Radio
@@ -86,7 +90,7 @@ export default function BillingForm({
             )}
           </div>
 
-          <div className="mt-[18px] grid gap-[17px] md:grid-cols-[350px_336px]">
+          <div className="mt-[18px] grid gap-[17px] md:grid-cols-2">
             <div>
               <input
                 required={!billing.sameAsDelivery}

@@ -26,6 +26,7 @@ interface OrderSummaryProps {
   discount: number;
   onApplyPromo: (code: string) => Promise<void>;
   onRemovePromo: () => void;
+  className?: string;
 }
 
 export default function OrderSummary({
@@ -44,6 +45,7 @@ export default function OrderSummary({
   discount,
   onApplyPromo,
   onRemovePromo,
+  className = "",
 }: OrderSummaryProps) {
   const currency = items[0]?.currency ?? "BDT";
 
@@ -54,68 +56,76 @@ export default function OrderSummary({
   };
 
   return (
-    <aside className="w-full bg-[#F5F5F5] px-6 py-10 lg:min-h-screen lg:w-[45%] lg:border-l-[0.5px] lg:border-[#8E8E8E] lg:px-[78px] lg:pt-[99px] lg:pb-[36px]">
-      {/* Cart items */}
-      <div className="space-y-[12px]">
-        {items.map((item) => (
-          <CartSummaryRow
-            key={`${item.id}-${item.size}`}
-            item={item}
-            currency={currency}
-            onDecrease={() =>
-              updateQty(item.id, item.size, Math.max(1, item.qty - 1))
-            }
-            onIncrease={() => updateQty(item.id, item.size, item.qty + 1)}
-            onRemove={() => onRemoveItem?.(item.id, item.size)}
-          />
-        ))}
-      </div>
+    <aside className={`w-full bg-[#F5F5F5] py-6 lg:py-0 lg:min-h-screen lg:w-full lg:border-l-[0.5px] lg:border-[#8E8E8E] lg:px-[78px] lg:pt-[99px] lg:pb-[36px] ${className}`}>
+      {/* ── Mobile white card ── */}
+      <div className="mx-auto w-full max-w-[366px] bg-white px-4 py-6 lg:max-w-none lg:bg-transparent lg:p-0">
+        {/* Mobile-only title */}
+        <h2 className="mb-6 text-[22px] font-bold leading-tight tracking-[-0.02em] text-black lg:hidden">
+          Your order summary
+        </h2>
 
-      {/* ── Make the gift more special ── */}
-      <div className="mt-[54px]">
-        <h3 className="mb-[21px] text-[15px] leading-[20px] font-medium tracking-[-0.03em] text-black uppercase">
-          MAKE THE GIFT MORE SPECIAL
-        </h3>
+        {/* Cart items */}
+        <div className="space-y-[12px]">
+          {items.map((item) => (
+            <CartSummaryRow
+              key={`${item.id}-${item.size}`}
+              item={item}
+              currency={currency}
+              onDecrease={() =>
+                updateQty(item.id, item.size, Math.max(1, item.qty - 1))
+              }
+              onIncrease={() => updateQty(item.id, item.size, item.qty + 1)}
+              onRemove={() => onRemoveItem?.(item.id, item.size)}
+            />
+          ))}
+        </div>
 
-        {addons.length === 0 ? (
-          <p className="text-[13px] text-neutral-400">Loading add-ons…</p>
-        ) : (
-          <div className="space-y-[12px]">
-            {addons.map((addon) => {
-              const entry = addonEntries.find((e) => e.addon === addon._id)!;
-              return (
-                <AddonRow
-                  key={addon._id}
-                  addon={addon}
-                  entry={entry}
-                  onChange={(updated) => updateAddonEntry(addon._id, updated)}
-                />
-              );
-            })}
-          </div>
-        )}
-      </div>
+        {/* ── Make the gift more special ── */}
+        <div className="mt-[54px]">
+          <h3 className="mb-[21px] text-[15px] leading-[20px] font-medium tracking-[-0.03em] text-black uppercase">
+            MAKE THE GIFT MORE SPECIAL
+          </h3>
 
-      {/* ── Customised Keyrings section ── */}
-      <KeyringSection
-        keyrings={keyrings}
-        selected={selectedKeyring}
-        onSelect={setSelectedKeyring}
-      />
+          {addons.length === 0 ? (
+            <p className="text-[13px] text-neutral-400">Loading add-ons…</p>
+          ) : (
+            <div className="space-y-[12px]">
+              {addons.map((addon) => {
+                const entry = addonEntries.find((e) => e.addon === addon._id)!;
+                return (
+                  <AddonRow
+                    key={addon._id}
+                    addon={addon}
+                    entry={entry}
+                    onChange={(updated) => updateAddonEntry(addon._id, updated)}
+                  />
+                );
+              })}
+            </div>
+          )}
+        </div>
 
-      <OrderSummaryTotals
-        deliveryFee={deliveryFee}
-        total={total}
-        promoCode={promoCode}
-        discount={discount}
-        onApplyPromo={onApplyPromo}
-        onRemovePromo={onRemovePromo}
-      />
+        {/* ── Customised Keyrings section ── */}
+        <KeyringSection
+          keyrings={keyrings}
+          selected={selectedKeyring}
+          onSelect={setSelectedKeyring}
+        />
 
-      <div className="mt-[36px] text-center">
-        <p className="text-[32px] leading-[43px] font-medium text-black">
-          Thank you for choosing us!
-        </p>
+        <OrderSummaryTotals
+          deliveryFee={deliveryFee}
+          total={total}
+          promoCode={promoCode}
+          discount={discount}
+          onApplyPromo={onApplyPromo}
+          onRemovePromo={onRemovePromo}
+        />
+
+        <div className="mt-[36px] text-center hidden lg:block">
+          <p className="text-[32px] leading-[43px] font-medium text-black">
+            Thank you for choosing us!
+          </p>
+        </div>
       </div>
     </aside>
   );
