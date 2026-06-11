@@ -2,11 +2,9 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useRef, useState, useCallback } from "react";
+import { useEffect, useRef, useState, useCallback, useMemo } from "react";
 import { Trie, type SearchableItem } from "@/lib/trie";
-
-const BASE =
-  process.env.NEXT_PUBLIC_API_BASE_URL || "https://on-bazar-backend.vercel.app";
+import { useSearchData } from "@/lib/swr/hooks";
 
 type SearchSidebarProps = {
   open: boolean;
@@ -18,118 +16,30 @@ function formatMoney(amount: number, currency = "BDT") {
   return `${currency}. ${n.toLocaleString("en-BD")}`;
 }
 
-// ─── Module-level cache so we only fetch once per page session ───────────────
-let cachedTrie: Trie | null = null;
-let cacheLoading = false;
-let cacheCallbacks: Array<(trie: Trie) => void> = [];
-
-async function getOrBuildTrie(): Promise<Trie> {
-  if (cachedTrie) return cachedTrie;
-
-  if (cacheLoading) {
-    return new Promise((resolve) => {
-      cacheCallbacks.push(resolve);
-    });
-  }
-
-  cacheLoading = true;
-
-  const [productsRes, keyringsRes] = await Promise.allSettled([
-    fetch(`${BASE}/api/products?page=1&limit=200`).then((r) => r.json()),
-    fetch(`${BASE}/api/keyrings?page=1&limit=200`).then((r) => r.json()),
-  ]);
-
-  const trie = new Trie();
-
-  if (productsRes.status === "fulfilled") {
-    const data: any[] = productsRes.value?.data ?? [];
-    for (const p of data) {
-      if (!p.isActive) continue;
-      const price = p?.pricing?.sellingPrice ?? p?.price ?? 0;
-      const currency = p?.pricing?.currency ?? "BDT";
-      const images: string[] = Array.isArray(p?.images)
-        ? p.images.map((img: any) =>
-            typeof img === "string" ? img : (img?.url ?? ""),
-          )
-        : [];
-      // Filter out addon categories
-      const catName: string = p?.category?.name ?? "";
-      const catSlug: string = p?.category?.slug ?? "";
-      if (
-        catName.toLowerCase().includes("addon") ||
-        catSlug.toLowerCase().includes("addon")
-      )
-        continue;
-
-      trie.insert({
-        id: p._id ?? p.id,
-        title: p.name ?? p.title ?? "Untitled",
-        price,
-        currency,
-        imageUrl: images[0] ?? "",
-        href: `/products/${p._id ?? p.id}`,
-        type: "product",
-        isBestProduct: p.isBestProduct ?? false,
-        discount: p.discount ?? null,
-      });
-    }
-  }
-
-  if (keyringsRes.status === "fulfilled") {
-    const data: any[] = keyringsRes.value?.data ?? [];
-    for (const k of data) {
-      if (!k.isActive) continue;
-      const price = k?.pricing?.sellingPrice ?? 0;
-      const currency = k?.pricing?.currency ?? "BDT";
-      const images: string[] = Array.isArray(k?.images)
-        ? k.images.map((img: any) =>
-            typeof img === "string" ? img : (img?.url ?? ""),
-          )
-        : [];
-
-      trie.insert({
-        id: k._id ?? k.id,
-        title: k.name ?? k.title ?? "Untitled",
-        price,
-        currency,
-        imageUrl: images[0] ?? "",
-        href: `/keyrings/${k._id ?? k.id}`,
-        type: "keyring",
-        isBestProduct: k.isBestProduct ?? false,
-        discount: k.discount ?? null,
-      });
-    }
-  }
-
-  cachedTrie = trie;
-  cacheLoading = false;
-  for (const cb of cacheCallbacks) cb(trie);
-  cacheCallbacks = [];
-
-  return trie;
-}
-
 // ─── Component ────────────────────────────────────────────────────────────────
 export default function SearchSidebar({ open, onClose }: SearchSidebarProps) {
   const [query, setQuery] = useState("");
   const [results, setResults] = useState<SearchableItem[]>([]);
-  const [trie, setTrie] = useState<Trie | null>(cachedTrie);
+  const [trie, setTrie] = useState<Trie | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [hasSearched, setHasSearched] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  // Load data when sidebar first opens
+  const { data: searchData, isLoading: swrLoading } = useSearchData();
+
+  // Build trie from SWR cached data
   useEffect(() => {
-    if (!open) return;
-    if (trie) return; // already loaded
+    if (!open || !searchData || trie) return;
 
     setIsLoading(true);
-    getOrBuildTrie().then((t) => {
-      setTrie(t);
-      setIsLoading(false);
-    });
-  }, [open, trie]);
+    const t = new Trie();
+    for (const item of [...searchData.products, ...searchData.keyrings]) {
+      t.insert(item);
+    }
+    setTrie(t);
+    setIsLoading(false);
+  }, [open, searchData, trie]);
 
   // Auto-focus input when opened
   useEffect(() => {
@@ -277,7 +187,7 @@ export default function SearchSidebar({ open, onClose }: SearchSidebarProps) {
         {/* ── Body ── */}
         <div className="flex-1 overflow-y-auto">
           {/* Loading state */}
-          {isLoading && (
+          {(isLoading || swrLoading) && (
             <div className="flex h-full items-center justify-center">
               <div className="flex flex-col items-center gap-3">
                 <div className="h-8 w-8 animate-spin rounded-full border-2 border-[#E6E6E6] border-t-[#0A0A0A]" />

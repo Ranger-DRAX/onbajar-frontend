@@ -34,6 +34,11 @@ export default function CartSidebar({ open, onClose }: CartSidebarProps) {
   const [promoInput, setPromoInput] = useState("");
   const [promoError, setPromoError] = useState<string | null>(null);
   const [isApplyingPromo, setIsApplyingPromo] = useState(false);
+  const [hydrated, setHydrated] = useState(false);
+
+  useEffect(() => {
+    setHydrated(true);
+  }, []);
 
   useEffect(() => {
     if (!open) return;
@@ -112,7 +117,7 @@ export default function CartSidebar({ open, onClose }: CartSidebarProps) {
         <div className="border-b border-[#8E8E8E] px-4 pt-4 pb-3 sm:px-8 sm:pt-6 sm:pb-4">
           <div className="flex items-center justify-between gap-4">
             <h2 className="text-[24px] leading-none font-medium text-black uppercase sm:text-[24px]">
-              YOUR CART ({cartCount})
+              YOUR CART ({hydrated ? cartCount : 0})
             </h2>
 
             <button
@@ -126,7 +131,7 @@ export default function CartSidebar({ open, onClose }: CartSidebarProps) {
           </div>
         </div>
 
-        {items.length === 0 ? (
+        {!hydrated || items.length === 0 ? (
           <div className="flex flex-1 flex-col items-center justify-center px-4 text-center sm:px-8">
             <p className="text-[16px] leading-6 font-medium text-black">
               Your cart is empty

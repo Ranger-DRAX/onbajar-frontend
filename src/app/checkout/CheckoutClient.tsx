@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useCartStore } from "@/store/cart.store";
 import {
   buildOrderPayload,
@@ -20,15 +20,12 @@ import PaymentForm from "@/components/checkout/PaymentForm";
 import OrderSummary from "@/components/checkout/OrderSummary";
 import PrimaryButton from "@/components/ui/PrimaryButton";
 import Footer from "@/components/layout/Footer";
-import type { Addon } from "@/types/addon";
+import { useAddons, useCheckoutKeyrings } from "@/lib/swr/hooks";
 import type { Keyring } from "@/types/keyring";
 import type {
   AddonCartEntry,
   SelectedKeyring,
 } from "@/components/checkout/order-summary/types";
-
-const API_BASE =
-  process.env.NEXT_PUBLIC_API_BASE_URL || "https://on-bazar-backend.vercel.app";
 
 export default function CheckoutClient() {
   const [mounted, setMounted] = useState(false);
@@ -45,12 +42,52 @@ export default function CheckoutClient() {
     removePromoCode,
   } = useCartStore();
 
-  /* ── Addons fetched from API ── */
-  const [addons, setAddons] = useState<Addon[]>([]);
-  const [addonEntries, setAddonEntries] = useState<AddonCartEntry[]>([]);
+  /* ── SWR: Addons + Keyrings ── */
+  const { data: addonsRes } = useAddons();
+  const { data: keyringsRes } = useCheckoutKeyrings();
 
-  /* ── Keyrings for the checkout keyring section ── */
-  const [keyrings, setKeyrings] = useState<Keyring[]>([]);
+  const addons = useMemo(
+    () => (addonsRes?.data ?? []).filter((a) => a.isActive),
+    [addonsRes],
+  );
+
+  const keyrings = useMemo(() => {
+    const raw = keyringsRes?.data ?? [];
+    return raw
+      .filter((k: any) => k.isActive !== false)
+      .map((k: any): Keyring => ({
+        id: k._id ?? k.id,
+        slug: k.slug ?? "",
+        title: k.name ?? k.title ?? "Untitled",
+        keyringType: k.keyringType ?? "",
+        colors: Array.isArray(k.colors) ? k.colors : [],
+        categoryName: k.category?.name ?? "",
+        categorySlug: k.category?.slug ?? "",
+        price: k.pricing?.sellingPrice ?? 0,
+        effectivePrice: k.effectivePrice ?? k.pricing?.sellingPrice ?? 0,
+        currency: k.pricing?.currency ?? "BDT",
+        images: Array.isArray(k.images)
+          ? k.images.map((img: any) =>
+              typeof img === "string" ? img : (img?.url ?? ""),
+            )
+          : [],
+        video: k.video ?? null,
+        description: k.details?.description ?? "",
+        features: Array.isArray(k.details?.features) ? k.details.features : [],
+        material: k.details?.material ?? "",
+        dimensions: k.details?.dimensions ?? "",
+        weight: k.details?.weight ?? 0,
+        discount: k.discount ?? null,
+        isActive: k.isActive ?? true,
+        isBestProduct: k.isBestProduct ?? false,
+        personalisation: Array.isArray(k.personalisation)
+          ? k.personalisation
+          : [],
+        purchaseCount: k.purchaseCount ?? 0,
+      }));
+  }, [keyringsRes]);
+
+  const [addonEntries, setAddonEntries] = useState<AddonCartEntry[]>([]);
   const [selectedKeyring, setSelectedKeyring] =
     useState<SelectedKeyring | null>(null);
 
@@ -84,77 +121,18 @@ export default function CheckoutClient() {
     setMounted(true);
   }, []);
 
-  /* Fetch addons + keyrings client-side (OrderSummary is in the right panel) */
+  /* Initialize addon entries once addons load */
   useEffect(() => {
-    if (!mounted) return;
-
-    // Addons
-    fetch(`${API_BASE}/api/addons`)
-      .then((r) => r.json())
-      .then((res) => {
-        if (res.success && Array.isArray(res.data)) {
-          const active: Addon[] = res.data.filter((a: Addon) => a.isActive);
-          setAddons(active);
-          setAddonEntries(
-            active.map((a) => ({
-              addon: a._id,
-              quantity: 0,
-              customerNote: null,
-            })),
-          );
-        }
-      })
-      .catch(() => {
-        /* silently ignore - addons are optional */
-      });
-
-    // Keyrings
-    fetch(`${API_BASE}/api/keyrings?page=1&limit=100`)
-      .then((r) => r.json())
-      .then((res) => {
-        if (Array.isArray(res.data)) {
-          // normalise to minimal shape needed for the picker
-          const normalised: Keyring[] = res.data
-            .filter((k: any) => k.isActive !== false)
-            .map((k: any) => ({
-              id: k._id ?? k.id,
-              slug: k.slug ?? "",
-              title: k.name ?? k.title ?? "Untitled",
-              keyringType: k.keyringType ?? "",
-              colors: Array.isArray(k.colors) ? k.colors : [],
-              categoryName: k.category?.name ?? "",
-              categorySlug: k.category?.slug ?? "",
-              price: k.pricing?.sellingPrice ?? 0,
-              effectivePrice: k.effectivePrice ?? k.pricing?.sellingPrice ?? 0,
-              currency: k.pricing?.currency ?? "BDT",
-              images: Array.isArray(k.images)
-                ? k.images.map((img: any) =>
-                    typeof img === "string" ? img : (img?.url ?? ""),
-                  )
-                : [],
-              video: k.video ?? null,
-              description: k.details?.description ?? "",
-              features: Array.isArray(k.details?.features)
-                ? k.details.features
-                : [],
-              material: k.details?.material ?? "",
-              dimensions: k.details?.dimensions ?? "",
-              weight: k.details?.weight ?? 0,
-              discount: k.discount ?? null,
-              isActive: k.isActive ?? true,
-              isBestProduct: k.isBestProduct ?? false,
-              personalisation: Array.isArray(k.personalisation)
-                ? k.personalisation
-                : [],
-              purchaseCount: k.purchaseCount ?? 0,
-            }));
-          setKeyrings(normalised);
-        }
-      })
-      .catch(() => {
-        /* silently ignore */
-      });
-  }, [mounted]);
+    if (addons.length > 0 && addonEntries.length === 0) {
+      setAddonEntries(
+        addons.map((a) => ({
+          addon: a._id,
+          quantity: 0,
+          customerNote: null,
+        })),
+      );
+    }
+  }, [addons]);
 
   if (!mounted) return null;
 

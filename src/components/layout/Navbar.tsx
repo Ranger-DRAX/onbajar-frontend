@@ -3,9 +3,11 @@
 import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import dynamic from "next/dynamic";
 import CartCount from "./CartCount";
-import CartSidebar from "./CartSidebar";
-import SearchSidebar from "./SearchSidebar";
+
+const CartSidebar = dynamic(() => import("./CartSidebar"), { ssr: false });
+const SearchSidebar = dynamic(() => import("./SearchSidebar"), { ssr: false });
 import NavBarLogo from "@/assets/OnbajarLogo.svg";
 import CartIcon from "@/assets/image/CartIcon.svg";
 import AnimeImage from "@/assets/image/categoryImage/AnimeImage.svg";

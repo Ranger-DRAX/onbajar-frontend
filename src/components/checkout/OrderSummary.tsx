@@ -50,9 +50,13 @@ export default function OrderSummary({
   const currency = items[0]?.currency ?? "BDT";
 
   const updateAddonEntry = (addonId: string, updated: AddonCartEntry) => {
-    setAddonEntries((prev) =>
-      prev.map((e) => (e.addon === addonId ? updated : e)),
-    );
+    setAddonEntries((prev) => {
+      const exists = prev.some((e) => e.addon === addonId);
+      if (exists) {
+        return prev.map((e) => (e.addon === addonId ? updated : e));
+      }
+      return [...prev, updated];
+    });
   };
 
   return (
@@ -91,7 +95,11 @@ export default function OrderSummary({
           ) : (
             <div className="space-y-[12px]">
               {addons.map((addon) => {
-                const entry = addonEntries.find((e) => e.addon === addon._id)!;
+                const entry = addonEntries.find((e) => e.addon === addon._id) || {
+                  addon: addon._id,
+                  quantity: 0,
+                  customerNote: null,
+                };
                 return (
                   <AddonRow
                     key={addon._id}

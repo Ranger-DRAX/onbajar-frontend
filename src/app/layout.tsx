@@ -1,4 +1,5 @@
 import "./globals.css";
+import SWRProvider from "@/providers/SWRProvider";
 
 export default function RootLayout({
   children,
@@ -8,7 +9,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="bg-white text-black" suppressHydrationWarning>
-        {children}
+        <SWRProvider>{children}</SWRProvider>
       </body>
     </html>
   );
