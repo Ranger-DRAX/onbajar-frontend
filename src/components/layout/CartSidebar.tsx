@@ -90,7 +90,7 @@ export default function CartSidebar({ open, onClose }: CartSidebarProps) {
 
   return (
     <div
-      className={`fixed inset-0 z-90 transition ${open ? "pointer-events-auto" : "pointer-events-none"
+      className={`fixed inset-0 z-90 overflow-hidden transition ${open ? "pointer-events-auto" : "pointer-events-none"
         }`}
       aria-hidden={!open}
     >
@@ -103,7 +103,7 @@ export default function CartSidebar({ open, onClose }: CartSidebarProps) {
       />
 
       <aside
-        className={`absolute top-0 right-0 flex h-screen w-screen transform flex-col bg-[#F3F3F3] shadow-2xl transition-transform duration-300 ease-out sm:w-[668px] sm:h-[940px] ${open ? "translate-x-0" : "translate-x-full"
+        className={`absolute top-0 right-0 flex h-full w-full max-w-full sm:max-w-[668px] transform flex-col bg-[#F3F3F3] shadow-2xl transition-transform duration-300 ease-out ${open ? "translate-x-0" : "translate-x-full"
           }`}
         role="dialog"
         aria-modal="true"
